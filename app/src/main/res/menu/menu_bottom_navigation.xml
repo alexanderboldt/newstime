@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_one"
+        android:icon="@drawable/ic_arrow_back"
+        android:title="Calls"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/item_two"
+        android:icon="@drawable/ic_arrow_back"
+        android:title="Recents"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/item_three"
+        android:icon="@drawable/ic_arrow_back"
+        android:title="Trips"
+        app:showAsAction="ifRoom"/>
+</menu>
