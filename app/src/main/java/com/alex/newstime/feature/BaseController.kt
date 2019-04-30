@@ -26,6 +26,7 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         binding = DataBindingUtil.inflate(inflater, layout, container, false)
+        binding.lifecycleOwner = this
 
         lifecycle.addObserver(this)
 
