@@ -22,8 +22,11 @@ object Support {
 
 object Test {
     val junit = "junit:junit:4.12"
-    val testRunner = "com.android.support.test:runner:0.5"
-    val mockito = "org.mockito:mockito-core:2.20.1"
+    val testRunner = "com.android.support.test:runner:1.0.2"
+    val mockitoCore = "org.mockito:mockito-core:2.24.5"
+    val mockitoAndroid = "org.mockito:mockito-android:2.24.5"
+
+    val coreTesting = "android.arch.core:core-testing:1.1.1"
 }
 
 object Libs {

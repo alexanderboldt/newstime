@@ -68,11 +68,12 @@ dependencies {
     // testing
     testImplementation(Test.junit)
     testImplementation(Test.testRunner)
-    testImplementation(Test.mockito)
 
-    androidTestImplementation(Test.junit)
+    // android-testing
+    androidTestImplementation(Test.mockitoCore)
+    androidTestImplementation(Test.mockitoAndroid)
+    androidTestImplementation(Test.coreTesting)
     androidTestImplementation(Test.testRunner)
-    androidTestImplementation(Test.mockito)
 
     // support
     implementation(Support.appCompat)
