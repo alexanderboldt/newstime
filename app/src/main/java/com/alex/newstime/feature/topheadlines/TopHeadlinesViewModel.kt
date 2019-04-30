@@ -1,14 +1,11 @@
 package com.alex.newstime.feature.topheadlines
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import com.alex.newstime.feature.BaseViewModel
 import com.alex.newstime.repository.news.Article
 import com.alex.newstime.repository.news.NewsRepository
 import com.alex.newstime.util.SingleLiveEvent
 import com.alex.newstime.util.plusAssign
-import io.reactivex.disposables.CompositeDisposable
 
 class TopHeadlinesViewModel : BaseViewModel() {
 
@@ -17,7 +14,7 @@ class TopHeadlinesViewModel : BaseViewModel() {
     var recyclerLoadingSate = MutableLiveData<Boolean>()
     var recyclerMessageState = MutableLiveData<String>()
     var recyclerArticlesState = MutableLiveData<List<UiArticle>>()
-    var detailState: LiveData<Article> = SingleLiveEvent()
+    var detailState = SingleLiveEvent<Article>()
 
     // ----------------------------------------------------------------------------
 

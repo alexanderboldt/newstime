@@ -5,9 +5,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class NewsRepository {
+open class NewsRepository {
 
-    fun getTopHeadlines(): Single<List<Article>> {
+    open fun getTopHeadlines(): Single<List<Article>> {
         return ApiClient
             .getInterface()
             .getTopHeadlines()
