@@ -1,18 +1,15 @@
 package com.alex.newstime.feature.article
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerArticleBinding
-import com.alex.newstime.feature.AbstractController
+import com.alex.newstime.feature.BaseController
 import com.alex.newstime.repository.news.Article
 import com.alex.newstime.util.observe
 import org.parceler.Parcels
 
-class ArticleController(private var bundle: Bundle) : AbstractController() {
+class ArticleController(private var bundle: Bundle) : BaseController<ControllerArticleBinding>(R.layout.controller_article) {
 
-    private lateinit var binding: ControllerArticleBinding
     private val viewModel by lazy { viewModelProvider().get(ArticleViewModel::class.java) }
 
     // ----------------------------------------------------------------------------
@@ -28,21 +25,14 @@ class ArticleController(private var bundle: Bundle) : AbstractController() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        binding = ControllerArticleBinding.inflate(inflater, container, false)
-
-        viewModel.init(Parcels.unwrap<Article>(bundle.getParcelable(KEY_ARTICLE)))
-
-        return binding.root
-    }
-
-    override fun onAttach(view: View) {
-        setupViewModelBinding()
-    }
-
     // ----------------------------------------------------------------------------}
 
-    private fun setupViewModelBinding() {
+    override fun onSetupView() {
+        viewModel.init(Parcels.unwrap<Article>(bundle.getParcelable(KEY_ARTICLE)))
+    }
+    override fun onSetupViewBinding() {}
+
+    override fun onSetupViewModelBinding() {
         viewModel.dataState.observe(this) { article ->
             binding.imageView.setImage(article.urlToImage)
         }

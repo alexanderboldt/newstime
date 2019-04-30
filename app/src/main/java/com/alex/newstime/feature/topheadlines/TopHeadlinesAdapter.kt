@@ -4,9 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.alex.newstime.databinding.ItemViewArticleBinding
-import com.alex.newstime.feature.AbstractAdapter
+import com.alex.newstime.feature.BaseAdapter
 
-class TopHeadlinesAdapter : AbstractAdapter<UiArticle, TopHeadlinesAdapter.ArticleViewHolder>() {
+class TopHeadlinesAdapter : BaseAdapter<UiArticle, TopHeadlinesAdapter.ArticleViewHolder>() {
 
     class ArticleViewHolder(var binding: ItemViewArticleBinding) : RecyclerView.ViewHolder(binding.root)
 
