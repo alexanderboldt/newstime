@@ -26,7 +26,7 @@ class NewsTimeApplication : Application() {
 
         setupSharedPreferences()
         setupApi()
-        setupConnectivityRecevier()
+        setupConnectivityReceiver()
     }
 
     private fun setupSharedPreferences() {
@@ -47,7 +47,7 @@ class NewsTimeApplication : Application() {
         return true
     }
 
-    private fun setupConnectivityRecevier() {
+    private fun setupConnectivityReceiver() {
         registerReceiver(ConnectivityReceiver(), IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
     }
 }
