@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -11,13 +9,13 @@ apply {
 }
 
 android {
-    compileSdkVersion(Versions.sdk)
+    compileSdkVersion(Deps.Config.sdk)
     defaultConfig {
-        applicationId = "com.alex.newstime"
-        minSdkVersion(Versions.minSdk)
-        targetSdkVersion(Versions.sdk)
-        versionCode = Versions.code
-        versionName = Versions.name
+        applicationId = Deps.Config.applicationId
+        minSdkVersion(Deps.Config.minSdk)
+        targetSdkVersion(Deps.Config.sdk)
+        versionCode = Deps.Config.code
+        versionName = Deps.Config.name
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -66,56 +64,60 @@ repositories {
 dependencies {
 
     // testing
-    testImplementation(Test.junit)
-    testImplementation(Test.testRunner)
+    testImplementation(Deps.Test.junit)
+    testImplementation(Deps.Test.testRunner)
 
     // android-testing
-    androidTestImplementation(Test.mockitoCore)
-    androidTestImplementation(Test.mockitoAndroid)
-    androidTestImplementation(Test.coreTesting)
-    androidTestImplementation(Test.testRunner)
+    androidTestImplementation(Deps.Test.mockitoCore)
+    androidTestImplementation(Deps.Test.mockitoAndroid)
+    androidTestImplementation(Deps.Test.coreTesting)
+    androidTestImplementation(Deps.Test.testRunner)
 
     // support
-    implementation(Support.appCompat)
-    implementation(Support.material)
-    implementation(Support.recyclerView)
-    implementation(Support.constraintLayout)
+    implementation(Deps.AndroidX.appCompat)
+    implementation(Deps.AndroidX.material)
+    implementation(Deps.AndroidX.recyclerView)
+    implementation(Deps.AndroidX.constraintLayout)
 
-    implementation(Support.lifecycleRuntime)
-    implementation(Support.lifecycleExtensions)
-    implementation(Support.lifecycleCommonJava)
-    kapt(Support.lifecycleCompiler)
+    implementation(Deps.AndroidX.lifecycleRuntime)
+    implementation(Deps.AndroidX.lifecycleExtensions)
+    implementation(Deps.AndroidX.lifecycleCommonJava)
+    kapt(Deps.AndroidX.lifecycleCompiler)
 
     // 3rd-party libraries
 
     // network
-    implementation(Libs.retrofit)
-    implementation(Libs.retrofitMoshiConverter)
-    implementation(Libs.rxretrofitAdapter)
-    implementation(Libs.okHttpLogging)
-    implementation(Libs.moshi)
+    implementation(Deps.Libs.retrofit)
+    implementation(Deps.Libs.retrofitMoshiConverter)
+    implementation(Deps.Libs.retrofitRxAdapter)
+    implementation(Deps.Libs.okHttpLogging)
+    implementation(Deps.Libs.moshi)
 
     // image
-    implementation(Libs.glide)
+    implementation(Deps.Libs.glide)
 
     // fragments-alternative
-    implementation(Libs.conductor)
-    implementation(Libs.conductorSupport)
-    implementation(Libs.conductorViewModel)
+    implementation(Deps.Libs.conductor)
+    implementation(Deps.Libs.conductorSupport)
+    implementation(Deps.Libs.conductorViewModel)
 
-    implementation(Libs.parcel)
-    kapt(Libs.parcelCompiler)
+    // custom-font
+    implementation(Deps.Libs.calligraphy)
+
+    // model-parcel
+    implementation(Deps.Libs.parcel)
+    kapt(Deps.Libs.parcelCompiler)
 
     // reactive
+    implementation(Deps.Libs.rxjava)
+    implementation(Deps.Libs.rxandroid)
 
-    implementation(Libs.rxjava)
-    implementation(Libs.rxandroid)
-
-    implementation(Libs.rxbinding)
-    implementation(Libs.rxbindingAppcompat)
-    implementation(Libs.rxbindingSupport)
+    // view-binding
+    implementation(Deps.Libs.rxbinding)
+    implementation(Deps.Libs.rxbindingAppcompat)
+    implementation(Deps.Libs.rxbindingSupport)
 
     // leak-detection
-    debugImplementation(Libs.leakCanaryDebug)
-    releaseImplementation(Libs.leakCanaryRelease)
+    debugImplementation(Deps.Libs.leakCanaryDebug)
+    releaseImplementation(Deps.Libs.leakCanaryRelease)
 }
