@@ -18,16 +18,17 @@
                 android:id="@+id/imageView_thumbnail"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
+                android:background="#cdcdcd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textView_name"
-                tools:src="@android:drawable/btn_dialog"/>
+                tools:src="@drawable/ic_image"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#666666"
+                android:background="#888888"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView_thumbnail"
                 app:layout_constraintEnd_toEndOf="parent"/>
