@@ -1,9 +1,7 @@
 package com.alex.newstime.feature.topheadlines
 
-import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.alex.newstime.feature.BaseController

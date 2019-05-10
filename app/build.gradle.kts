@@ -19,7 +19,7 @@ android {
         versionCode = Versions.code
         versionName = Versions.name
 
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -77,11 +77,13 @@ dependencies {
 
     // support
     implementation(Support.appCompat)
+    implementation(Support.material)
     implementation(Support.recyclerView)
-    implementation(Support.design)
     implementation(Support.constraintLayout)
 
-    implementation(Support.lifecycle)
+    implementation(Support.lifecycleRuntime)
+    implementation(Support.lifecycleExtensions)
+    implementation(Support.lifecycleCommonJava)
     kapt(Support.lifecycleCompiler)
 
     // 3rd-party libraries

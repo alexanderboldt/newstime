@@ -1,6 +1,6 @@
 package com.alex.newstime.feature
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {

@@ -1,6 +1,6 @@
 package com.alex.newstime.feature
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit

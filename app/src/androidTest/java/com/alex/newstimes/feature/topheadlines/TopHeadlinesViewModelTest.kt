@@ -1,8 +1,8 @@
 package com.alex.newstimes.feature.topheadlines
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Observer
-import android.support.test.runner.AndroidJUnit4
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import androidx.test.runner.AndroidJUnit4
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
 import com.alex.newstime.feature.topheadlines.UiArticle
 import com.alex.newstime.repository.news.Article
@@ -12,7 +12,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations

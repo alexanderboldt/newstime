@@ -1,8 +1,8 @@
 package com.alex.newstime.feature
 
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
 import com.alex.newstime.feature.topheadlines.TopHeadlinesController
