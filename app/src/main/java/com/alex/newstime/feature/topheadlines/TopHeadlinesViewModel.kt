@@ -11,6 +11,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     private lateinit var newsRepository: NewsRepository
 
+    private val articles = ArrayList<Article>()
+
     var recyclerLoadingSate = MutableLiveData<Boolean>()
     var recyclerMessageState = MutableLiveData<String>()
     var recyclerArticlesState = MutableLiveData<List<UiArticle>>()
@@ -34,10 +36,13 @@ class TopHeadlinesViewModel : BaseViewModel() {
                 recyclerLoadingSate.postValue(false)
             }
             .subscribe({ response ->
-                if (response.isEmpty()) {
+                articles.clear()
+                articles.addAll(response)
+
+                if (articles.isEmpty()) {
                     recyclerMessageState.postValue("Articles not available")
                 } else {
-                    recyclerArticlesState.postValue(response.map { UiArticle(it.title!!, it.urlToImage) })
+                    recyclerArticlesState.postValue(articles.map { UiArticle(it.id!!, it.title!!, it.urlToImage) })
                 }
             }, {
                 recyclerMessageState.postValue("Could not load articles")
@@ -45,6 +50,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
     }
 
     fun clickOnArticle(article: UiArticle) {
-        //(detailState as SingleLiveEvent).postValue(article)
+        detailState.postValue(articles.first {
+            it.id == article.id
+        })
     }
 }

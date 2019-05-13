@@ -4,6 +4,7 @@ import com.alex.newstime.repository.api.ApiClient
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlin.random.Random
 
 open class NewsRepository {
 
@@ -13,7 +14,11 @@ open class NewsRepository {
             .getTopHeadlines()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it.articles }
+            .map { response ->
+                response.articles.onEach { article ->
+                    article.id = Random(10000).toString()
+                }
+            }
             .onErrorReturn {
                 val article = Article()
                 article.title = "Test Article"
