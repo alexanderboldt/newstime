@@ -36,7 +36,7 @@ object Deps {
 
         val timber = "com.jakewharton.timber:timber:4.7.0"
 
-        val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.1.0"
+        val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.2.0"
 
         val retrofit = "com.squareup.retrofit2:retrofit:2.5.0"
         val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.5.0"
