@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val items = ArrayList<T>()
+    protected val items = ArrayList<T>()
 
     var clickSubject = PublishSubject.create<T>()
 
@@ -36,7 +36,6 @@ abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder
         val item = items[holder.adapterPosition]
 
         holder.itemView.clicks()
-            .throttleFirst(1, TimeUnit.SECONDS)
             .map { item }
             .subscribe(clickSubject)
 

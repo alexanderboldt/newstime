@@ -8,4 +8,4 @@ data class ArticleModel(
     var urlToImage: String? = null,
     var isLoadMore: Boolean = false) : BaseModel()
 
-class LoadMoreModel : BaseModel()
+class LoadMoreModel(var enabled: Boolean) : BaseModel()

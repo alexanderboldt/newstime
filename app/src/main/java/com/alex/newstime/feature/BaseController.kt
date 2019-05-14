@@ -28,9 +28,12 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
         binding = DataBindingUtil.inflate(inflater, layout, container, false)
         binding.lifecycleOwner = this
 
-        lifecycle.addObserver(this)
-
         return binding.root
+    }
+
+    override fun onAttach(view: View) {
+        // todo: handle the lifecycle
+        lifecycle.addObserver(this)
     }
 
     // ----------------------------------------------------------------------------
@@ -41,15 +44,18 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
         onSetupViewModelBinding()
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onLifecycleStart() {
         onSetupViewBinding()
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onLifecyclePause() {
+        disposables.clear()
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onLifecycleStop() {
-        disposables.clear()
-
         lifecycle.removeObserver(this)
     }
 

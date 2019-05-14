@@ -62,6 +62,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
             router.pushDetailController(ArticleController.create(it))
         }
 
+        viewModel.recyclerLoadMoreState.observe(this) {
+            adapter.enableLoadMore(it)
+        }
+
         viewModel.getTopHeadlines()
     }
 }
