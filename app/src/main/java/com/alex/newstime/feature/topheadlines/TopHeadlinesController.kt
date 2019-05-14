@@ -32,7 +32,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         }
 
         disposables += adapter.clickSubject.subscribe {
-            viewModel.clickOnArticle(it)
+            when (it) {
+                is ArticleModel -> viewModel.clickOnArticle(it)
+                is LoadMoreModel -> viewModel.clickLoadMore()
+            }
         }
     }
 

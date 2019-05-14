@@ -8,23 +8,24 @@ import kotlin.random.Random
 
 open class NewsRepository {
 
-    open fun getTopHeadlines(): Single<List<Article>> {
+    open fun getTopHeadlines(pageSize: Int = 10, page: Int = 1): Single<List<Article>> {
         return ApiClient
             .getInterface()
-            .getTopHeadlines()
+            .getTopHeadlines(pageSize, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { response ->
-                response.articles.onEach { article ->
-                    article.id = Random(10000).toString()
-                }
-            }
+            .map { it.articles }
             .onErrorReturn {
                 val article = Article()
                 article.title = "Test Article"
                 article.urlToImage = "http://icanbecreative.com/resources/files/articles/deadpool-movie-photoshop-tutorial/deadpool-movie-logo-photoshop-tutorial.jpg"
 
                 listOf(article, article, article)
+            }
+            .map { articles ->
+                articles.onEach { article ->
+                    article.id = Random(10000).toString()
+                }
             }
     }
 }

@@ -30,7 +30,9 @@ abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     final override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    final override fun getItemViewType(position: Int) = getItemViewType(items[position])
+
+    final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[holder.adapterPosition]
 
         holder.itemView.clicks()
@@ -41,5 +43,8 @@ abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder
         onBindViewHolder(holder as VH, item)
     }
 
+    // ----------------------------------------------------------------------------
+
+    abstract fun getItemViewType(item: T): Int
     abstract fun onBindViewHolder(holder: VH, item: T)
 }

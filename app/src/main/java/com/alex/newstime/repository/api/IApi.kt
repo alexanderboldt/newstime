@@ -7,5 +7,5 @@ import retrofit2.http.*
 interface IApi {
 
     @GET("v2/top-headlines?country=de&category=business")
-    fun getTopHeadlines(): Single<TopHeadlinesResponse>
+    fun getTopHeadlines(@Query("pageSize") pageSize: Int, @Query("page") page: Int): Single<TopHeadlinesResponse>
 }

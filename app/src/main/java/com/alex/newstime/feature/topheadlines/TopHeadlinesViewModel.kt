@@ -13,9 +13,12 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     private val articles = ArrayList<Article>()
 
+    private val pageSize = 10
+    private var currentPage = 1
+
     var recyclerLoadingSate = MutableLiveData<Boolean>()
     var recyclerMessageState = MutableLiveData<String>()
-    var recyclerArticlesState = MutableLiveData<List<UiArticle>>()
+    var recyclerArticlesState = MutableLiveData<List<BaseModel>>()
     var detailState = SingleLiveEvent<Article>()
 
     // ----------------------------------------------------------------------------
@@ -28,28 +31,55 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     fun getTopHeadlines() {
         disposables += newsRepository
-            .getTopHeadlines()
-            .doOnSubscribe {
-                recyclerLoadingSate.postValue(true)
-            }
-            .doFinally {
-                recyclerLoadingSate.postValue(false)
-            }
+            .getTopHeadlines(pageSize, 1)
+            .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+            .doFinally { recyclerLoadingSate.postValue(false) }
             .subscribe({ response ->
+                currentPage = currentPage.inc()
+
                 articles.clear()
                 articles.addAll(response)
 
                 if (articles.isEmpty()) {
                     recyclerMessageState.postValue("Articles not available")
                 } else {
-                    recyclerArticlesState.postValue(articles.map { UiArticle(it.id!!, it.title!!, it.urlToImage) })
+                    val uiModels = ArrayList<BaseModel>()
+
+                    uiModels.addAll(articles.map {
+                        ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel
+                    })
+                    uiModels.add(LoadMoreModel())
+
+                    recyclerArticlesState.postValue(uiModels)
                 }
             }, {
                 recyclerMessageState.postValue("Could not load articles")
             })
     }
 
-    fun clickOnArticle(article: UiArticle) {
+    fun clickLoadMore() {
+        disposables += newsRepository
+            .getTopHeadlines(pageSize, currentPage)
+            .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+            .doFinally { recyclerLoadingSate.postValue(false) }
+            .subscribe({ response ->
+                currentPage = currentPage.inc()
+
+                articles.addAll(response)
+
+                val uiModels = ArrayList<BaseModel>()
+
+                uiModels.addAll(articles.map {
+                    ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel
+                })
+                uiModels.add(LoadMoreModel())
+
+                recyclerArticlesState.postValue(uiModels)
+            }, {
+            })
+    }
+
+    fun clickOnArticle(article: ArticleModel) {
         detailState.postValue(articles.first {
             it.id == article.id
         })
