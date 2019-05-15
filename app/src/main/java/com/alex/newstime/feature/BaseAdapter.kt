@@ -36,6 +36,7 @@ abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder
         val item = items[holder.adapterPosition]
 
         holder.itemView.clicks()
+            .throttleFirst(1, TimeUnit.SECONDS)
             .map { item }
             .subscribe(clickSubject)
 

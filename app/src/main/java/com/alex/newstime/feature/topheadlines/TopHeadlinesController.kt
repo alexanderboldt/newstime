@@ -11,11 +11,14 @@ import com.alex.newstime.util.observe
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 import com.jakewharton.rxbinding2.support.v4.widget.refreshes
+import com.jakewharton.rxbinding2.view.clicks
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 
     private var adapter = TopHeadlinesAdapter()
     private val viewModel by lazy { viewModelProvider().get(TopHeadlinesViewModel::class.java) }
+
+    private var fabMenuExpanded = false
 
     // ----------------------------------------------------------------------------
 
@@ -28,7 +31,22 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
     override fun onSetupViewBinding() {
         disposables += binding.swipeRefreshLayout.refreshes().subscribe {
-            viewModel.getTopHeadlines()
+            viewModel.getArticles()
+        }
+
+        disposables += binding.fabGermany.clicks().subscribe {
+            viewModel.getArticles(TopHeadlinesViewModel.Types.GERMANY)
+            fabMenuShow(false)
+        }
+
+        disposables += binding.fabWorldWide.clicks().subscribe {
+            viewModel.getArticles(TopHeadlinesViewModel.Types.WORLD_WIDE)
+            fabMenuShow(false)
+        }
+
+        disposables += binding.fabMenu.clicks().subscribe {
+            fabMenuExpanded = !fabMenuExpanded
+            fabMenuShow(fabMenuExpanded)
         }
 
         disposables += adapter.clickSubject.subscribe {
@@ -66,6 +84,22 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
             adapter.enableLoadMore(it)
         }
 
-        viewModel.getTopHeadlines()
+        viewModel.recyclerScrollState.observe(this) {
+            binding.recyclerView.smoothScrollToPosition(it)
+        }
+
+        viewModel.getArticles()
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun fabMenuShow(show: Boolean) {
+        if (show) {
+            binding.fabGermany.show()
+            binding.fabWorldWide.show()
+        } else {
+            binding.fabGermany.hide()
+            binding.fabWorldWide.hide()
+        }
     }
 }

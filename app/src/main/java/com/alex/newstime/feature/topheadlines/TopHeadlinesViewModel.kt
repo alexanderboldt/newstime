@@ -6,6 +6,7 @@ import com.alex.newstime.repository.news.Article
 import com.alex.newstime.repository.news.NewsRepository
 import com.alex.newstime.util.SingleLiveEvent
 import com.alex.newstime.util.plusAssign
+import io.reactivex.Single
 
 class TopHeadlinesViewModel : BaseViewModel() {
 
@@ -15,11 +16,21 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     private val pageSize = 10
 
+    private var currentType = Types.GERMANY
+
     var recyclerLoadingSate = MutableLiveData<Boolean>()
     var recyclerMessageState = MutableLiveData<String>()
     var recyclerArticlesState = MutableLiveData<List<BaseModel>>()
     var recyclerLoadMoreState = MutableLiveData<Boolean>()
+    var recyclerScrollState = SingleLiveEvent<Int>()
     var detailState = SingleLiveEvent<Article>()
+
+    // ----------------------------------------------------------------------------
+
+    enum class Types {
+        GERMANY,
+        WORLD_WIDE
+    }
 
     // ----------------------------------------------------------------------------
 
@@ -29,11 +40,24 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    fun getTopHeadlines() {
-        disposables += newsRepository
-            .getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
+    fun getArticles(type: Types? = null) {
+        if (type != null) {
+            articles.clear()
+            currentType = type
+        }
+
+        disposables += Single.just(currentType)
+            .flatMap {
+                when (it) {
+                    Types.GERMANY -> newsRepository.getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
+                    Types.WORLD_WIDE -> newsRepository.getEverything(if (articles.size != 0) articles.size else pageSize, 1)
+                }
+            }
             .doOnSubscribe { recyclerLoadingSate.postValue(true) }
-            .doFinally { recyclerLoadingSate.postValue(false) }
+            .doFinally {
+                recyclerLoadingSate.postValue(false)
+                recyclerScrollState.postValue(0)
+            }
             .subscribe({ response ->
                 articles.clear()
                 articles.addAll(response)
@@ -56,8 +80,13 @@ class TopHeadlinesViewModel : BaseViewModel() {
     }
 
     fun clickLoadMore() {
-        disposables += newsRepository
-            .getTopHeadlines(pageSize, articles.size / pageSize + 1)
+        disposables += Single.just(currentType)
+            .flatMap {
+                when (it) {
+                    Types.GERMANY -> newsRepository.getTopHeadlines(pageSize, articles.size / pageSize + 1)
+                    Types.WORLD_WIDE -> newsRepository.getEverything(pageSize, articles.size / pageSize + 1)
+                }
+            }
             .doOnSubscribe {
                 recyclerLoadingSate.postValue(true)
                 recyclerLoadMoreState.postValue(false)
@@ -65,6 +94,7 @@ class TopHeadlinesViewModel : BaseViewModel() {
             .doFinally {
                 recyclerLoadingSate.postValue(false)
                 recyclerLoadMoreState.postValue(true)
+                recyclerScrollState.postValue(articles.size - 9)
             }
             .subscribe({ response ->
                 articles.addAll(response)
