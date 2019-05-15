@@ -25,7 +25,6 @@ class ArticleViewModel : ViewModel() {
                 article.urlToImage,
                 article.content)
         )
-
     }
 
     fun handleLinkClick() {

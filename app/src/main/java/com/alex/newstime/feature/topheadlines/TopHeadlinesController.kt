@@ -31,16 +31,16 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
     override fun onSetupViewBinding() {
         disposables += binding.swipeRefreshLayout.refreshes().subscribe {
-            viewModel.getArticles()
+            viewModel.refreshArticles()
         }
 
         disposables += binding.fabGermany.clicks().subscribe {
-            viewModel.getArticles(TopHeadlinesViewModel.Types.GERMANY)
+            viewModel.refreshArticles(TopHeadlinesViewModel.Types.GERMANY)
             fabMenuShow(false)
         }
 
         disposables += binding.fabWorldWide.clicks().subscribe {
-            viewModel.getArticles(TopHeadlinesViewModel.Types.WORLD_WIDE)
+            viewModel.refreshArticles(TopHeadlinesViewModel.Types.WORLD_WIDE)
             fabMenuShow(false)
         }
 
@@ -52,7 +52,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         disposables += adapter.clickSubject.subscribe {
             when (it) {
                 is ArticleModel -> viewModel.clickOnArticle(it)
-                is LoadMoreModel -> viewModel.clickLoadMore()
+                is LoadMoreModel -> viewModel.loadMoreArticles()
             }
         }
     }
@@ -88,7 +88,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
             binding.recyclerView.smoothScrollToPosition(it)
         }
 
-        viewModel.getArticles()
+        viewModel.loadInitArticles()
     }
 
     // ----------------------------------------------------------------------------

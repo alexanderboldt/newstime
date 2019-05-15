@@ -40,7 +40,40 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    fun getArticles(type: Types? = null) {
+    fun loadInitArticles() {
+        articles.clear()
+
+        disposables += Single.just(currentType)
+            .flatMap {
+                when (it) {
+                    Types.GERMANY -> newsRepository.getTopHeadlines(pageSize, 1)
+                    Types.WORLD_WIDE -> newsRepository.getEverything(pageSize, 1)
+                }
+            }
+            .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+            .doFinally {
+                recyclerLoadingSate.postValue(false)
+            }
+            .subscribe({ response ->
+                articles.addAll(response)
+
+                if (articles.isEmpty()) {
+                    recyclerMessageState.postValue("Articles not available")
+                } else {
+                    val uiModels = ArrayList<BaseModel>()
+
+                    uiModels.apply {
+                        addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel })
+                        add(LoadMoreModel(true))
+                    }
+                    recyclerArticlesState.postValue(uiModels)
+                }
+            }, {
+                recyclerMessageState.postValue("Could not load articles")
+            })
+    }
+
+    fun refreshArticles(type: Types? = null) {
         if (type != null) {
             articles.clear()
             currentType = type
@@ -56,7 +89,7 @@ class TopHeadlinesViewModel : BaseViewModel() {
             .doOnSubscribe { recyclerLoadingSate.postValue(true) }
             .doFinally {
                 recyclerLoadingSate.postValue(false)
-                recyclerScrollState.postValue(0)
+                if (type != null) recyclerScrollState.postValue(0)
             }
             .subscribe({ response ->
                 articles.clear()
@@ -79,7 +112,7 @@ class TopHeadlinesViewModel : BaseViewModel() {
             })
     }
 
-    fun clickLoadMore() {
+    fun loadMoreArticles() {
         disposables += Single.just(currentType)
             .flatMap {
                 when (it) {
