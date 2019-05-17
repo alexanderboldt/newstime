@@ -1,4 +1,4 @@
-package com.alex.newstime.feature
+package com.alex.newstime.feature.base
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable

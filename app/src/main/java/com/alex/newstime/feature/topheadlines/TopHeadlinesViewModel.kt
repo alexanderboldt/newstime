@@ -1,7 +1,7 @@
 package com.alex.newstime.feature.topheadlines
 
 import androidx.lifecycle.MutableLiveData
-import com.alex.newstime.feature.BaseViewModel
+import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.repository.news.Article
 import com.alex.newstime.repository.news.NewsRepository
 import com.alex.newstime.util.SingleLiveEvent

@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerArticleBinding
-import com.alex.newstime.feature.BaseController
+import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.repository.news.Article
 import com.alex.newstime.util.observe
 import com.alex.newstime.util.plusAssign

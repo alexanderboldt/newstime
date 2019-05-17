@@ -1,4 +1,4 @@
-package com.alex.newstime.feature
+package com.alex.newstime.feature.base
 
 import android.content.Context
 import android.view.LayoutInflater

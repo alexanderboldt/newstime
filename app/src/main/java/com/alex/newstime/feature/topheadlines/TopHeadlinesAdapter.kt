@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.alex.newstime.databinding.ItemViewArticleBinding
 import com.alex.newstime.databinding.ItemViewLoadMoreBinding
-import com.alex.newstime.feature.BaseAdapter
+import com.alex.newstime.feature.base.BaseAdapter
 
 class TopHeadlinesAdapter : BaseAdapter<BaseModel, RecyclerView.ViewHolder>() {
 

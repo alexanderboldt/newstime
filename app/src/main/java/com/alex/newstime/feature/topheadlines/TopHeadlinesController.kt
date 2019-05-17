@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
-import com.alex.newstime.feature.BaseController
+import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.repository.news.NewsRepository
 import com.alex.newstime.util.observe

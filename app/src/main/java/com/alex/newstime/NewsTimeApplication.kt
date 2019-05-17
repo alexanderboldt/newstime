@@ -6,6 +6,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.alex.newstime.bus.AppEvent
+import com.alex.newstime.bus.RxBus
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.sharedpreference.RxSharedPreferences
@@ -23,10 +25,12 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppStart() {
+        RxBus.publish(AppEvent(Lifecycle.Event.ON_START))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppStop() {
+        RxBus.publish(AppEvent(Lifecycle.Event.ON_STOP))
     }
 
     // ----------------------------------------------------------------------------

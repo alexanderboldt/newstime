@@ -1,4 +1,4 @@
-package com.alex.newstime.feature
+package com.alex.newstime.feature.base
 
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.clicks
