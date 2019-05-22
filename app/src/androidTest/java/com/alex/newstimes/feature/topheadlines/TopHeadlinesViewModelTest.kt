@@ -3,10 +3,11 @@ package com.alex.newstimes.feature.topheadlines
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.runner.AndroidJUnit4
+import com.alex.newstime.feature.article.UiArticle
+import com.alex.newstime.feature.topheadlines.BaseModel
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
-import com.alex.newstime.feature.topheadlines.UiArticle
-import com.alex.newstime.repository.news.Article
-import com.alex.newstime.repository.news.NewsRepository
+import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.ArticleRepository
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Rule
@@ -23,11 +24,11 @@ class TopHeadlinesViewModelTest {
 
     private lateinit var viewModel: TopHeadlinesViewModel
 
-    @Mock lateinit var newsRepository: NewsRepository
+    @Mock lateinit var newsRepository: ArticleRepository
 
     @Mock lateinit var observerRecyclerLoadingStateMock: Observer<Boolean>
     @Mock lateinit var observerRecyclerMessageStateMock: Observer<String>
-    @Mock lateinit var observerRecyclerArticlesStateMock: Observer<List<UiArticle>>
+    @Mock lateinit var observerRecyclerArticlesStateMock: Observer<List<BaseModel>>
     @Mock lateinit var observerDetailState: Observer<Article>
 
     // ----------------------------------------------------------------------------
@@ -37,7 +38,7 @@ class TopHeadlinesViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         viewModel = TopHeadlinesViewModel()
-        viewModel.setNewsRepository(newsRepository)
+        viewModel.setArticleRepository(newsRepository)
         viewModel.recyclerLoadingSate.observeForever(observerRecyclerLoadingStateMock)
         viewModel.recyclerMessageState.observeForever(observerRecyclerMessageStateMock)
         viewModel.recyclerArticlesState.observeForever(observerRecyclerArticlesStateMock)
@@ -52,7 +53,7 @@ class TopHeadlinesViewModelTest {
         })
 
         // execute
-        viewModel.getTopHeadlines()
+        viewModel.loadInitArticles()
 
         // verify
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(true)
@@ -70,7 +71,7 @@ class TopHeadlinesViewModelTest {
         })
 
         // execute
-        viewModel.getTopHeadlines()
+        viewModel.loadInitArticles()
 
         // verify
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(true)
@@ -92,7 +93,7 @@ class TopHeadlinesViewModelTest {
         })
 
         // execute
-        viewModel.getTopHeadlines()
+        viewModel.loadInitArticles()
 
         // verify
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(true)
@@ -100,7 +101,7 @@ class TopHeadlinesViewModelTest {
 
         verify(observerRecyclerMessageStateMock, never()).onChanged(any())
 
-        val article = UiArticle("title", "www.image.com")
+        val article = UiArticle(322342, "title", "www.image.com") as BaseModel
         verify(observerRecyclerArticlesStateMock, times(1)).onChanged(listOf(article, article, article))
 
         verify(observerDetailState, never()).onChanged(any())

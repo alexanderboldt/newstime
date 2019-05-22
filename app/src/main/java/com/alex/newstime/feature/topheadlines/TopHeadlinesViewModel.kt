@@ -1,16 +1,18 @@
 package com.alex.newstime.feature.topheadlines
 
 import androidx.lifecycle.MutableLiveData
+import com.alex.newstime.bus.ConnectivityEvent
+import com.alex.newstime.bus.RxBus
 import com.alex.newstime.feature.base.BaseViewModel
-import com.alex.newstime.repository.news.Article
-import com.alex.newstime.repository.news.NewsRepository
+import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.SingleLiveEvent
 import com.alex.newstime.util.plusAssign
 import io.reactivex.Single
 
 class TopHeadlinesViewModel : BaseViewModel() {
 
-    private lateinit var newsRepository: NewsRepository
+    private lateinit var articleRepository: ArticleRepository
 
     private val articles = ArrayList<Article>()
 
@@ -34,8 +36,18 @@ class TopHeadlinesViewModel : BaseViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    fun setNewsRepository(newsRepository: NewsRepository) {
-        this.newsRepository = newsRepository
+    init {
+        disposables += RxBus
+            .listen(ConnectivityEvent::class.java)
+            .skip(1)
+            .filter { it.connected }
+            .subscribe {
+                loadInitArticles()
+            }
+    }
+
+    fun setArticleRepository(articleRepository: ArticleRepository) {
+        this.articleRepository = articleRepository
     }
 
     // ----------------------------------------------------------------------------
@@ -46,8 +58,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
         disposables += Single.just(currentType)
             .flatMap {
                 when (it) {
-                    Types.GERMANY -> newsRepository.getTopHeadlines(pageSize, 1)
-                    Types.WORLD_WIDE -> newsRepository.getEverything(pageSize, 1)
+                    Types.GERMANY -> articleRepository.getTopHeadlines(pageSize, 1)
+                    Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, 1)
                 }
             }
             .doOnSubscribe { recyclerLoadingSate.postValue(true) }
@@ -82,8 +94,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
         disposables += Single.just(currentType)
             .flatMap {
                 when (it) {
-                    Types.GERMANY -> newsRepository.getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
-                    Types.WORLD_WIDE -> newsRepository.getEverything(if (articles.size != 0) articles.size else pageSize, 1)
+                    Types.GERMANY -> articleRepository.getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
+                    Types.WORLD_WIDE -> articleRepository.getEverything(if (articles.size != 0) articles.size else pageSize, 1)
                 }
             }
             .doOnSubscribe { recyclerLoadingSate.postValue(true) }
@@ -116,8 +128,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
         disposables += Single.just(currentType)
             .flatMap {
                 when (it) {
-                    Types.GERMANY -> newsRepository.getTopHeadlines(pageSize, articles.size / pageSize + 1)
-                    Types.WORLD_WIDE -> newsRepository.getEverything(pageSize, articles.size / pageSize + 1)
+                    Types.GERMANY -> articleRepository.getTopHeadlines(pageSize, articles.size / pageSize + 1)
+                    Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, articles.size / pageSize + 1)
                 }
             }
             .doOnSubscribe {

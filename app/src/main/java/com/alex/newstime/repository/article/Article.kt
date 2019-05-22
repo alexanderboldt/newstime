@@ -1,10 +1,14 @@
-package com.alex.newstime.repository.news
+package com.alex.newstime.repository.article
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import org.parceler.Parcel
 
+@Entity
 @Parcel
 class Article {
-    var id: String? = null
+    @PrimaryKey(autoGenerate = true)
+    var id: Long? = null
     var title: String? = null
     var urlToImage: String? = null
     var content: String? = null

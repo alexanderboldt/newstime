@@ -86,6 +86,11 @@ dependencies {
 
     // 3rd-party libraries
 
+    // database
+    implementation(Deps.Libs.room)
+    kapt(Deps.Libs.roomCompiler)
+    implementation(Deps.Libs.roomRxJava)
+
     // network
     implementation(Deps.Libs.retrofit)
     implementation(Deps.Libs.retrofitMoshiConverter)

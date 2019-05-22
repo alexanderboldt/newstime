@@ -31,6 +31,7 @@ object Deps {
     object Libs {
         val room = "androidx.room:room-runtime:2.0.0"
         val roomCompiler = "androidx.room:room-compiler:2.0.0"
+        val roomRxJava = "androidx.room:room-rxjava2:2.0.0"
 
         val ahbottomnavigation = "com.aurelhubert:ahbottomnavigation:2.1.0"
 

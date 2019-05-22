@@ -6,7 +6,7 @@ import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.feature.article.ArticleController
-import com.alex.newstime.repository.news.NewsRepository
+import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.observe
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
@@ -26,7 +26,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
-        viewModel.setNewsRepository(NewsRepository())
+        viewModel.setArticleRepository(ArticleRepository())
     }
 
     override fun onSetupViewBinding() {

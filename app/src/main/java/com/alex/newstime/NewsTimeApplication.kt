@@ -10,6 +10,7 @@ import com.alex.newstime.bus.AppEvent
 import com.alex.newstime.bus.RxBus
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
+import com.alex.newstime.repository.database.NewstimeDatabase
 import com.alex.newstime.repository.sharedpreference.RxSharedPreferences
 import com.squareup.leakcanary.LeakCanary
 
@@ -43,6 +44,7 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         }
 
         setupSharedPreferences()
+        setupDatabase()
         setupApi()
         setupConnectivityReceiver()
 
@@ -53,8 +55,12 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         RxSharedPreferences.initialize(this)
     }
 
+    private fun setupDatabase() {
+        NewstimeDatabase.init(this)
+    }
+
     private fun setupApi() {
-        return ApiClient.initialize()
+        ApiClient.initialize()
     }
 
     private fun setupLeakCanary(): Boolean {

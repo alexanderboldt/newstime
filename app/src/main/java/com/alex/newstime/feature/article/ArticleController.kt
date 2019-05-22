@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerArticleBinding
 import com.alex.newstime.feature.base.BaseController
-import com.alex.newstime.repository.news.Article
+import com.alex.newstime.repository.article.Article
 import com.alex.newstime.util.observe
 import com.alex.newstime.util.plusAssign
 import com.jakewharton.rxbinding2.view.clicks
