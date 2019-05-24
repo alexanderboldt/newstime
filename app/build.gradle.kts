@@ -107,7 +107,7 @@ dependencies {
     implementation(Deps.Libs.conductorSupport)
     implementation(Deps.Libs.conductorViewModel)
 
-    // custom-font
+    // custom-playfair
     implementation(Deps.Libs.calligraphy)
 
     // model-parcel

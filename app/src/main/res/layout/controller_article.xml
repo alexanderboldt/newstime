@@ -22,21 +22,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="#333"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:padding="12dp"
+                android:fontFamily="@font/montaga_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textView_content"
-                tools:text="This is a title"/>
+                tools:text="This is a title"
+                tools:textColor="#fff"/>
 
         <TextView
                 android:id="@+id/textView_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="#333"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:padding="12dp"
+                android:fontFamily="@font/montaga_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_title"
                 app:layout_constraintEnd_toEndOf="parent"

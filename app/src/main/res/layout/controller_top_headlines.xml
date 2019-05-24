@@ -24,6 +24,7 @@
                         android:textSize="18sp"
                         android:visibility="gone"
                         android:textColor="#333"
+                        android:fontFamily="@font/montaga_regular"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
