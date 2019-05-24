@@ -68,6 +68,7 @@ dependencies {
     testImplementation(Deps.Test.testRunner)
 
     // android-testing
+    androidTestImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.Test.mockitoCore)
     androidTestImplementation(Deps.Test.mockitoAndroid)
     androidTestImplementation(Deps.Test.coreTesting)

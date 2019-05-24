@@ -8,10 +8,10 @@ import com.alex.newstime.util.SingleLiveEvent
 
 class ArticleViewModel : ViewModel() {
 
+    private lateinit var article: Article
+
     var dataState: LiveData<UiArticle> = MutableLiveData()
     var linkState: LiveData<String> = SingleLiveEvent()
-
-    private lateinit var article: Article
 
     // ----------------------------------------------------------------------------
 
