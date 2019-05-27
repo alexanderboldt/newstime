@@ -107,9 +107,6 @@ dependencies {
     implementation(Deps.Libs.conductorSupport)
     implementation(Deps.Libs.conductorViewModel)
 
-    // custom-playfair
-    implementation(Deps.Libs.calligraphy)
-
     // model-parcel
     implementation(Deps.Libs.parcel)
     kapt(Deps.Libs.parcelCompiler)

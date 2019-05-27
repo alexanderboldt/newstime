@@ -9,23 +9,17 @@
         android:background="@color/background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.alex.newstime.ui.GlideImageView
                 android:id="@+id/imageView"
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/textView_title"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                app:layout_constraintEnd_toStartOf="@+id/textView_title"/>
 
             <TextView
                 android:id="@+id/textView_title"
@@ -36,11 +30,17 @@
                 android:padding="12dp"
                 android:fontFamily="@font/montaga_regular"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/textView_content"
+                app:layout_constraintBottom_toBottomOf="@+id/barrier"
                 tools:text="This is a title"/>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="imageView,textView_title" />
 
             <TextView
                 android:id="@+id/textView_content"
@@ -51,9 +51,8 @@
                 android:padding="12dp"
                 android:fontFamily="@font/montaga_regular"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_title"
+                app:layout_constraintTop_toBottomOf="@+id/barrier"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="This is a title"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
