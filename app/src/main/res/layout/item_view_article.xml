@@ -37,7 +37,7 @@
                 android:id="@+id/textView_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="#333"
+                android:textColor="@color/primaryTextColor"
                 android:textSize="22sp"
                 android:padding="12dp"
                 android:fontFamily="@font/montaga_regular"

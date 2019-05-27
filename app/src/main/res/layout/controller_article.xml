@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
     <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/background">
 
         <com.alex.newstime.ui.GlideImageView
                 android:id="@+id/imageView"
@@ -21,7 +24,7 @@
                 android:id="@+id/textView_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="#333"
+                android:textColor="@color/primaryTextColor"
                 android:textSize="22sp"
                 android:padding="12dp"
                 android:fontFamily="@font/montaga_regular"
@@ -29,14 +32,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textView_content"
-                tools:text="This is a title"
-                tools:textColor="#fff"/>
+                tools:text="This is a title"/>
 
         <TextView
                 android:id="@+id/textView_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="#333"
+                android:textColor="@color/primaryTextColor"
                 android:textSize="18sp"
                 android:padding="12dp"
                 android:fontFamily="@font/montaga_regular"

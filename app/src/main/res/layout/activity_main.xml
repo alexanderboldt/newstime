@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:itemBackground="@color/colorPrimary"
+            app:itemBackground="@color/primaryColor"
             app:itemIconTint="#ffffff"
             app:itemTextColor="#ffffff"
             app:menu="@menu/menu_bottom_navigation"
