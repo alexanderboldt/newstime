@@ -47,6 +47,7 @@ object Deps {
         val moshi = "com.squareup.moshi:moshi-kotlin:1.6.0"
 
         val glide = "com.github.bumptech.glide:glide:4.9.0"
+        val glideTransformations = "jp.wasabeef:glide-transformations:4.0.0"
 
         val conductor = "com.bluelinelabs:conductor:2.1.5"
         val conductorSupport = "com.bluelinelabs:conductor-support:2.1.5"

@@ -101,6 +101,7 @@ dependencies {
 
     // image
     implementation(Deps.Libs.glide)
+    implementation(Deps.Libs.glideTransformations)
 
     // fragments-alternative
     implementation(Deps.Libs.conductor)

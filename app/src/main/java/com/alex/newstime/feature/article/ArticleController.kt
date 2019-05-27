@@ -45,6 +45,7 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
     override fun onSetupViewModelBinding() {
         viewModel.dataState.observe(this) { article ->
             binding.imageView.setImage(article.urlToImage)
+            binding.imageViewBlur?.setImage(article.urlToImage, false, true)
             binding.textViewTitle.text = article.title
             binding.textViewContent.text = article.content
         }
