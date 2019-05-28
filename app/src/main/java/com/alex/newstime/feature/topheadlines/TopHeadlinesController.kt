@@ -15,7 +15,7 @@ import com.jakewharton.rxbinding2.view.clicks
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 
-    private var adapter = TopHeadlinesAdapter()
+    private lateinit var adapter: TopHeadlinesAdapter
     private val viewModel by lazy { viewModelProvider().get(TopHeadlinesViewModel::class.java) }
 
     private var fabMenuExpanded = false
@@ -23,6 +23,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
+        binding.lifecycleOwner = this
+
+        adapter = TopHeadlinesAdapter()
+
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
 
