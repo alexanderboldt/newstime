@@ -2,11 +2,11 @@ package com.alex.newstime.feature.article
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.util.SingleLiveEvent
 
-class ArticleViewModel : ViewModel() {
+class ArticleViewModel : BaseViewModel() {
 
     private lateinit var article: Article
 
