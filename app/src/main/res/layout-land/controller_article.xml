@@ -31,6 +31,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageView_blur"/>
 
+            <ImageView
+                android:id="@+id/imageView_back"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="#333"
+                android:padding="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="#aaffffff"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
             <com.alex.newstime.ui.GlideImageView
                 android:id="@+id/imageView_blur"
                 android:layout_width="0dp"

@@ -21,6 +21,9 @@ fun Router.pushDetailController(controller: Controller) {
             .popChangeHandler(HorizontalChangeHandler()))
 }
 
+/*
+ * This extensions-function has build-in check for nullability.
+ */
 fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, observer: (t: T) -> Unit) {
     this.observe(lifecycleOwner, Observer { data ->
         if (data == null) return@Observer

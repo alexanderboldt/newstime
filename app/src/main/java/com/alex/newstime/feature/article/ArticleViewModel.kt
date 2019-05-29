@@ -12,6 +12,7 @@ class ArticleViewModel : BaseViewModel() {
 
     var dataState: LiveData<UiArticle> = MutableLiveData()
     var linkState: LiveData<String> = SingleLiveEvent()
+    var closeState: LiveData<Any> = SingleLiveEvent()
 
     // ----------------------------------------------------------------------------
 
@@ -27,7 +28,11 @@ class ArticleViewModel : BaseViewModel() {
         )
     }
 
-    fun handleLinkClick() {
+    fun handleClickOnLink() {
         (linkState as SingleLiveEvent).postValue(article.url)
+    }
+
+    fun handleClickBack() {
+        (closeState as SingleLiveEvent).call()
     }
 }

@@ -3,6 +3,7 @@ package com.alex.newstime.feature.article
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerArticleBinding
 import com.alex.newstime.feature.base.BaseController
@@ -40,7 +41,11 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
 
     override fun onSetupViewBinding() {
         disposables += binding.textViewTitle.clicks().subscribe {
-            viewModel.handleLinkClick()
+            viewModel.handleClickOnLink()
+        }
+
+        disposables += binding.imageViewBack.clicks().subscribe {
+            viewModel.handleClickBack()
         }
     }
 
@@ -52,5 +57,9 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
         viewModel.linkState.observe(this) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
         }
+
+        viewModel.closeState.observe(this, Observer {
+            router.handleBack()
+        })
     }
 }
