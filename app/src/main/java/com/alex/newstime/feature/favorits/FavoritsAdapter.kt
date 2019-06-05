@@ -12,8 +12,6 @@ class FavoritsAdapter : BaseAdapter<ArticleModel, FavoritsAdapter.ArticleViewHol
 
     // ----------------------------------------------------------------------------
 
-    override fun getItemViewType(item: ArticleModel) = 0
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ArticleViewHolder(ItemViewArticleBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }

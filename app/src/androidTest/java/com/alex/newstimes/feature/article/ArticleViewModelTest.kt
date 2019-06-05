@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.runner.AndroidJUnit4
 import com.alex.newstime.feature.article.ArticleViewModel
-import com.alex.newstime.feature.article.UiArticle
+import com.alex.newstime.feature.article.Model
 import com.alex.newstime.repository.article.Article
 import junit.framework.Assert.assertEquals
 import org.junit.Before
@@ -24,7 +24,7 @@ class ArticleViewModelTest {
 
     private lateinit var viewModel: ArticleViewModel
 
-    @Mock lateinit var observerDataStateMock: Observer<UiArticle>
+    @Mock lateinit var observerDataStateMock: Observer<Model>
     @Mock lateinit var observerLinkState: Observer<String>
 
     // ----------------------------------------------------------------------------
@@ -53,7 +53,7 @@ class ArticleViewModelTest {
         viewModel.init(article)
 
         // verify
-        val uiArticle = UiArticle(387428, "Test Article", "url to image", "Content")
+        val uiArticle = Model(387428, "Test Article", "url to image", "Content")
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
         verify(observerLinkState, never()).onChanged(any())
@@ -72,7 +72,7 @@ class ArticleViewModelTest {
         }
 
         // verify
-        val uiArticle = UiArticle(387428, "Test Article", "url to image", "Content")
+        val uiArticle = Model(387428, "Test Article", "url to image", "Content")
 
         verify(observerDataStateMock, never()).onChanged(uiArticle)
         verify(observerLinkState, never()).onChanged(any())
@@ -94,7 +94,7 @@ class ArticleViewModelTest {
         viewModel.handleLinkClick()
 
         // verify
-        val uiArticle = UiArticle(387428, "Test Article", "url to image", "Content")
+        val uiArticle = Model(387428, "Test Article", "url to image", "Content")
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
         verify(observerLinkState, times(1)).onChanged("url to article")

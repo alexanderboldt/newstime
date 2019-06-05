@@ -45,6 +45,6 @@ abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // ----------------------------------------------------------------------------
 
-    abstract fun getItemViewType(item: T): Int
-    abstract fun onBindViewHolder(holder: VH, item: T)
+    open fun getItemViewType(item: T) = 0
+    open fun onBindViewHolder(holder: VH, item: T) {}
 }

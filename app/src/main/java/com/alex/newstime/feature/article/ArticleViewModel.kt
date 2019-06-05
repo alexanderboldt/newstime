@@ -10,7 +10,7 @@ class ArticleViewModel : BaseViewModel() {
 
     private lateinit var article: Article
 
-    var dataState: LiveData<UiArticle> = MutableLiveData()
+    var dataState: LiveData<ArticleModel> = MutableLiveData()
     var linkState: LiveData<String> = SingleLiveEvent()
     var closeState: LiveData<Any> = SingleLiveEvent()
 
@@ -20,7 +20,7 @@ class ArticleViewModel : BaseViewModel() {
         this.article = article
 
         (dataState as MutableLiveData).postValue(
-            UiArticle(
+            ArticleModel(
                 article.id!!,
                 article.title!!,
                 article.urlToImage,
