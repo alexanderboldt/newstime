@@ -4,19 +4,13 @@
 
     <item
         android:id="@+id/item_one"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Calls"
+        android:icon="@drawable/ic_local"
+        android:title="News"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/item_two"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Recents"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/item_three"
-        android:icon="@drawable/ic_arrow_back"
-        android:title="Trips"
+        android:icon="@drawable/ic_star_full"
+        android:title="Favorites"
         app:showAsAction="ifRoom"/>
 </menu>

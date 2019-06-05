@@ -2,9 +2,11 @@ package com.alex.newstime.feature
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
+import com.alex.newstime.feature.favorits.FavoritsController
 import com.alex.newstime.feature.topheadlines.TopHeadlinesController
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
@@ -23,9 +25,16 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        binding.bottomNavigation.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            router.setRoot(RouterTransaction.with(TopHeadlinesController()))
-
+            val controller = when (it.itemId) {
+                R.id.item_one -> TopHeadlinesController()
+                else -> FavoritsController()
+            }
+            router.apply {
+                popToRoot()
+                setRoot(RouterTransaction.with(controller))
+            }
             true
         }
 

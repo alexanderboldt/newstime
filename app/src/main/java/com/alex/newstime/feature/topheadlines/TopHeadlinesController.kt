@@ -1,6 +1,7 @@
 package com.alex.newstime.feature.topheadlines
 
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
@@ -59,6 +60,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
                 is LoadMoreModel -> viewModel.loadMoreArticles()
             }
         }
+
+        disposables += adapter.longClickSubject.subscribe {
+            viewModel.clickOnStar(it)
+        }
     }
 
     override fun onSetupViewModelBinding() {
@@ -90,6 +95,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
         viewModel.recyclerScrollState.observe(this) {
             binding.recyclerView.smoothScrollToPosition(it)
+        }
+
+        viewModel.messageState.observe(this) {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.loadInitArticles()

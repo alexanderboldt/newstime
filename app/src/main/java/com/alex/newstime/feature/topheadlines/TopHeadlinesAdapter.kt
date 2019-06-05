@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alex.newstime.databinding.ItemViewArticleBinding
 import com.alex.newstime.databinding.ItemViewLoadMoreBinding
 import com.alex.newstime.feature.base.BaseAdapter
+import com.jakewharton.rxbinding2.view.longClicks
+import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
 class TopHeadlinesAdapter : BaseAdapter<BaseModel, RecyclerView.ViewHolder>() {
 
     class ArticleViewHolder(var binding: ItemViewArticleBinding) : RecyclerView.ViewHolder(binding.root)
     class LoadMoreViewHolder(var binding: ItemViewLoadMoreBinding) : RecyclerView.ViewHolder(binding.root)
+
+    var longClickSubject = PublishSubject.create<ArticleModel>()
 
     enum class Types {
         ARTICLE,
@@ -39,6 +44,11 @@ class TopHeadlinesAdapter : BaseAdapter<BaseModel, RecyclerView.ViewHolder>() {
                 item as ArticleModel
                 holder.binding.textViewName.text = item.title
                 holder.binding.imageViewThumbnail.setImage(item.urlToImage)
+
+                holder.itemView.longClicks()
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .map { item as ArticleModel }
+                    .subscribe(longClickSubject)
             }
             is LoadMoreViewHolder -> {
                 item as LoadMoreModel

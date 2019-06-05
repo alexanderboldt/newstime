@@ -43,9 +43,23 @@
                 android:fontFamily="@font/montaga_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView_thumbnail"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView_like"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="This is a title"/>
+
+            <ImageView
+                android:id="@+id/imageView_like"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_star_full"
+                android:padding="8dp"
+                android:tint="@color/primaryColor"
+                android:visibility="gone"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintStart_toEndOf="@+id/textView_name"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -38,6 +38,28 @@ object ArticleTable {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    fun update(article: Article): Single<Int> {
+        return Single
+            .create<Int> { emitter ->
+                val numberOfUpdatedRows = NewstimeDatabase.database.articleDao().update(article)
+
+                emitter.onSuccess(numberOfUpdatedRows)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun delete(article: Article): Single<Int> {
+        return Single
+            .create<Int> { emitter ->
+                val numberOfDeletedRows = NewstimeDatabase.database.articleDao().delete(article)
+
+                emitter.onSuccess(numberOfDeletedRows)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
     fun deleteAll(): Single<Int> {
         return Single
             .create<Int> { emitter ->

@@ -25,6 +25,7 @@ class TopHeadlinesViewModel : BaseViewModel() {
     var recyclerArticlesState = MutableLiveData<List<BaseModel>>()
     var recyclerLoadMoreState = MutableLiveData<Boolean>()
     var recyclerScrollState = SingleLiveEvent<Int>()
+    var messageState = SingleLiveEvent<String>()
     var detailState = SingleLiveEvent<Article>()
 
     // ----------------------------------------------------------------------------
@@ -159,6 +160,16 @@ class TopHeadlinesViewModel : BaseViewModel() {
     fun clickOnArticle(article: ArticleModel) {
         detailState.postValue(articles.first {
             it.id == article.id
+        })
+    }
+
+    fun clickOnStar(article: ArticleModel) {
+        val foundArticle = articles.first { it.id == article.id }
+
+        disposables += articleRepository.setFavorite(foundArticle).subscribe({
+            messageState.postValue("Saved article")
+        }, {
+            messageState.postValue("Could not save article")
         })
     }
 }

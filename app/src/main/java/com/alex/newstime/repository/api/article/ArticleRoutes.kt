@@ -18,7 +18,7 @@ object ArticleRoutes {
             .map { it.articles }
             .map { articles ->
                 articles.onEach { article ->
-                    article.id = Random.nextLong(10000)
+                    article.id = article.title.hashCode().toLong()
                 }
             }
     }
@@ -32,7 +32,7 @@ object ArticleRoutes {
             .map { it.articles }
             .map { articles ->
                 articles.onEach { article ->
-                    article.id = Random.nextLong(10000)
+                    article.id = article.title.hashCode().toLong()
                 }
             }
     }
