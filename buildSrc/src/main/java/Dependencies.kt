@@ -56,8 +56,6 @@ object Deps {
         val conductorSupport = "com.bluelinelabs:conductor-support:2.1.5"
         val conductorViewModel = "com.github.miquelbeltran:conductor-viewmodel:1.0.2"
 
-        val calligraphy = "io.github.inflationx:calligraphy3:3.1.1"
-
         val parcel = "org.parceler:parceler-api:1.1.12"
         val parcelCompiler = "org.parceler:parceler:1.1.12"
 
