@@ -26,6 +26,9 @@ object Deps {
         val mockitoAndroid = "org.mockito:mockito-android:2.24.5"
 
         val coreTesting = "androidx.arch.core:core-testing:2.0.0-rc01"
+
+        val activityTestRule = "androidx.test:rules:1.1.0"
+        val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
     }
 
     object Libs {

@@ -73,6 +73,8 @@ dependencies {
     androidTestImplementation(Deps.Test.mockitoAndroid)
     androidTestImplementation(Deps.Test.coreTesting)
     androidTestImplementation(Deps.Test.testRunner)
+    androidTestImplementation(Deps.Test.activityTestRule)
+    androidTestImplementation(Deps.Test.espressoCore)
 
     // support
     implementation(Deps.AndroidX.appCompat)

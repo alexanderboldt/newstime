@@ -3,7 +3,7 @@ package com.alex.newstimes.feature.topheadlines
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.runner.AndroidJUnit4
-import com.alex.newstime.feature.article.Model
+import com.alex.newstime.feature.topheadlines.ArticleModel
 import com.alex.newstime.feature.topheadlines.BaseModel
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
 import com.alex.newstime.repository.article.Article
@@ -101,7 +101,7 @@ class TopHeadlinesViewModelTest {
 
         verify(observerRecyclerMessageStateMock, never()).onChanged(any())
 
-        val article = Model(322342, "title", "www.image.com") as BaseModel
+        val article = ArticleModel(322342, "title", "www.image.com") as BaseModel
         verify(observerRecyclerArticlesStateMock, times(1)).onChanged(listOf(article, article, article))
 
         verify(observerDetailState, never()).onChanged(any())
