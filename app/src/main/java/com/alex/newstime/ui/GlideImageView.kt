@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.alex.newstime.R
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import jp.wasabeef.glide.transformations.BlurTransformation
@@ -25,7 +24,7 @@ class GlideImageView @JvmOverloads constructor(context: Context, attrs: Attribut
 
         val defaultImage = if (!blur) resources.getDrawable(R.drawable.ic_image, null) else null
 
-        Glide.with(context)
+        GlideApp.with(context)
             .load(url)
             .transform(*transformations)
             .placeholder(defaultImage)
