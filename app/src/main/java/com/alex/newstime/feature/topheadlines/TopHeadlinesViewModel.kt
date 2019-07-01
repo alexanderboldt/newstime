@@ -1,14 +1,16 @@
 package com.alex.newstime.feature.topheadlines
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.bus.RxBus
 import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.SingleLiveEvent
-import com.alex.newstime.util.plusAssign
 import io.reactivex.Single
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class TopHeadlinesViewModel : BaseViewModel() {
 
@@ -38,13 +40,15 @@ class TopHeadlinesViewModel : BaseViewModel() {
     // ----------------------------------------------------------------------------
 
     init {
-        disposables += RxBus
-            .listen(ConnectivityEvent::class.java)
-            .skip(1)
-            .filter { it.connected }
-            .subscribe {
-                loadInitArticles()
-            }
+        viewModelScope.launch {
+            RxBus
+                .listen(ConnectivityEvent::class.java)
+                .skip(1)
+                .filter { it.connected }
+                .subscribe {
+                    loadInitArticles()
+                }
+        }
     }
 
     fun setArticleRepository(articleRepository: ArticleRepository) {
@@ -56,34 +60,38 @@ class TopHeadlinesViewModel : BaseViewModel() {
     fun loadInitArticles() {
         articles.clear()
 
-        disposables += Single.just(currentType)
-            .flatMap {
-                when (it) {
-                    Types.GERMANY -> articleRepository.getTopHeadlines(pageSize, 1)
-                    Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, 1)
-                }
-            }
-            .doOnSubscribe { recyclerLoadingSate.postValue(true) }
-            .doFinally {
-                recyclerLoadingSate.postValue(false)
-            }
-            .subscribe({ response ->
-                articles.addAll(response)
-
-                if (articles.isEmpty()) {
-                    recyclerMessageState.postValue("Articles not available")
-                } else {
-                    val uiModels = ArrayList<BaseModel>()
-
-                    uiModels.apply {
-                        addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel })
-                        add(LoadMoreModel(true))
+        viewModelScope.launch {
+            Single.just(currentType)
+                .flatMap {
+                    when (it) {
+                        Types.GERMANY -> articleRepository.getTopHeadlines(pageSize, 1)
+                        Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, 1)
                     }
-                    recyclerArticlesState.postValue(uiModels)
                 }
-            }, {
-                recyclerMessageState.postValue("Could not load articles")
-            })
+                .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+                .doFinally {
+                    recyclerLoadingSate.postValue(false)
+                }
+                .subscribe({ response ->
+                    articles.addAll(response)
+
+                    if (articles.isEmpty()) {
+                        recyclerMessageState.postValue("Articles not available")
+                    } else {
+                        val uiModels = ArrayList<BaseModel>()
+
+                        uiModels.apply {
+                            addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel })
+                            add(LoadMoreModel(true))
+                        }
+                        recyclerArticlesState.postValue(uiModels)
+                    }
+                }, {
+                    recyclerMessageState.postValue("Could not load articles")
+
+                    Timber.e(it)
+                })
+        }
     }
 
     fun refreshArticles(type: Types? = null) {
@@ -92,25 +100,64 @@ class TopHeadlinesViewModel : BaseViewModel() {
             currentType = type
         }
 
-        disposables += Single.just(currentType)
-            .flatMap {
-                when (it) {
-                    Types.GERMANY -> articleRepository.getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
-                    Types.WORLD_WIDE -> articleRepository.getEverything(if (articles.size != 0) articles.size else pageSize, 1)
+        viewModelScope.launch {
+            Single.just(currentType)
+                .flatMap {
+                    when (it) {
+                        Types.GERMANY -> articleRepository.getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
+                        Types.WORLD_WIDE -> articleRepository.getEverything(if (articles.size != 0) articles.size else pageSize, 1)
+                    }
                 }
-            }
-            .doOnSubscribe { recyclerLoadingSate.postValue(true) }
-            .doFinally {
-                recyclerLoadingSate.postValue(false)
-                if (type != null) recyclerScrollState.postValue(0)
-            }
-            .subscribe({ response ->
-                articles.clear()
-                articles.addAll(response)
+                .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+                .doFinally {
+                    recyclerLoadingSate.postValue(false)
+                    if (type != null) recyclerScrollState.postValue(0)
+                }
+                .subscribe({ response ->
+                    articles.clear()
+                    articles.addAll(response)
 
-                if (articles.isEmpty()) {
-                    recyclerMessageState.postValue("Articles not available")
-                } else {
+                    if (articles.isEmpty()) {
+                        recyclerMessageState.postValue("Articles not available")
+                    } else {
+                        val uiModels = ArrayList<BaseModel>()
+
+                        uiModels.addAll(articles.map {
+                            ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel
+                        })
+                        uiModels.add(LoadMoreModel(true))
+
+                        recyclerArticlesState.postValue(uiModels)
+                    }
+                }, {
+                    recyclerMessageState.postValue("Could not load articles")
+
+                    Timber.e(it)
+                })
+        }
+    }
+
+    fun loadMoreArticles() {
+        viewModelScope.launch {
+            Single.just(currentType)
+                .flatMap {
+                    when (it) {
+                        Types.GERMANY -> articleRepository.getTopHeadlines(pageSize, articles.size / pageSize + 1)
+                        Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, articles.size / pageSize + 1)
+                    }
+                }
+                .doOnSubscribe {
+                    recyclerLoadingSate.postValue(true)
+                    recyclerLoadMoreState.postValue(false)
+                }
+                .doFinally {
+                    recyclerLoadingSate.postValue(false)
+                    recyclerLoadMoreState.postValue(true)
+                    recyclerScrollState.postValue(articles.size - 9)
+                }
+                .subscribe({ response ->
+                    articles.addAll(response)
+
                     val uiModels = ArrayList<BaseModel>()
 
                     uiModels.addAll(articles.map {
@@ -119,42 +166,10 @@ class TopHeadlinesViewModel : BaseViewModel() {
                     uiModels.add(LoadMoreModel(true))
 
                     recyclerArticlesState.postValue(uiModels)
-                }
-            }, {
-                recyclerMessageState.postValue("Could not load articles")
-            })
-    }
-
-    fun loadMoreArticles() {
-        disposables += Single.just(currentType)
-            .flatMap {
-                when (it) {
-                    Types.GERMANY -> articleRepository.getTopHeadlines(pageSize, articles.size / pageSize + 1)
-                    Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, articles.size / pageSize + 1)
-                }
-            }
-            .doOnSubscribe {
-                recyclerLoadingSate.postValue(true)
-                recyclerLoadMoreState.postValue(false)
-            }
-            .doFinally {
-                recyclerLoadingSate.postValue(false)
-                recyclerLoadMoreState.postValue(true)
-                recyclerScrollState.postValue(articles.size - 9)
-            }
-            .subscribe({ response ->
-                articles.addAll(response)
-
-                val uiModels = ArrayList<BaseModel>()
-
-                uiModels.addAll(articles.map {
-                    ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel
+                }, {
+                    Timber.e(it)
                 })
-                uiModels.add(LoadMoreModel(true))
-
-                recyclerArticlesState.postValue(uiModels)
-            }, {
-            })
+        }
     }
 
     fun clickOnArticle(article: ArticleModel) {
@@ -166,10 +181,14 @@ class TopHeadlinesViewModel : BaseViewModel() {
     fun clickOnStar(article: ArticleModel) {
         val foundArticle = articles.first { it.id == article.id }
 
-        disposables += articleRepository.setFavorite(foundArticle).subscribe({
-            messageState.postValue("Saved article")
-        }, {
-            messageState.postValue("Could not save article")
-        })
+        viewModelScope.launch {
+            articleRepository.setFavorite(foundArticle).subscribe({
+                messageState.postValue("Saved article")
+            }, {
+                messageState.postValue("Could not save article")
+
+                Timber.e(it)
+            })
+        }
     }
 }

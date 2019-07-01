@@ -13,6 +13,7 @@ import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.database.NewstimeDatabase
 import com.alex.newstime.repository.sharedpreference.RxSharedPreferences
 import com.squareup.leakcanary.LeakCanary
+import timber.log.Timber
 
 class NewsTimeApplication : Application(), LifecycleObserver {
 
@@ -47,6 +48,7 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         setupDatabase()
         setupApi()
         setupConnectivityReceiver()
+        setupTimber()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
@@ -75,5 +77,11 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     private fun setupConnectivityReceiver() {
         registerReceiver(ConnectivityReceiver(), IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
+    }
+
+    private fun setupTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }

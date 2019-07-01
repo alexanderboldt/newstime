@@ -86,6 +86,7 @@ dependencies {
     implementation(Deps.AndroidX.lifecycleExtensions)
     implementation(Deps.AndroidX.lifecycleCommonJava)
     kapt(Deps.AndroidX.lifecycleCompiler)
+    implementation(Deps.AndroidX.lifecycleViewModelKtx)
 
     // 3rd-party libraries
 
@@ -93,6 +94,9 @@ dependencies {
     implementation(Deps.Libs.room)
     kapt(Deps.Libs.roomCompiler)
     implementation(Deps.Libs.roomRxJava)
+
+    // logging
+    implementation(Deps.Libs.timber)
 
     // network
     implementation(Deps.Libs.retrofit)

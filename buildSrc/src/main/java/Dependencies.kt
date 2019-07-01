@@ -17,6 +17,7 @@ object Deps {
         val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.0.0"
         val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:2.0.0"
         val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:2.0.0"
+        val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01"
     }
 
     object Test {
