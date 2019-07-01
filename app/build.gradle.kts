@@ -90,6 +90,10 @@ dependencies {
 
     // 3rd-party libraries
 
+    // dependency injection
+    implementation(Deps.Libs.dagger)
+    kapt(Deps.Libs.daggerCompiler)
+
     // database
     implementation(Deps.Libs.room)
     kapt(Deps.Libs.roomCompiler)

@@ -5,16 +5,19 @@ import androidx.lifecycle.viewModelScope
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.bus.RxBus
 import com.alex.newstime.feature.base.BaseViewModel
+import com.alex.newstime.feature.topheadlines.di.DaggerTopHeadlinesViewModelComponent
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.SingleLiveEvent
 import io.reactivex.Single
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 class TopHeadlinesViewModel : BaseViewModel() {
 
-    private lateinit var articleRepository: ArticleRepository
+    @Inject
+    lateinit var articleRepository: ArticleRepository
 
     private val articles = ArrayList<Article>()
 
@@ -40,6 +43,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
     // ----------------------------------------------------------------------------
 
     init {
+        DaggerTopHeadlinesViewModelComponent.builder().build().inject(this)
+
         viewModelScope.launch {
             RxBus
                 .listen(ConnectivityEvent::class.java)
@@ -50,11 +55,6 @@ class TopHeadlinesViewModel : BaseViewModel() {
                 }
         }
     }
-
-    fun setArticleRepository(articleRepository: ArticleRepository) {
-        this.articleRepository = articleRepository
-    }
-
     // ----------------------------------------------------------------------------
 
     fun loadInitArticles() {

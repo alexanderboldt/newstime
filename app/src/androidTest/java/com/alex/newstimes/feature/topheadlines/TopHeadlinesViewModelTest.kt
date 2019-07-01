@@ -24,7 +24,7 @@ class TopHeadlinesViewModelTest {
 
     private lateinit var viewModel: TopHeadlinesViewModel
 
-    @Mock lateinit var newsRepository: ArticleRepository
+    @Mock lateinit var articleRepository: ArticleRepository
 
     @Mock lateinit var observerRecyclerLoadingStateMock: Observer<Boolean>
     @Mock lateinit var observerRecyclerMessageStateMock: Observer<String>
@@ -38,7 +38,7 @@ class TopHeadlinesViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         viewModel = TopHeadlinesViewModel()
-        viewModel.setArticleRepository(newsRepository)
+        viewModel.articleRepository = articleRepository
         viewModel.recyclerLoadingSate.observeForever(observerRecyclerLoadingStateMock)
         viewModel.recyclerMessageState.observeForever(observerRecyclerMessageStateMock)
         viewModel.recyclerArticlesState.observeForever(observerRecyclerArticlesStateMock)
@@ -48,7 +48,7 @@ class TopHeadlinesViewModelTest {
     @Test
     fun no_internet() {
         // mock the execution
-        `when`(newsRepository.getTopHeadlines()).thenReturn(Single.create {
+        `when`(articleRepository.getTopHeadlines()).thenReturn(Single.create {
             it.onError(Throwable("No internet connection"))
         })
 
@@ -66,7 +66,7 @@ class TopHeadlinesViewModelTest {
     @Test
     fun empty_articles() {
         // mock the execution
-        `when`(newsRepository.getTopHeadlines()).thenReturn(Single.create {
+        `when`(articleRepository.getTopHeadlines()).thenReturn(Single.create {
             it.onSuccess(listOf())
         })
 
@@ -84,7 +84,7 @@ class TopHeadlinesViewModelTest {
     @Test
     fun valid_articles() {
         // mock the execution
-        `when`(newsRepository.getTopHeadlines()).thenReturn(Single.create {
+        `when`(articleRepository.getTopHeadlines()).thenReturn(Single.create {
             val article = Article()
             article.title = "title"
             article.urlToImage = "www.image.com"

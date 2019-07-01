@@ -23,8 +23,8 @@ object Deps {
     object Test {
         val junit = "androidx.test.ext:junit:1.0.0"
         val testRunner = "androidx.test:runner:1.1.0"
-        val mockitoCore = "org.mockito:mockito-core:2.24.5"
-        val mockitoAndroid = "org.mockito:mockito-android:2.24.5"
+        val mockitoCore = "org.mockito:mockito-core:2.6.3"
+        val mockitoAndroid = "org.mockito:mockito-android:2.6.3"
 
         val coreTesting = "androidx.arch.core:core-testing:2.0.0-rc01"
 
@@ -33,6 +33,9 @@ object Deps {
     }
 
     object Libs {
+        val dagger = "com.google.dagger:dagger:2.23.2"
+        val daggerCompiler = "com.google.dagger:dagger-compiler:2.23.2"
+
         val room = "androidx.room:room-runtime:2.0.0"
         val roomCompiler = "androidx.room:room-compiler:2.0.0"
         val roomRxJava = "androidx.room:room-rxjava2:2.0.0"

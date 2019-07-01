@@ -3,15 +3,18 @@ package com.alex.newstime.feature.favorits
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.alex.newstime.feature.base.BaseViewModel
+import com.alex.newstime.feature.favorits.di.DaggerFavoritsViewModelComponent
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.SingleLiveEvent
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 class FavoritsViewModel : BaseViewModel() {
 
-    private lateinit var articleRepository: ArticleRepository
+    @Inject
+    lateinit var articleRepository: ArticleRepository
 
     private val currentArticles = ArrayList<Article>()
 
@@ -20,8 +23,8 @@ class FavoritsViewModel : BaseViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    fun setArticleRepository(articleRepository: ArticleRepository) {
-        this.articleRepository = articleRepository
+    init {
+        DaggerFavoritsViewModelComponent.create().inject(this)
     }
 
     fun loadArticles() {
