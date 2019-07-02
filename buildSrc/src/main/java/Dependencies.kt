@@ -2,7 +2,7 @@ object Deps {
     object Config {
         val applicationId = "com.alex.newstime"
         val minSdk = 21
-        val sdk = 28
+        val sdk = 29
         val code = 1
         val name = "1.0"
     }
@@ -39,8 +39,6 @@ object Deps {
         val room = "androidx.room:room-runtime:2.0.0"
         val roomCompiler = "androidx.room:room-compiler:2.0.0"
         val roomRxJava = "androidx.room:room-rxjava2:2.0.0"
-
-        val ahbottomnavigation = "com.aurelhubert:ahbottomnavigation:2.1.0"
 
         val timber = "com.jakewharton.timber:timber:4.7.0"
 
