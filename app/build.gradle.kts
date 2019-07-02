@@ -17,6 +17,8 @@ android {
         versionCode = Deps.Config.code
         versionName = Deps.Config.name
 
+        ndk?.abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
