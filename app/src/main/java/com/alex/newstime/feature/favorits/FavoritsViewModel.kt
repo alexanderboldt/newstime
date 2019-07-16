@@ -1,8 +1,8 @@
 package com.alex.newstime.feature.favorits
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.feature.favorits.di.DaggerFavoritsViewModelComponent
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class FavoritsViewModel : BaseViewModel() {
+class FavoritsViewModel : ViewModel() {
 
     @Inject
     lateinit var articleRepository: ArticleRepository

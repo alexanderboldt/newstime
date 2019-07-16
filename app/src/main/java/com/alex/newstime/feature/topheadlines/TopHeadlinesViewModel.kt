@@ -1,10 +1,10 @@
 package com.alex.newstime.feature.topheadlines
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.bus.RxBus
-import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.feature.topheadlines.di.DaggerTopHeadlinesViewModelComponent
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class TopHeadlinesViewModel : BaseViewModel() {
+class TopHeadlinesViewModel : ViewModel() {
 
     @Inject
     lateinit var articleRepository: ArticleRepository
@@ -43,7 +43,7 @@ class TopHeadlinesViewModel : BaseViewModel() {
     // ----------------------------------------------------------------------------
 
     init {
-        DaggerTopHeadlinesViewModelComponent.builder().build().inject(this)
+        DaggerTopHeadlinesViewModelComponent.create().inject(this)
 
         viewModelScope.launch {
             RxBus
