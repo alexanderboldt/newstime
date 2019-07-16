@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.alex.newstime.BuildConfig
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
 import com.alex.newstime.feature.favorits.FavoritsController
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        binding.textViewVersion.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
         binding.bottomNavigation.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
