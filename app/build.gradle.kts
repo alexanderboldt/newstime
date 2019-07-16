@@ -1,3 +1,5 @@
+import org.apache.commons.io.output.ByteArrayOutputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -8,14 +10,40 @@ apply {
     plugin("kotlin-android")
 }
 
+fun getCommitCount(): Int {
+    return try {
+        val stdout = ByteArrayOutputStream()
+        exec {
+            commandLine("git", "rev-list", "--count", "HEAD")
+            standardOutput = stdout
+        }
+        Integer.parseInt(stdout.toString().trim())
+    } catch (exception: Exception) {
+        -1
+    }
+}
+
+fun getTag(): String? {
+    return try {
+        val stdout = ByteArrayOutputStream()
+        exec {
+            commandLine("git", "describe", "--tags", "--dirty")
+            standardOutput = stdout
+        }
+        stdout.toString().trim()
+    } catch (exception: Exception) {
+        null
+    }
+}
+
 android {
     compileSdkVersion(Deps.Config.sdk)
     defaultConfig {
         applicationId = Deps.Config.applicationId
         minSdkVersion(Deps.Config.minSdk)
         targetSdkVersion(Deps.Config.sdk)
-        versionCode = Deps.Config.code
-        versionName = Deps.Config.name
+        versionCode = getCommitCount()
+        versionName = getTag()
 
         ndk?.abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
 

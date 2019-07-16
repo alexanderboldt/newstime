@@ -3,8 +3,6 @@ object Deps {
         val applicationId = "com.alex.newstime"
         val minSdk = 21
         val sdk = 29
-        val code = 1
-        val name = "1.0"
     }
 
     object AndroidX {
