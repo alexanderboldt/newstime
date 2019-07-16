@@ -12,7 +12,8 @@ import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.database.NewstimeDatabase
 import com.alex.newstime.repository.sharedpreference.RxSharedPreferences
-import com.squareup.leakcanary.LeakCanary
+import leakcanary.LeakCanary
+import leakcanary.LeakSentry
 import timber.log.Timber
 
 class NewsTimeApplication : Application(), LifecycleObserver {
@@ -38,12 +39,7 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     // ----------------------------------------------------------------------------
 
     private fun setup() {
-
-        // check if leakCanary could be initialized
-        if (!setupLeakCanary()) {
-            return
-        }
-
+        setupLeakCanary()
         setupSharedPreferences()
         setupDatabase()
         setupApi()
@@ -65,14 +61,11 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         ApiClient.initialize()
     }
 
-    private fun setupLeakCanary(): Boolean {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return false
-        }
+    private fun setupLeakCanary() {
+        if (!BuildConfig.DEBUG) return
 
-        LeakCanary.install(this)
-
-        return true
+        LeakSentry.config = LeakSentry.config.copy(watchFragmentViews = false)
+        LeakCanary.config = LeakCanary.config.copy(dumpHeap = true)
     }
 
     private fun setupConnectivityReceiver() {
@@ -80,8 +73,8 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     }
 
     private fun setupTimber() {
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+        if (!BuildConfig.DEBUG) return
+
+        Timber.plant(Timber.DebugTree())
     }
 }

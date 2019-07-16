@@ -18,6 +18,10 @@ object Deps {
         val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:2.0.0"
         val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:2.0.0"
         val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01"
+
+        val room = "androidx.room:room-runtime:2.1.0"
+        val roomCompiler = "androidx.room:room-compiler:2.1.0"
+        val roomRxJava = "androidx.room:room-rxjava2:2.1.0"
     }
 
     object Test {
@@ -33,23 +37,23 @@ object Deps {
     }
 
     object Libs {
+        val exoplayer = "com.google.android.exoplayer:exoplayer:2.10.1"
+
         val dagger = "com.google.dagger:dagger:2.23.2"
         val daggerCompiler = "com.google.dagger:dagger-compiler:2.23.2"
 
-        val room = "androidx.room:room-runtime:2.0.0"
-        val roomCompiler = "androidx.room:room-compiler:2.0.0"
-        val roomRxJava = "androidx.room:room-rxjava2:2.0.0"
+        val ahbottomnavigation = "com.aurelhubert:ahbottomnavigation:2.3.4"
 
-        val timber = "com.jakewharton.timber:timber:4.7.0"
+        val timber = "com.jakewharton.timber:timber:4.7.1"
 
-        val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.2.0"
+        val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.2.1"
 
-        val retrofit = "com.squareup.retrofit2:retrofit:2.5.0"
-        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.5.0"
-        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+        val retrofit = "com.squareup.retrofit2:retrofit:2.6.0"
+        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.6.0"
+        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:2.6.0"
         val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
 
-        val moshi = "com.squareup.moshi:moshi-kotlin:1.6.0"
+        val moshi = "com.squareup.moshi:moshi-kotlin:1.8.0"
 
         val glide = "com.github.bumptech.glide:glide:4.9.0"
         val glideCompiler = "com.github.bumptech.glide:compiler:4.9.0"
@@ -58,19 +62,18 @@ object Deps {
 
         val conductor = "com.bluelinelabs:conductor:2.1.5"
         val conductorSupport = "com.bluelinelabs:conductor-support:2.1.5"
-        val conductorViewModel = "com.github.miquelbeltran:conductor-viewmodel:1.0.2"
+        val conductorViewModel = "com.github.miquelbeltran:conductor-viewmodel:1.0.3"
 
         val parcel = "org.parceler:parceler-api:1.1.12"
         val parcelCompiler = "org.parceler:parceler:1.1.12"
 
-        val rxjava = "io.reactivex.rxjava2:rxjava:2.2.2"
-        val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.0"
+        val rxjava = "io.reactivex.rxjava2:rxjava:2.2.10"
+        val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 
         val rxbinding = "com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0"
         val rxbindingAppcompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.2.0"
         val rxbindingSupport = "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.2.0"
 
-        val leakCanaryDebug = "com.squareup.leakcanary:leakcanary-android:1.5.4"
-        val leakCanaryRelease = "com.squareup.leakcanary:leakcanary-android-no-op:1.5.4"
+        val leakCanaryDebug = "com.squareup.leakcanary:leakcanary-android:2.0-alpha-3"
     }
 }
