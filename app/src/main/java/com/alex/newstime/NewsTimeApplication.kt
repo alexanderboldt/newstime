@@ -12,8 +12,7 @@ import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.database.NewstimeDatabase
 import com.alex.newstime.repository.sharedpreference.RxSharedPreferences
-import leakcanary.LeakCanary
-import leakcanary.LeakSentry
+import tech.linjiang.pandora.Pandora
 import timber.log.Timber
 
 class NewsTimeApplication : Application(), LifecycleObserver {
@@ -39,12 +38,12 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     // ----------------------------------------------------------------------------
 
     private fun setup() {
-        setupLeakCanary()
         setupSharedPreferences()
         setupDatabase()
         setupApi()
         setupConnectivityReceiver()
         setupTimber()
+        setupPandora()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
@@ -61,13 +60,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         ApiClient.initialize()
     }
 
-    private fun setupLeakCanary() {
-        if (!BuildConfig.DEBUG) return
-
-        LeakSentry.config = LeakSentry.config.copy(watchFragmentViews = false)
-        LeakCanary.config = LeakCanary.config.copy(dumpHeap = true)
-    }
-
     private fun setupConnectivityReceiver() {
         registerReceiver(ConnectivityReceiver(), IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
     }
@@ -76,5 +68,9 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         if (!BuildConfig.DEBUG) return
 
         Timber.plant(Timber.DebugTree())
+    }
+
+    private fun setupPandora() {
+        Pandora.get().disableShakeSwitch()
     }
 }

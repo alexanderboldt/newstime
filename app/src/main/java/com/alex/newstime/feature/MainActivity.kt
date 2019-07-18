@@ -12,6 +12,8 @@ import com.alex.newstime.feature.topheadlines.TopHeadlinesController
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
+import com.jakewharton.rxbinding2.view.longClicks
+import tech.linjiang.pandora.Pandora
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.textViewVersion.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+        binding.textViewVersion.setOnLongClickListener {
+            Pandora.get().open()
+            false
+        }
 
         binding.bottomNavigation.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
         binding.bottomNavigation.setOnNavigationItemSelectedListener {

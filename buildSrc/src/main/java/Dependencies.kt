@@ -72,6 +72,9 @@ object Deps {
         val rxbindingAppcompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.2.0"
         val rxbindingSupport = "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.2.0"
 
-        val leakCanaryDebug = "com.squareup.leakcanary:leakcanary-android:2.0-alpha-3"
+        val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.0-alpha-3"
+
+        val pandora = "com.github.whataa:pandora:androidx_v2.0.3"
+        val pandoraNoOp = "com.github.whataa:pandora-no-op:v2.0.3"
     }
 }

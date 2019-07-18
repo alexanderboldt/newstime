@@ -69,6 +69,9 @@ android {
             signingConfig = signingConfigs.getByName("debug")
 
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
+            buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
+            buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
         }
     }
 
@@ -163,5 +166,9 @@ dependencies {
     implementation(Deps.Libs.rxbindingSupport)
 
     // leak-detection
-    debugImplementation(Deps.Libs.leakCanaryDebug)
+    debugImplementation(Deps.Libs.leakCanary)
+
+    // debugging-tool
+    debugImplementation(Deps.Libs.pandora)
+    releaseImplementation(Deps.Libs.pandoraNoOp)
 }
