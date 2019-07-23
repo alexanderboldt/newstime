@@ -55,6 +55,7 @@ android {
         getByName("debug") {
             isDebuggable = true
             isMinifyEnabled = false
+            isShrinkResources = false
 
             applicationIdSuffix = ".development"
 
@@ -64,14 +65,21 @@ android {
 
         getByName("release") {
             isDebuggable = false
+
+            // enables code shrinking, obfuscation and optimization
             isMinifyEnabled = true
 
-            signingConfig = signingConfigs.getByName("debug")
+            // enables resource shrinking, which is performed by the Android Gradle Plugin
+            isShrinkResources = true
 
+            // rules for R8
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 
             buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
             buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
+
+            // use the debug-signing-configuration as long there is no keystore
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
