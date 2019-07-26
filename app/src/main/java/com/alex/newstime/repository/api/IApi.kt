@@ -1,6 +1,6 @@
 package com.alex.newstime.repository.api
 
-import com.alex.newstime.repository.article.ArticleResponse
+import com.alex.newstime.repository.api.article.ArticleResponse
 import io.reactivex.Single
 import retrofit2.http.*
 

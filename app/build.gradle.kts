@@ -61,6 +61,8 @@ android {
 
             buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
             buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
+
+            resValue("string", "app_name", "newstime (debug)")
         }
 
         getByName("release") {
@@ -80,6 +82,8 @@ android {
 
             // use the debug-signing-configuration as long there is no keystore
             signingConfig = signingConfigs.getByName("debug")
+
+            resValue("string", "app_name", "newstime")
         }
     }
 
