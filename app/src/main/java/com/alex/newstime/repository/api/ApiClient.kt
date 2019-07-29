@@ -6,8 +6,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.internal.platform.Platform
 import com.ihsanbal.logging.LoggingInterceptor
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -41,11 +39,6 @@ object ApiClient {
             chain.proceed(requestBuilder)
         }
 
-        val moshi = Moshi
-                .Builder()
-                .add(KotlinJsonAdapterFactory())
-                .build()
-
         // interceptor for logging
         client.addInterceptor(LoggingInterceptor.Builder()
                     .loggable(BuildConfig.DEBUG)
@@ -59,7 +52,7 @@ object ApiClient {
         // create the actual retrofit-adapter
         api = Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client.build())
                 .build()

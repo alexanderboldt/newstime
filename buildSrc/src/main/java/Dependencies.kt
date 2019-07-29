@@ -51,7 +51,8 @@ object Deps {
         val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:2.6.0"
         val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
 
-        val moshi = "com.squareup.moshi:moshi-kotlin:1.8.0"
+        val moshi = "com.squareup.moshi:moshi:1.8.0"
+        val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
 
         val glide = "com.github.bumptech.glide:glide:4.9.0"
         val glideCompiler = "com.github.bumptech.glide:compiler:4.9.0"
