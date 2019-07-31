@@ -17,56 +17,46 @@ object ArticleTable {
     }
 
     fun insert(article: Article): Single<Long> {
-        return Single
-            .create<Long> { emitter ->
-                val id = NewstimeDatabase.database.articleDao().insert(article)
-
-                emitter.onSuccess(id)
-            }
+        return NewstimeDatabase
+            .database
+            .articleDao()
+            .insert(article)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun insert(articles: List<Article>): Single<List<Long>> {
-        return Single
-            .create<List<Long>> { emitter ->
-                val ids = NewstimeDatabase.database.articleDao().insert(articles)
-
-                emitter.onSuccess(ids)
-            }
+        return NewstimeDatabase
+            .database
+            .articleDao()
+            .insert(articles)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun update(article: Article): Single<Int> {
-        return Single
-            .create<Int> { emitter ->
-                val numberOfUpdatedRows = NewstimeDatabase.database.articleDao().update(article)
-
-                emitter.onSuccess(numberOfUpdatedRows)
-            }
+        return NewstimeDatabase
+            .database
+            .articleDao()
+            .update(article)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun delete(article: Article): Single<Int> {
-        return Single
-            .create<Int> { emitter ->
-                val numberOfDeletedRows = NewstimeDatabase.database.articleDao().delete(article)
-
-                emitter.onSuccess(numberOfDeletedRows)
-            }
+        return NewstimeDatabase
+            .database
+            .articleDao()
+            .delete(article)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun deleteAll(): Single<Int> {
-        return Single
-            .create<Int> { emitter ->
-                val numberOfDeletedRows = NewstimeDatabase.database.articleDao().deleteAll()
-
-                emitter.onSuccess(numberOfDeletedRows)
-            }
+        return NewstimeDatabase
+            .database
+            .articleDao()
+            .deleteAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

@@ -12,17 +12,17 @@ interface ArticleDao {
     fun getAll(): Single<List<Article>>
 
     @Insert(onConflict = IGNORE)
-    fun insert(article: Article): Long
+    fun insert(article: Article): Single<Long>
 
     @Insert(onConflict = IGNORE)
-    fun insert(articles: List<Article>): List<Long>
+    fun insert(articles: List<Article>): Single<List<Long>>
 
     @Update
-    fun update(article: Article): Int
+    fun update(article: Article): Single<Int>
 
     @Delete
-    fun delete(article: Article): Int
+    fun delete(article: Article): Single<Int>
 
     @Query("delete from article")
-    fun deleteAll(): Int
+    fun deleteAll(): Single<Int>
 }
