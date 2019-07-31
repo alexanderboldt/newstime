@@ -69,13 +69,15 @@ android {
             isDebuggable = false
 
             // enables code shrinking, obfuscation and optimization
-            isMinifyEnabled = true
+            // currently turned off, because of the huge effort for a stable build
+            isMinifyEnabled = false
 
             // enables resource shrinking, which is performed by the Android Gradle Plugin
-            isShrinkResources = true
+            // this depends on isMinifyEnabled
+            isShrinkResources = false
 
             // rules for R8
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
             buildConfigField("String", "BASE_URL", "\"${LocalProperties.BASE_URL}\"")
             buildConfigField("String", "API_KEY", "\"${LocalProperties.API_KEY}\"")
