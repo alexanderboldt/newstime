@@ -5,7 +5,6 @@ import com.alex.newstime.repository.article.Article
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlin.random.Random
 
 object ArticleRoutes {
 
