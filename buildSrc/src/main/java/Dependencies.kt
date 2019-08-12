@@ -25,8 +25,8 @@ object Deps {
     object Test {
         val junit = "androidx.test.ext:junit:1.0.0"
         val testRunner = "androidx.test:runner:1.1.0"
-        val mockitoCore = "org.mockito:mockito-core:2.6.3"
-        val mockitoAndroid = "org.mockito:mockito-android:2.6.3"
+        val mockitoCore = "org.mockito:mockito-core:3.0.0"
+        val mockitoAndroid = "org.mockito:mockito-android:3.0.0"
 
         val coreTesting = "androidx.arch.core:core-testing:2.0.0-rc01"
 
