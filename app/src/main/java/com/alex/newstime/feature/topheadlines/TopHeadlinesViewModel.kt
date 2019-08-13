@@ -10,7 +10,9 @@ import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.SingleLiveEvent
 import io.reactivex.Single
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,6 +47,7 @@ class TopHeadlinesViewModel : ViewModel() {
     init {
         DaggerTopHeadlinesViewModelComponent.create().inject(this)
 
+        // check out when to use the right dispatcher
         viewModelScope.launch {
             RxBus
                 .listen(ConnectivityEvent::class.java)
@@ -60,7 +63,7 @@ class TopHeadlinesViewModel : ViewModel() {
     fun loadInitArticles() {
         articles.clear()
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             Single.just(currentType)
                 .flatMap {
                     when (it) {
@@ -100,7 +103,7 @@ class TopHeadlinesViewModel : ViewModel() {
             currentType = type
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             Single.just(currentType)
                 .flatMap {
                     when (it) {
@@ -138,7 +141,7 @@ class TopHeadlinesViewModel : ViewModel() {
     }
 
     fun loadMoreArticles() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             Single.just(currentType)
                 .flatMap {
                     when (it) {
@@ -181,7 +184,7 @@ class TopHeadlinesViewModel : ViewModel() {
     fun clickOnStar(article: ArticleModel) {
         val foundArticle = articles.first { it.id == article.id }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             articleRepository.setFavorite(foundArticle).subscribe({
                 messageState.postValue("Saved article")
             }, {

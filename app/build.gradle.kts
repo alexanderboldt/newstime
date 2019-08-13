@@ -113,6 +113,10 @@ dependencies {
     // testing
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.testRunner)
+    testImplementation(Deps.Test.mockitoCore)
+    testImplementation(Deps.Test.coreTesting)
+    testImplementation(Deps.Libs.coroutinesCore)
+    testImplementation(Deps.Test.coroutinesTest)
 
     // android-testing
     androidTestImplementation(Deps.Test.junit)

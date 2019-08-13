@@ -11,7 +11,6 @@ import com.alex.newstime.bus.RxBus
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.database.NewstimeDatabase
-import com.alex.newstime.repository.sharedpreference.RxSharedPreferences
 import tech.linjiang.pandora.Pandora
 import timber.log.Timber
 
@@ -38,7 +37,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     // ----------------------------------------------------------------------------
 
     private fun setup() {
-        setupSharedPreferences()
         setupDatabase()
         setupApi()
         setupConnectivityReceiver()
@@ -46,10 +44,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         setupPandora()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-    }
-
-    private fun setupSharedPreferences() {
-        RxSharedPreferences.initialize(this)
     }
 
     private fun setupDatabase() {

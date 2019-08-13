@@ -2,22 +2,22 @@ package com.alex.newstimes.feature.article
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.test.runner.AndroidJUnit4
 import com.alex.newstime.feature.article.ArticleModel
 import com.alex.newstime.feature.article.ArticleViewModel
 import com.alex.newstime.repository.article.Article
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(JUnit4::class)
 class ArticleViewModelTest {
 
     @Rule @JvmField val rule = InstantTaskExecutorRule()

@@ -32,9 +32,13 @@ object Deps {
 
         val activityTestRule = "androidx.test:rules:1.1.0"
         val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
+
+        val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0-RC2"
     }
 
     object Libs {
+        val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
+
         val exoplayer = "com.google.android.exoplayer:exoplayer:2.10.1"
 
         val dagger = "com.google.dagger:dagger:2.23.2"
