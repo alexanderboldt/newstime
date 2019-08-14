@@ -5,7 +5,7 @@ import com.jakewharton.rxbinding2.view.clicks
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-abstract class BaseAdapter<T, VH> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     protected val items = ArrayList<T>()
 

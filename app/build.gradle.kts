@@ -90,6 +90,8 @@ android {
     }
 
     lintOptions {
+        disable("ContentDescription")
+
         isAbortOnError = false
     }
 

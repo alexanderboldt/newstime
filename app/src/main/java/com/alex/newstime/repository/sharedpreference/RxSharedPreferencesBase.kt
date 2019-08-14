@@ -1,5 +1,6 @@
 package com.alex.newstime.repository.sharedpreference
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import io.reactivex.Single
@@ -9,6 +10,7 @@ import io.reactivex.Single
  *
  * Create a Singleton-class and extend from this class.
  */
+@SuppressLint("ApplySharedPref")
 open class RxSharedPreferencesBase {
 
     private lateinit var preferences: SharedPreferences

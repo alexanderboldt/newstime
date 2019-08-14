@@ -1,5 +1,6 @@
 package com.alex.newstime.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
@@ -15,6 +16,7 @@ fun setImage(glideImageView: GlideImageView, url: String?, blur: Boolean = false
     glideImageView.setImage(url, blur)
 }
 
+@SuppressLint("all")
 class GlideImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ImageView(context, attrs) {
 
     fun setImage(url: String?, blur: Boolean = false) {

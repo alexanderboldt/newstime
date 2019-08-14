@@ -1,5 +1,6 @@
 package com.alex.newstime.feature
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -12,9 +13,9 @@ import com.alex.newstime.feature.topheadlines.TopHeadlinesController
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
-import com.jakewharton.rxbinding2.view.longClicks
 import tech.linjiang.pandora.Pandora
 
+@SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
