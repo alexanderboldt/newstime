@@ -10,6 +10,7 @@ import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.util.observe
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jakewharton.rxbinding2.support.v4.widget.refreshes
 import com.jakewharton.rxbinding2.view.clicks
 
@@ -20,6 +21,9 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
     private var fabMenuExpanded = false
 
+    private lateinit var bottomSheetDialog: BottomSheetDialog
+    private lateinit var bottomSheetDialogFavorites: View
+
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
@@ -29,6 +33,11 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
+
+        bottomSheetDialogFavorites = activity!!.layoutInflater.inflate(R.layout.view_add_to_favorites, null)
+        bottomSheetDialog = BottomSheetDialog(context).apply {
+            setContentView(bottomSheetDialogFavorites)
+        }
     }
 
     override fun onSetupViewBinding() {
@@ -59,7 +68,11 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         }
 
         disposables += adapter.longClickSubject.subscribe {
-            viewModel.clickOnStar(it)
+            viewModel.longClickArticle(it)
+        }
+
+        disposables += bottomSheetDialogFavorites.clicks().subscribe {
+            viewModel.clickAddToFavorites()
         }
     }
 
@@ -96,6 +109,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
         viewModel.messageState.observe(this) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.bottomSheetDialogState.observe(this) { state ->
+            if (state) bottomSheetDialog.show() else bottomSheetDialog.hide()
         }
 
         viewModel.loadInitArticles()

@@ -27,6 +27,8 @@ class TopHeadlinesViewModel : ViewModel() {
 
     private var currentType = Types.GERMANY
 
+    private var currentSelectedArticle: ArticleModel? = null
+
     var recyclerLoadingSate = MutableLiveData<Boolean>()
     var recyclerMessageState = MutableLiveData<String>()
     var recyclerArticlesState = MutableLiveData<List<BaseModel>>()
@@ -34,6 +36,7 @@ class TopHeadlinesViewModel : ViewModel() {
     var recyclerScrollState = SingleLiveEvent<Int>()
     var messageState = SingleLiveEvent<String>()
     var detailState = SingleLiveEvent<Article>()
+    var bottomSheetDialogState = SingleLiveEvent<Boolean>()
 
     // ----------------------------------------------------------------------------
 
@@ -181,8 +184,16 @@ class TopHeadlinesViewModel : ViewModel() {
         })
     }
 
-    fun clickOnStar(article: ArticleModel) {
-        val foundArticle = articles.first { it.id == article.id }
+    fun longClickArticle(article: ArticleModel) {
+        bottomSheetDialogState.postValue(true)
+
+        currentSelectedArticle = article
+    }
+
+    fun clickAddToFavorites() {
+        bottomSheetDialogState.postValue(false)
+
+        val foundArticle = articles.first { it.id == currentSelectedArticle?.id }
 
         viewModelScope.launch(Dispatchers.Default) {
             articleRepository.setFavorite(foundArticle).subscribe({
