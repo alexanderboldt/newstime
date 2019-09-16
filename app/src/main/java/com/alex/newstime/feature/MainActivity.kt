@@ -29,23 +29,27 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.textViewVersion.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-        binding.textViewVersion.setOnLongClickListener {
-            Pandora.get().open()
-            false
+        binding.textViewVersion.apply {
+            text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            setOnLongClickListener {
+                Pandora.get().open()
+                false
+            }
         }
 
-        binding.bottomNavigation.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
-        binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            val controller = when (it.itemId) {
-                R.id.item_one -> TopHeadlinesController()
-                else -> FavoritsController()
+        binding.bottomNavigation.also {
+            it.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
+            it.setOnNavigationItemSelectedListener {
+                val controller = when (it.itemId) {
+                    R.id.item_one -> TopHeadlinesController()
+                    else -> FavoritsController()
+                }
+                router.apply {
+                    popToRoot()
+                    setRoot(RouterTransaction.with(controller))
+                }
+                true
             }
-            router.apply {
-                popToRoot()
-                setRoot(RouterTransaction.with(controller))
-            }
-            true
         }
 
         router = Conductor.attachRouter(this, binding.changeHandlerFrameLayout, savedInstanceState)

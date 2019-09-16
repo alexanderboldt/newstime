@@ -31,8 +31,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
         adapter = TopHeadlinesAdapter()
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.also {
+            it.layoutManager = LinearLayoutManager(context)
+            it.adapter = adapter
+        }
 
         bottomSheetDialogFavorites = activity!!.layoutInflater.inflate(R.layout.view_add_to_favorites, null)
         bottomSheetDialog = BottomSheetDialog(context).apply {
@@ -82,8 +84,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         }
 
         viewModel.recyclerMessageState.observe(this) {
-            binding.textViewMessage.text = it
-            binding.textViewMessage.visibility = View.VISIBLE
+            binding.textViewMessage.apply {
+                text = it
+                visibility = View.VISIBLE
+            }
 
             binding.recyclerView.visibility = View.GONE
         }

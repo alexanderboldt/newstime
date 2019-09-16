@@ -17,7 +17,9 @@ class FavoritsAdapter : BaseAdapter<ArticleModel, FavoritsAdapter.ArticleViewHol
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, item: ArticleModel) {
-        holder.binding.textViewName.text = item.title
-        holder.binding.imageViewThumbnail.setImage(item.urlToImage)
+        holder.binding.apply {
+            textViewName.text = item.title
+            imageViewThumbnail.setImage(item.urlToImage)
+        }
     }
 }

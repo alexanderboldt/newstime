@@ -41,7 +41,7 @@ class FavoritsViewModel : ViewModel() {
                         ArticleModel(article.id!!, article.title!!, article.urlToImage!!)
                     } as ArrayList)
                 }, {
-                    Timber.e(it)
+                    Timber.w(it)
                 })
         }
     }

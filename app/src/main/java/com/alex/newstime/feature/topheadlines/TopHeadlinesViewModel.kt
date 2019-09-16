@@ -12,7 +12,6 @@ import com.alex.newstime.util.SingleLiveEvent
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -64,8 +63,6 @@ class TopHeadlinesViewModel : ViewModel() {
     // ----------------------------------------------------------------------------
 
     fun loadInitArticles() {
-        articles.clear()
-
         viewModelScope.launch(Dispatchers.Default) {
             Single.just(currentType)
                 .flatMap {
@@ -74,20 +71,18 @@ class TopHeadlinesViewModel : ViewModel() {
                         Types.WORLD_WIDE -> articleRepository.getEverything(pageSize, 1)
                     }
                 }
-                .doOnSubscribe { recyclerLoadingSate.postValue(true) }
-                .doFinally {
-                    recyclerLoadingSate.postValue(false)
+                .doOnSubscribe {
+                    articles.clear()
+                    recyclerLoadingSate.postValue(true)
                 }
-                .subscribe({ response ->
-                    articles.addAll(response)
-
+                .doOnSuccess { articles.addAll(it) }
+                .doFinally { recyclerLoadingSate.postValue(false) }
+                .subscribe({
                     if (articles.isEmpty()) {
                         recyclerMessageState.postValue("Articles not available")
                     } else {
-                        val uiModels = ArrayList<BaseModel>()
-
-                        uiModels.apply {
-                            addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel })
+                        val uiModels = ArrayList<BaseModel>().apply {
+                            addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
                             add(LoadMoreModel(true))
                         }
                         recyclerArticlesState.postValue(uiModels)
@@ -95,7 +90,7 @@ class TopHeadlinesViewModel : ViewModel() {
                 }, {
                     recyclerMessageState.postValue("Could not load articles")
 
-                    Timber.e(it)
+                    Timber.w(it)
                 })
         }
     }
@@ -115,30 +110,30 @@ class TopHeadlinesViewModel : ViewModel() {
                     }
                 }
                 .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+                .doOnSuccess { response ->
+                    articles.apply {
+                        clear()
+                        addAll(response)
+                    }
+                }
                 .doFinally {
                     recyclerLoadingSate.postValue(false)
                     if (type != null) recyclerScrollState.postValue(0)
                 }
-                .subscribe({ response ->
-                    articles.clear()
-                    articles.addAll(response)
-
+                .subscribe({
                     if (articles.isEmpty()) {
                         recyclerMessageState.postValue("Articles not available")
                     } else {
-                        val uiModels = ArrayList<BaseModel>()
-
-                        uiModels.addAll(articles.map {
-                            ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel
-                        })
-                        uiModels.add(LoadMoreModel(true))
-
+                        val uiModels = ArrayList<BaseModel>().apply {
+                            addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
+                            add(LoadMoreModel(true))
+                        }
                         recyclerArticlesState.postValue(uiModels)
                     }
                 }, {
                     recyclerMessageState.postValue("Could not load articles")
 
-                    Timber.e(it)
+                    Timber.w(it)
                 })
         }
     }
@@ -156,32 +151,30 @@ class TopHeadlinesViewModel : ViewModel() {
                     recyclerLoadingSate.postValue(true)
                     recyclerLoadMoreState.postValue(false)
                 }
+                .doOnSuccess { articles.addAll(it) }
                 .doFinally {
                     recyclerLoadingSate.postValue(false)
                     recyclerLoadMoreState.postValue(true)
                     recyclerScrollState.postValue(articles.size - 9)
                 }
-                .subscribe({ response ->
-                    articles.addAll(response)
-
-                    val uiModels = ArrayList<BaseModel>()
-
-                    uiModels.addAll(articles.map {
-                        ArticleModel(it.id!!, it.title!!, it.urlToImage) as BaseModel
-                    })
-                    uiModels.add(LoadMoreModel(true))
-
+                .subscribe({
+                    val uiModels = ArrayList<BaseModel>().apply {
+                        addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
+                        add(LoadMoreModel(true))
+                    }
                     recyclerArticlesState.postValue(uiModels)
                 }, {
-                    Timber.e(it)
+                    Timber.w(it)
                 })
         }
     }
 
     fun clickOnArticle(article: ArticleModel) {
-        detailState.postValue(articles.first {
+        val foundArticle = articles.firstOrNull {
             it.id == article.id
-        })
+        }
+
+        if (foundArticle != null) detailState.postValue(foundArticle)
     }
 
     fun longClickArticle(article: ArticleModel) {

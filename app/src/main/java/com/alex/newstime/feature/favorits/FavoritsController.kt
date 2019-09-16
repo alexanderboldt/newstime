@@ -21,8 +21,10 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.co
 
         adapter = FavoritsAdapter()
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView.also {
+            it.layoutManager = LinearLayoutManager(context)
+            it.adapter = adapter
+        }
     }
 
     override fun onSetupViewBinding() {

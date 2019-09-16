@@ -14,9 +14,8 @@ object ArticleRoutes {
             .getTopHeadlines(pageSize, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it.articles }
-            .map { articles ->
-                articles.onEach { article ->
+            .map { response ->
+                response.articles.onEach { article ->
                     article.id = article.title.hashCode().toLong()
                 }
             }
@@ -28,9 +27,8 @@ object ArticleRoutes {
             .getEverything(pageSize, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .map { it.articles }
-            .map { articles ->
-                articles.onEach { article ->
+            .map { response ->
+                response.articles.onEach { article ->
                     article.id = article.title.hashCode().toLong()
                 }
             }
