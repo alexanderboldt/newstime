@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import io.reactivex.disposables.CompositeDisposable
 import work.beltran.conductorviewmodel.ViewModelController
 
@@ -21,6 +19,16 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
 
     protected val context: Context
         get() = activity as Context
+
+    /*
+     * This extensions-function has a check for nullability and passes the appropriate LifecycleOwner
+     */
+    internal fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
+        this.observe(binding.lifecycleOwner!!, Observer { data ->
+            if (data == null) return@Observer
+            observer(data)
+        })
+    }
 
     // ----------------------------------------------------------------------------
 

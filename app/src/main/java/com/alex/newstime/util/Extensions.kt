@@ -1,8 +1,5 @@
 package com.alex.newstime.util
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
@@ -19,14 +16,4 @@ fun Router.pushDetailController(controller: Controller) {
             .with(controller)
             .pushChangeHandler(HorizontalChangeHandler())
             .popChangeHandler(HorizontalChangeHandler()))
-}
-
-/*
- * This extensions-function has build-in check for nullability.
- */
-fun <T> LiveData<T>.observe(lifecycleOwner: LifecycleOwner, observer: (t: T) -> Unit) {
-    this.observe(lifecycleOwner, Observer { data ->
-        if (data == null) return@Observer
-        observer(data)
-    })
 }

@@ -7,7 +7,7 @@ import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.feature.article.ArticleController
-import com.alex.newstime.util.observe
+import com.alex.newstime.util.isVisible
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -79,43 +79,43 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
     }
 
     override fun onSetupViewModelBinding() {
-        viewModel.recyclerLoadingSate.observe(this) {
+        viewModel.recyclerLoadingSate.observe {
             binding.swipeRefreshLayout.isRefreshing = it
         }
 
-        viewModel.recyclerMessageState.observe(this) {
+        viewModel.recyclerMessageState.observe {
             binding.textViewMessage.apply {
                 text = it
-                visibility = View.VISIBLE
+                isVisible = true
             }
 
-            binding.recyclerView.visibility = View.GONE
+            binding.recyclerView.isVisible = false
         }
 
-        viewModel.recyclerArticlesState.observe(this) { data ->
-            binding.textViewMessage.visibility = View.GONE
-            binding.recyclerView.visibility = View.VISIBLE
+        viewModel.recyclerArticlesState.observe { data ->
+            binding.textViewMessage.isVisible = false
+            binding.recyclerView.isVisible = true
 
             adapter.setItems(data as ArrayList)
         }
 
-        viewModel.detailState.observe(this) {
+        viewModel.detailState.observe {
             router.pushDetailController(ArticleController.create(it))
         }
 
-        viewModel.recyclerLoadMoreState.observe(this) {
+        viewModel.recyclerLoadMoreState.observe {
             adapter.enableLoadMore(it)
         }
 
-        viewModel.recyclerScrollState.observe(this) {
+        viewModel.recyclerScrollState.observe {
             binding.recyclerView.smoothScrollToPosition(it)
         }
 
-        viewModel.messageState.observe(this) {
+        viewModel.messageState.observe {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.bottomSheetDialogState.observe(this) { state ->
+        viewModel.bottomSheetDialogState.observe { state ->
             if (state) bottomSheetDialog.show() else bottomSheetDialog.hide()
         }
 

@@ -5,7 +5,6 @@ import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerFavoritsBinding
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.feature.base.BaseController
-import com.alex.newstime.util.observe
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 
@@ -34,11 +33,11 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.co
     }
 
     override fun onSetupViewModelBinding() {
-        viewModel.recyclerArticlesState.observe(this) {
+        viewModel.recyclerArticlesState.observe {
             adapter.setItems(it as ArrayList)
         }
 
-        viewModel.detailState.observe(this) {
+        viewModel.detailState.observe {
             router.pushDetailController(ArticleController.create(it))
         }
 
