@@ -2,8 +2,6 @@ package com.alex.newstime.repository.article
 
 import com.alex.newstime.repository.api.article.ArticleRoutes
 import com.alex.newstime.repository.database.article.ArticleTable
-import com.alex.newstime.repository.sharedpreference.RxSharedPreferencesBase
-import io.reactivex.Completable
 
 open class ArticleRepository {
 
