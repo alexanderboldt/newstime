@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-object ArticleRoutes {
+class ArticleRoutes {
 
     fun getTopHeadlines(pageSize: Int = 10, page: Int = 1): Single<List<Article>> {
         return ApiClient

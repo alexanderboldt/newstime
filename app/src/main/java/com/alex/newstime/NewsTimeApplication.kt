@@ -6,8 +6,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.alex.core.bus.RxBus
 import com.alex.newstime.bus.AppEvent
-import com.alex.newstime.bus.RxBus
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.database.NewstimeDatabase

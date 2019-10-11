@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import com.alex.core.bus.RxBus
 import com.alex.newstime.bus.ConnectivityEvent
-import com.alex.newstime.bus.RxBus
 
 class ConnectivityReceiver : BroadcastReceiver() {
 

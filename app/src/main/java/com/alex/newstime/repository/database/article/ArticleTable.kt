@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-object ArticleTable {
+class ArticleTable {
 
     fun getAll(): Single<List<Article>> {
         return NewstimeDatabase.database
