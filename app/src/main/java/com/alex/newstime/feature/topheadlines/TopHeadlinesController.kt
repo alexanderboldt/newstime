@@ -3,11 +3,11 @@ package com.alex.newstime.feature.topheadlines
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alex.core.util.isVisible
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.feature.article.ArticleController
-import com.alex.newstime.util.isVisible
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 import com.google.android.material.bottomsheet.BottomSheetDialog
