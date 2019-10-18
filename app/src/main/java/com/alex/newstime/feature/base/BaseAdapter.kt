@@ -13,17 +13,39 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
 
     // ----------------------------------------------------------------------------
 
-    fun clearItems() {
-        this.items.clear()
+    fun setItems(items: ArrayList<T>) {
+        this.items.apply {
+            clear()
+            addAll(items)
+        }
 
         notifyDataSetChanged()
     }
 
-    fun setItems(items: ArrayList<T>) {
-        this.items.clear()
-        this.items.addAll(items)
+    fun insertItem(item: T) {
+        items.add(item)
 
-        notifyDataSetChanged()
+        notifyItemInserted(items.lastIndex)
+    }
+
+    fun update(index: Int, item: T) {
+        items[index] = item
+
+        notifyItemChanged(index)
+    }
+
+    fun removeItem(index: Int) {
+        items.removeAt(index)
+
+        notifyItemRemoved(index)
+    }
+
+    fun clearItems() {
+        val count = this.items.count()
+
+        this.items.clear()
+
+        notifyItemRangeRemoved(0, count)
     }
 
     // ----------------------------------------------------------------------------
