@@ -146,8 +146,7 @@ dependencies {
     implementation(Deps.AndroidX.roomRxJava)
 
     // core-library
-    //implementation(project(":core"))
-    implementation("com.alex:android-core:1.0")
+    implementation(Deps.Libs.androidCore)
 
     // 3rd-party libraries
 
