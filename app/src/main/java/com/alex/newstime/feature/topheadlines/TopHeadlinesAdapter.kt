@@ -43,7 +43,10 @@ class TopHeadlinesAdapter : BaseAdapter<BaseModel, RecyclerView.ViewHolder>() {
             is ArticleViewHolder -> {
                 item as ArticleModel
                 holder.binding.textViewName.text = item.title
+                //holder.binding.textViewName.transitionName = item.title
+
                 holder.binding.imageViewThumbnail.setImage(item.urlToImage)
+                //holder.binding.imageViewThumbnail.transitionName = item.urlToImage
 
                 holder.itemView.longClicks()
                     .throttleFirst(1, TimeUnit.SECONDS)
