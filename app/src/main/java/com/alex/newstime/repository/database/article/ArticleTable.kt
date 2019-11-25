@@ -1,6 +1,5 @@
 package com.alex.newstime.repository.database.article
 
-import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.database.NewstimeDatabase
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -8,46 +7,47 @@ import io.reactivex.schedulers.Schedulers
 
 class ArticleTable {
 
-    fun getAll(): Single<List<Article>> {
-        return NewstimeDatabase.database
+    fun getAll(): Single<List<DbArticle>> {
+        return NewstimeDatabase
+            .database
             .articleDao()
             .getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun insert(article: Article): Single<Long> {
+    fun insert(dbArticle: DbArticle): Single<Long> {
         return NewstimeDatabase
             .database
             .articleDao()
-            .insert(article)
+            .insert(dbArticle)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun insert(articles: List<Article>): Single<List<Long>> {
+    fun insert(dbArticles: List<DbArticle>): Single<List<Long>> {
         return NewstimeDatabase
             .database
             .articleDao()
-            .insert(articles)
+            .insert(dbArticles)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun update(article: Article): Single<Int> {
+    fun update(dbArticle: DbArticle): Single<Int> {
         return NewstimeDatabase
             .database
             .articleDao()
-            .update(article)
+            .update(dbArticle)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun delete(article: Article): Single<Int> {
+    fun delete(dbArticle: DbArticle): Single<Int> {
         return NewstimeDatabase
             .database
             .articleDao()
-            .delete(article)
+            .delete(dbArticle)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ArticleControllerTest {
+class DbArticleControllerTest {
 
     @Rule
     @JvmField
@@ -31,7 +31,7 @@ class ArticleControllerTest {
         rule.runOnUiThread {
             article = Article().apply {
                 id = 2342
-                title = "Test-Article"
+                title = "Test-DbArticle"
                 urlToImage = "www.url.image"
                 content = "This is a test-content"
             }

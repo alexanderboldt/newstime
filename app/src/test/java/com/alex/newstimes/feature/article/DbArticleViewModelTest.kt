@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
 @RunWith(JUnit4::class)
-class ArticleViewModelTest {
+class DbArticleViewModelTest {
 
     @Rule @JvmField val rule = InstantTaskExecutorRule()
 
@@ -43,7 +43,7 @@ class ArticleViewModelTest {
         // prepare
         val article = Article().apply {
             id = 387428
-            title = "Test Article"
+            title = "Test DbArticle"
             content = "Content"
             urlToImage = "url to image"
             url = "url to article"
@@ -53,7 +53,7 @@ class ArticleViewModelTest {
         viewModel.init(article)
 
         // verify
-        val uiArticle = ArticleModel(387428, "Test Article", "url to image", "Content")
+        val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
         verify(observerLinkState, never()).onChanged(any())
@@ -72,7 +72,7 @@ class ArticleViewModelTest {
         }
 
         // verify
-        val uiArticle = ArticleModel(387428, "Test Article", "url to image", "Content")
+        val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
 
         verify(observerDataStateMock, never()).onChanged(uiArticle)
         verify(observerLinkState, never()).onChanged(any())
@@ -83,7 +83,7 @@ class ArticleViewModelTest {
         // prepare
         val article = Article().apply {
             id = 387428
-            title = "Test Article"
+            title = "Test DbArticle"
             content = "Content"
             urlToImage = "url to image"
             url = "url to article"
@@ -94,7 +94,7 @@ class ArticleViewModelTest {
         viewModel.handleClickOnLink()
 
         // verify
-        val uiArticle = ArticleModel(387428, "Test Article", "url to image", "Content")
+        val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
         verify(observerLinkState, times(1)).onChanged("url to article")

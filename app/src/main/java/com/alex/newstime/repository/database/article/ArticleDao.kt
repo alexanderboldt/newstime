@@ -2,27 +2,26 @@ package com.alex.newstime.repository.database.article
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
-import com.alex.newstime.repository.article.Article
 import io.reactivex.Single
 
 @Dao
 interface ArticleDao {
 
-    @Query("select * from article")
-    fun getAll(): Single<List<Article>>
+    @Query("select * from dbArticle")
+    fun getAll(): Single<List<DbArticle>>
 
     @Insert(onConflict = IGNORE)
-    fun insert(article: Article): Single<Long>
+    fun insert(dbArticle: DbArticle): Single<Long>
 
     @Insert(onConflict = IGNORE)
-    fun insert(articles: List<Article>): Single<List<Long>>
+    fun insert(dbArticles: List<DbArticle>): Single<List<Long>>
 
     @Update
-    fun update(article: Article): Single<Int>
+    fun update(dbArticle: DbArticle): Single<Int>
 
     @Delete
-    fun delete(article: Article): Single<Int>
+    fun delete(dbArticle: DbArticle): Single<Int>
 
-    @Query("delete from article")
+    @Query("delete from dbArticle")
     fun deleteAll(): Single<Int>
 }

@@ -2,6 +2,8 @@ package com.alex.newstime.repository.article
 
 import com.alex.newstime.repository.api.article.ArticleRoutes
 import com.alex.newstime.repository.database.article.ArticleTable
+import com.alex.newstime.repository.database.article.DbArticle
+import io.reactivex.Single
 
 open class ArticleRepository {
 
@@ -10,11 +12,54 @@ open class ArticleRepository {
 
     // ----------------------------------------------------------------------------
 
-    open fun getTopHeadlines(pageSize: Int = 10, page: Int = 1) = articleRoutes.getTopHeadlines(pageSize, page)
-    open fun getEverything(pageSize: Int = 10, page: Int = 1) = articleRoutes.getEverything(pageSize, page)
+    open fun getTopHeadlines(pageSize: Int = 10, page: Int = 1): Single<List<Article>> {
+        return articleRoutes
+            .getTopHeadlines(pageSize, page)
+            .map { articles ->
+                articles.map { article ->
+                    Article().apply {
+                        id = article.title.hashCode().toLong()
+                        title = article.title
+                        urlToImage = article.urlToImage
+                        content = article.content
+                        url = article.url
+                    }
+                }
+            }
+    }
 
-    open fun getFavorites() = articleTable.getAll()
+    open fun getEverything(pageSize: Int = 10, page: Int = 1): Single<List<Article>> {
+        return articleRoutes
+            .getEverything(pageSize, page)
+            .map { articles ->
+                articles.map { article ->
+                    Article().apply {
+                        id = article.title.hashCode().toLong()
+                        title = article.title
+                        urlToImage = article.urlToImage
+                        content = article.content
+                        url = article.url
+                    }
+                }
+            }
+    }
 
-    open fun setFavorite(article: Article) = articleTable.insert(article).ignoreElement()
-    open fun deleteFavorite(article: Article) = articleTable.delete(article).ignoreElement()
+    open fun getFavorites(): Single<List<Article>> {
+        return articleTable
+            .getAll()
+            .map { articles ->
+                articles.map { article ->
+                    Article().apply {
+                        id = article.title.hashCode().toLong()
+                        title = article.title
+                        urlToImage = article.urlToImage
+                        content = article.content
+                        url = article.url
+                    }
+                }
+        }
+    }
+
+    open fun setFavorite(article: Article) = articleTable.insert(DbArticle(article.id!!, article.title!!, article.urlToImage, article.content, article.url)).ignoreElement()
+    open fun deleteFavorite(article: Article) = articleTable.delete(DbArticle(article.id!!, article.title!!, article.urlToImage, article.content, article.url)).ignoreElement()
 }
