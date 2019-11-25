@@ -41,11 +41,11 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
     }
 
     fun clearItems() {
-        val count = this.items.count()
-
-        this.items.clear()
-
-        notifyItemRangeRemoved(0, count)
+        items.apply {
+            val count = count()
+            clear()
+            notifyItemRangeRemoved(0, count)
+        }
     }
 
     // ----------------------------------------------------------------------------

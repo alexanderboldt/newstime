@@ -15,7 +15,7 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
 
     protected lateinit var binding: T
 
-    protected val disposables = CompositeDisposable()
+    protected val disposables by lazy { CompositeDisposable() }
 
     protected val context: Context
         get() = activity as Context

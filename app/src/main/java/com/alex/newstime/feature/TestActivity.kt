@@ -15,10 +15,9 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val layout = ChangeHandlerFrameLayout(this)
-
-        setContentView(layout)
-
-        router = Conductor.attachRouter(this, layout, savedInstanceState)
+        ChangeHandlerFrameLayout(this).also { layout ->
+            setContentView(layout)
+            router = Conductor.attachRouter(this, layout, savedInstanceState)
+        }
     }
 }

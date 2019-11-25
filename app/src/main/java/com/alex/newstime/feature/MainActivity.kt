@@ -18,7 +18,7 @@ import tech.linjiang.pandora.Pandora
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
 
     private lateinit var router: Router
 
@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.textViewVersion.apply {
             text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"

@@ -1,5 +1,6 @@
 package com.alex.newstime.feature.favorits
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,10 +17,10 @@ class FavoritsViewModel : ViewModel() {
     @Inject
     lateinit var articleRepository: ArticleRepository
 
-    private val currentArticles = ArrayList<Article>()
+    private val currentArticles by lazy { ArrayList<Article>() }
 
-    var recyclerArticlesState = MutableLiveData<List<ArticleModel>>()
-    var detailState = SingleLiveEvent<Article>()
+    val recyclerArticlesState by lazy<LiveData<List<ArticleModel>>> { MutableLiveData() }
+    val detailState by lazy<LiveData<Article>> { SingleLiveEvent() }
 
     // ----------------------------------------------------------------------------
 
@@ -37,7 +38,7 @@ class FavoritsViewModel : ViewModel() {
                 .subscribe({ articles ->
                     currentArticles.addAll(articles)
 
-                    recyclerArticlesState.postValue(articles.map { article ->
+                    (recyclerArticlesState as MutableLiveData).postValue(articles.map { article ->
                         ArticleModel(article.id!!, article.title!!, article.urlToImage!!)
                     } as ArrayList)
                 }, {
@@ -47,7 +48,7 @@ class FavoritsViewModel : ViewModel() {
     }
 
     fun clickOnArticle(article: ArticleModel) {
-        detailState.postValue(currentArticles.first {
+        (detailState as SingleLiveEvent).postValue(currentArticles.first {
             it.id == article.id
         })
     }

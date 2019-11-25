@@ -10,9 +10,9 @@ class ArticleViewModel : ViewModel() {
 
     private lateinit var article: Article
 
-    var dataState: LiveData<ArticleModel> = MutableLiveData()
-    var linkState: LiveData<String> = SingleLiveEvent()
-    var closeState: LiveData<Any> = SingleLiveEvent()
+    val dataState by lazy<LiveData<ArticleModel>> { MutableLiveData() }
+    val linkState by lazy<LiveData<String>> { SingleLiveEvent() }
+    val closeState by lazy<LiveData<Any>> { SingleLiveEvent() }
 
     // ----------------------------------------------------------------------------
 

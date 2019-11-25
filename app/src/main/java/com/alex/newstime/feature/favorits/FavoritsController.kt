@@ -10,16 +10,13 @@ import com.alex.newstime.util.pushDetailController
 
 class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.controller_favorits) {
 
-    private lateinit var adapter: FavoritsAdapter
+    private val adapter by lazy { FavoritsAdapter() }
     private val viewModel by lazy { viewModelProvider().get(FavoritsViewModel::class.java) }
 
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
         binding.lifecycleOwner = this
-
-        adapter = FavoritsAdapter()
-
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter

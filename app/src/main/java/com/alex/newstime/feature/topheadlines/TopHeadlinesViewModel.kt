@@ -1,5 +1,6 @@
 package com.alex.newstime.feature.topheadlines
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +21,7 @@ class TopHeadlinesViewModel : ViewModel() {
     @Inject
     lateinit var articleRepository: ArticleRepository
 
-    private val articles = ArrayList<Article>()
+    private val articles by lazy { ArrayList<Article>() }
 
     private val pageSize = 10
 
@@ -28,14 +29,14 @@ class TopHeadlinesViewModel : ViewModel() {
 
     private var currentSelectedArticle: ArticleModel? = null
 
-    var recyclerLoadingSate = MutableLiveData<Boolean>()
-    var recyclerMessageState = MutableLiveData<String>()
-    var recyclerArticlesState = MutableLiveData<List<BaseModel>>()
-    var recyclerLoadMoreState = MutableLiveData<Boolean>()
-    var recyclerScrollState = SingleLiveEvent<Int>()
-    var messageState = SingleLiveEvent<String>()
-    var detailState = SingleLiveEvent<Article>()
-    var bottomSheetDialogState = SingleLiveEvent<Boolean>()
+    val recyclerLoadingSate by lazy<LiveData<Boolean>> { MutableLiveData() }
+    val recyclerMessageState by lazy<LiveData<String>> { MutableLiveData() }
+    val recyclerArticlesState by lazy<LiveData<List<BaseModel>>> { MutableLiveData() }
+    val recyclerLoadMoreState by lazy<LiveData<Boolean>> { MutableLiveData() }
+    val recyclerScrollState by lazy<LiveData<Int>> { SingleLiveEvent() }
+    val messageState by lazy<LiveData<String>> { SingleLiveEvent() }
+    val detailState by lazy<LiveData<Article>> { SingleLiveEvent() }
+    val bottomSheetDialogState by lazy<LiveData<Boolean>> { SingleLiveEvent() }
 
     // ----------------------------------------------------------------------------
 
@@ -73,22 +74,22 @@ class TopHeadlinesViewModel : ViewModel() {
                 }
                 .doOnSubscribe {
                     articles.clear()
-                    recyclerLoadingSate.postValue(true)
+                    (recyclerLoadingSate as MutableLiveData).postValue(true)
                 }
                 .doOnSuccess { articles.addAll(it) }
-                .doFinally { recyclerLoadingSate.postValue(false) }
+                .doFinally { (recyclerLoadingSate as MutableLiveData).postValue(false) }
                 .subscribe({
                     if (articles.isEmpty()) {
-                        recyclerMessageState.postValue("Articles not available")
+                        (recyclerMessageState as MutableLiveData).postValue("Articles not available")
                     } else {
                         val uiModels = ArrayList<BaseModel>().apply {
                             addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
                             add(LoadMoreModel(true))
                         }
-                        recyclerArticlesState.postValue(uiModels)
+                        (recyclerArticlesState as MutableLiveData).postValue(uiModels)
                     }
                 }, {
-                    recyclerMessageState.postValue("Could not load articles")
+                    (recyclerMessageState as MutableLiveData).postValue("Could not load articles")
 
                     Timber.w(it)
                 })
@@ -109,7 +110,7 @@ class TopHeadlinesViewModel : ViewModel() {
                         Types.WORLD_WIDE -> articleRepository.getEverything(if (articles.size != 0) articles.size else pageSize, 1)
                     }
                 }
-                .doOnSubscribe { recyclerLoadingSate.postValue(true) }
+                .doOnSubscribe { (recyclerLoadingSate as MutableLiveData).postValue(true) }
                 .doOnSuccess { response ->
                     articles.apply {
                         clear()
@@ -117,21 +118,21 @@ class TopHeadlinesViewModel : ViewModel() {
                     }
                 }
                 .doFinally {
-                    recyclerLoadingSate.postValue(false)
-                    if (type != null) recyclerScrollState.postValue(0)
+                    (recyclerLoadingSate as MutableLiveData).postValue(false)
+                    if (type != null) (recyclerScrollState as MutableLiveData).postValue(0)
                 }
                 .subscribe({
                     if (articles.isEmpty()) {
-                        recyclerMessageState.postValue("Articles not available")
+                        (recyclerMessageState as MutableLiveData).postValue("Articles not available")
                     } else {
                         val uiModels = ArrayList<BaseModel>().apply {
                             addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
                             add(LoadMoreModel(true))
                         }
-                        recyclerArticlesState.postValue(uiModels)
+                        (recyclerArticlesState as MutableLiveData).postValue(uiModels)
                     }
                 }, {
-                    recyclerMessageState.postValue("Could not load articles")
+                    (recyclerMessageState as MutableLiveData).postValue("Could not load articles")
 
                     Timber.w(it)
                 })
@@ -148,21 +149,21 @@ class TopHeadlinesViewModel : ViewModel() {
                     }
                 }
                 .doOnSubscribe {
-                    recyclerLoadingSate.postValue(true)
-                    recyclerLoadMoreState.postValue(false)
+                    (recyclerLoadingSate as MutableLiveData).postValue(true)
+                    (recyclerLoadMoreState as MutableLiveData).postValue(false)
                 }
                 .doOnSuccess { articles.addAll(it) }
                 .doFinally {
-                    recyclerLoadingSate.postValue(false)
-                    recyclerLoadMoreState.postValue(true)
-                    recyclerScrollState.postValue(articles.size - 9)
+                    (recyclerLoadingSate as MutableLiveData).postValue(false)
+                    (recyclerLoadMoreState as MutableLiveData).postValue(true)
+                    (recyclerScrollState as SingleLiveEvent).postValue(articles.size - 9)
                 }
                 .subscribe({
                     val uiModels = ArrayList<BaseModel>().apply {
                         addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
                         add(LoadMoreModel(true))
                     }
-                    recyclerArticlesState.postValue(uiModels)
+                    (recyclerArticlesState as MutableLiveData).postValue(uiModels)
                 }, {
                     Timber.w(it)
                 })
@@ -174,25 +175,25 @@ class TopHeadlinesViewModel : ViewModel() {
             it.id == article.id
         }
 
-        if (foundArticle != null) detailState.postValue(foundArticle)
+        if (foundArticle != null) (detailState as SingleLiveEvent).postValue(foundArticle)
     }
 
     fun longClickArticle(article: ArticleModel) {
-        bottomSheetDialogState.postValue(true)
+        (bottomSheetDialogState as SingleLiveEvent).postValue(true)
 
         currentSelectedArticle = article
     }
 
     fun clickAddToFavorites() {
-        bottomSheetDialogState.postValue(false)
+        (bottomSheetDialogState as SingleLiveEvent).postValue(false)
 
         val foundArticle = articles.first { it.id == currentSelectedArticle?.id }
 
         viewModelScope.launch(Dispatchers.Default) {
             articleRepository.setFavorite(foundArticle).subscribe({
-                messageState.postValue("Saved article")
+                (messageState as SingleLiveEvent).postValue("Saved article")
             }, {
-                messageState.postValue("Could not save article")
+                (messageState as SingleLiveEvent).postValue("Could not save article")
 
                 Timber.e(it)
             })

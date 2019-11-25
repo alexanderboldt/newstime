@@ -1,6 +1,5 @@
 package com.alex.newstime.feature.topheadlines
 
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.core.util.isVisible
@@ -16,29 +15,26 @@ import com.alex.newstime.util.pushDetailController
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 
-    private lateinit var adapter: TopHeadlinesAdapter
+    private val adapter by lazy { TopHeadlinesAdapter() }
     private val viewModel by lazy { viewModelProvider().get(TopHeadlinesViewModel::class.java) }
 
     private var fabMenuExpanded = false
 
-    private lateinit var bottomSheetDialog: BottomSheetDialog
-    private lateinit var bottomSheetDialogFavorites: View
+    private val bottomSheetDialog by lazy {
+        BottomSheetDialog(context).apply { setContentView(bottomSheetDialogFavorites) }
+    }
+
+    private val bottomSheetDialogFavorites by lazy {
+        activity!!.layoutInflater.inflate(R.layout.view_add_to_favorites, null)
+    }
 
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
         binding.lifecycleOwner = this
-
-        adapter = TopHeadlinesAdapter()
-
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
-        }
-
-        bottomSheetDialogFavorites = activity!!.layoutInflater.inflate(R.layout.view_add_to_favorites, null)
-        bottomSheetDialog = BottomSheetDialog(context).apply {
-            setContentView(bottomSheetDialogFavorites)
         }
     }
 
