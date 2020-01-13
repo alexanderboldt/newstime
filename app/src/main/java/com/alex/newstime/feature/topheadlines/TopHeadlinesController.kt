@@ -7,11 +7,11 @@ import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.util.plusAssign
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.jakewharton.rxbinding2.support.v4.widget.refreshes
-import com.jakewharton.rxbinding2.view.clicks
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.R
 import com.alex.newstime.util.pushDetailController
+import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
+import com.jakewharton.rxbinding3.view.clicks
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 

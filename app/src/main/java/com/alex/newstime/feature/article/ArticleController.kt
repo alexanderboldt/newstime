@@ -9,7 +9,7 @@ import com.alex.newstime.databinding.ControllerArticleBinding
 import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.util.plusAssign
-import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding3.view.clicks
 import org.parceler.Parcels
 
 class ArticleController(private var bundle: Bundle) : BaseController<ControllerArticleBinding>(R.layout.controller_article) {

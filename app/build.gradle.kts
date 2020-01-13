@@ -186,7 +186,7 @@ dependencies {
     // view-binding
     implementation(Deps.Libs.rxbinding)
     implementation(Deps.Libs.rxbindingAppcompat)
-    implementation(Deps.Libs.rxbindingSupport)
+    implementation(Deps.Libs.rxbindingSwiperefreshlayout)
 
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)

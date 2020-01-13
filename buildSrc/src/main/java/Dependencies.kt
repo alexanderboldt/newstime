@@ -75,9 +75,9 @@ object Deps {
         val rxjava = "io.reactivex.rxjava2:rxjava:2.2.10"
         val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
 
-        val rxbinding = "com.jakewharton.rxbinding2:rxbinding-kotlin:2.2.0"
-        val rxbindingAppcompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.2.0"
-        val rxbindingSupport = "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:2.2.0"
+        val rxbinding = "com.jakewharton.rxbinding3:rxbinding:3.1.0"
+        val rxbindingAppcompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0"
+        val rxbindingSwiperefreshlayout = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:3.1.0"
 
         val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.0-alpha-3"
 

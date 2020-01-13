@@ -1,7 +1,7 @@
 package com.alex.newstime.feature.base
 
 import androidx.recyclerview.widget.RecyclerView
-import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
