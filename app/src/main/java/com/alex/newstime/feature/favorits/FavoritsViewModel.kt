@@ -19,8 +19,11 @@ class FavoritsViewModel : ViewModel() {
 
     private val currentArticles by lazy { ArrayList<Article>() }
 
-    val recyclerArticlesState by lazy<LiveData<List<ArticleModel>>> { MutableLiveData() }
-    val detailState by lazy<LiveData<Article>> { SingleLiveEvent() }
+    private val _recyclerArticlesState = MutableLiveData<List<ArticleModel>>()
+    val recyclerArticlesState: LiveData<List<ArticleModel>> = _recyclerArticlesState
+
+    private val _detailState = SingleLiveEvent<Article>()
+    val detailState: LiveData<Article> = _detailState
 
     // ----------------------------------------------------------------------------
 
@@ -38,7 +41,7 @@ class FavoritsViewModel : ViewModel() {
                 .subscribe({ articles ->
                     currentArticles.addAll(articles)
 
-                    (recyclerArticlesState as MutableLiveData).postValue(articles.map { article ->
+                    _recyclerArticlesState.postValue(articles.map { article ->
                         ArticleModel(article.id!!, article.title!!, article.urlToImage!!)
                     } as ArrayList)
                 }, {
@@ -48,7 +51,7 @@ class FavoritsViewModel : ViewModel() {
     }
 
     fun clickOnArticle(article: ArticleModel) {
-        (detailState as SingleLiveEvent).postValue(currentArticles.first {
+        _detailState.postValue(currentArticles.first {
             it.id == article.id
         })
     }

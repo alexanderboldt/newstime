@@ -33,8 +33,6 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
-        binding.lifecycleOwner = this
-
         viewModel.init(Parcels.unwrap(bundle.getParcelable(KEY_ARTICLE)))
     }
 

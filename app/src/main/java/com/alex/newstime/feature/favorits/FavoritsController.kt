@@ -16,7 +16,6 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.co
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
-        binding.lifecycleOwner = this
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter

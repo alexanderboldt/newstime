@@ -10,29 +10,30 @@ class ArticleViewModel : ViewModel() {
 
     private lateinit var article: Article
 
-    val dataState by lazy<LiveData<ArticleModel>> { MutableLiveData() }
-    val linkState by lazy<LiveData<String>> { SingleLiveEvent() }
-    val closeState by lazy<LiveData<Any>> { SingleLiveEvent() }
+    private val _dataState = MutableLiveData<ArticleModel>()
+    val dataState: LiveData<ArticleModel> = _dataState
+
+    private val _linkState = MutableLiveData<String>()
+    val linkState: LiveData<String> = _linkState
+
+    private val _closeState = SingleLiveEvent<Unit>()
+    val closeState: LiveData<Unit> = _closeState
 
     // ----------------------------------------------------------------------------
 
     fun init(article: Article) {
         this.article = article
 
-        (dataState as MutableLiveData).postValue(
-            ArticleModel(
-                article.id!!,
-                article.title!!,
-                article.urlToImage,
-                article.content)
+        _dataState.postValue(
+            article.run { ArticleModel(id!!, title!!, urlToImage, content) }
         )
     }
 
     fun handleClickOnLink() {
-        (linkState as SingleLiveEvent).postValue(article.url)
+        _linkState.postValue(article.url)
     }
 
     fun handleClickBack() {
-        (closeState as SingleLiveEvent).call()
+        _closeState.postValue(Unit)
     }
 }

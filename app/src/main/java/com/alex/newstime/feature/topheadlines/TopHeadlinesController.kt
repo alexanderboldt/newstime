@@ -18,8 +18,6 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
     private val adapter by lazy { TopHeadlinesAdapter() }
     private val viewModel by lazy { getViewModel(TopHeadlinesViewModel::class.java) }
 
-    private var fabMenuExpanded = false
-
     private val bottomSheetDialog by lazy {
         BottomSheetDialog(context).apply { setContentView(bottomSheetDialogFavorites) }
     }
@@ -31,7 +29,6 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
     // ----------------------------------------------------------------------------
 
     override fun onSetupView() {
-        binding.lifecycleOwner = this
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
@@ -40,22 +37,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
 
     override fun onSetupViewBinding() {
         disposables += binding.swipeRefreshLayout.refreshes().subscribe {
-            viewModel.refreshArticles()
-        }
-
-        disposables += binding.fabGermany.clicks().subscribe {
-            viewModel.refreshArticles(TopHeadlinesViewModel.Types.GERMANY)
-            fabMenuShow(false)
-        }
-
-        disposables += binding.fabWorldWide.clicks().subscribe {
-            viewModel.refreshArticles(TopHeadlinesViewModel.Types.WORLD_WIDE)
-            fabMenuShow(false)
-        }
-
-        disposables += binding.fabMenu.clicks().subscribe {
-            fabMenuExpanded = !fabMenuExpanded
-            fabMenuShow(fabMenuExpanded)
+            viewModel.onSwipeRefreshLayout()
         }
 
         disposables += adapter.clickSubject.subscribe {
@@ -115,18 +97,6 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
             if (state) bottomSheetDialog.show() else bottomSheetDialog.hide()
         }
 
-        viewModel.loadInitArticles()
-    }
-
-    // ----------------------------------------------------------------------------
-
-    private fun fabMenuShow(show: Boolean) {
-        if (show) {
-            binding.fabGermany.show()
-            binding.fabWorldWide.show()
-        } else {
-            binding.fabGermany.hide()
-            binding.fabWorldWide.hide()
-        }
+        viewModel.init()
     }
 }
