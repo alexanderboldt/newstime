@@ -11,7 +11,7 @@ import com.alex.newstime.util.pushDetailController
 class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.controller_favorits) {
 
     private val adapter by lazy { FavoritsAdapter() }
-    private val viewModel by lazy { viewModelProvider().get(FavoritsViewModel::class.java) }
+    private val viewModel by lazy { getViewModel(FavoritsViewModel::class.java) }
 
     // ----------------------------------------------------------------------------
 

@@ -20,27 +20,25 @@ object ApiClient {
 
         val client = OkHttpClient.Builder()
 
-        // interceptor for header-entries in all requests
-        client.addInterceptor { chain ->
-            val request = chain.request()
+        client
+            .addInterceptor { chain ->
+                val request = chain.request()
 
-            val url = request
-                    .url()
-                    .newBuilder()
-                    .addQueryParameter("apikey", BuildConfig.API_KEY)
-                    .build()
+                val url = request
+                        .url()
+                        .newBuilder()
+                        .addQueryParameter("apikey", BuildConfig.API_KEY)
+                        .build()
 
-            val requestBuilder = request.newBuilder()
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/json")
-                    .url(url)
-                    .build()
+                val requestBuilder = request.newBuilder()
+                        .addHeader("Accept", "application/json")
+                        .addHeader("Content-Type", "application/json")
+                        .url(url)
+                        .build()
 
-            chain.proceed(requestBuilder)
-        }
-
-        // interceptor for logging
-        client.addInterceptor(LoggingInterceptor.Builder()
+                chain.proceed(requestBuilder)
+            }
+            .addInterceptor(LoggingInterceptor.Builder()
                     .loggable(BuildConfig.DEBUG)
                     .setLevel(Level.BODY)
                     .log(Platform.INFO)

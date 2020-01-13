@@ -14,7 +14,7 @@ import org.parceler.Parcels
 
 class ArticleController(private var bundle: Bundle) : BaseController<ControllerArticleBinding>(R.layout.controller_article) {
 
-    private val viewModel by lazy { viewModelProvider().get(ArticleViewModel::class.java) }
+    private val viewModel by lazy { getViewModel(ArticleViewModel::class.java) }
 
     // ----------------------------------------------------------------------------
 

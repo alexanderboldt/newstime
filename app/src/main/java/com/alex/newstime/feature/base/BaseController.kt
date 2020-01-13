@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.*
+import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 import io.reactivex.disposables.CompositeDisposable
-import work.beltran.conductorviewmodel.ViewModelController
 
-abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout: Int) : ViewModelController(), LifecycleObserver {
+abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout: Int) : LifecycleController(), LifecycleObserver {
 
     protected lateinit var binding: T
 
@@ -20,14 +22,20 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
     protected val context: Context
         get() = activity as Context
 
-    /*
-     * This extensions-function has a check for nullability and passes the appropriate LifecycleOwner
+    /**
+     * * This extensions-function has a check for nullability and passes the appropriate LifecycleOwner
      */
     internal fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
-        this.observe(binding.lifecycleOwner!!, Observer { data ->
+        this.observe(activity as AppCompatActivity, Observer { data ->
             if (data == null) return@Observer
             observer(data)
         })
+    }
+
+    // ----------------------------------------------------------------------------
+
+    init {
+        retainViewMode = RetainViewMode.RETAIN_DETACH
     }
 
     // ----------------------------------------------------------------------------
@@ -69,4 +77,8 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
     abstract fun onSetupView()
     abstract fun onSetupViewBinding()
     abstract fun onSetupViewModelBinding()
+
+    fun <VM : ViewModel> getViewModel(@NonNull modelClass: Class<VM>): VM {
+        return ViewModelProviders.of(activity as AppCompatActivity, null).get(modelClass)
+    }
 }

@@ -173,7 +173,7 @@ dependencies {
     // fragments-alternative
     implementation(Deps.Libs.conductor)
     implementation(Deps.Libs.conductorSupport)
-    implementation(Deps.Libs.conductorViewModel)
+    implementation(Deps.Libs.conductorLifecycle)
 
     // model-parcel
     implementation(Deps.Libs.parcel)
