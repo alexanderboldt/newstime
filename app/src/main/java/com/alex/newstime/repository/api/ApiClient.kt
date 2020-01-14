@@ -14,13 +14,12 @@ object ApiClient {
 
     private lateinit var api: IApi
 
+    private const val TIMEOUT: Long = 30
+
     // ----------------------------------------------------------------------------
 
     fun initialize() {
-
-        val client = OkHttpClient.Builder()
-
-        client
+        api = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request()
 
@@ -43,18 +42,19 @@ object ApiClient {
                     .setLevel(Level.BODY)
                     .log(Platform.INFO)
                     .build())
-                .connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
-                .build()
-
-        // create the actual retrofit-adapter
-        api = Retrofit.Builder()
-                .baseUrl(BuildConfig.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client.build())
-                .build()
-                .create(IApi::class.java)
+            .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .build()
+            .run {
+                Retrofit.Builder()
+                    .baseUrl(BuildConfig.BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .client(this)
+                    .build()
+                    .create(IApi::class.java)
+            }
     }
 
     fun getInterface() = api
