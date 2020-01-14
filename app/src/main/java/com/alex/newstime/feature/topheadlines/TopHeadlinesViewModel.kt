@@ -69,6 +69,7 @@ class TopHeadlinesViewModel : ViewModel() {
 
     fun init() {
         viewModelScope.launch(Dispatchers.Default) {
+            _recyclerLoadingSate.postValue(true)
             articleRepository.getTopHeadlines(pageSize, 1)
                 .doOnSubscribe {
                     articles.clear()

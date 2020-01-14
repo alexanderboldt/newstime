@@ -18,14 +18,15 @@ import org.mockito.MockitoAnnotations
 import java.lang.Exception
 
 @RunWith(JUnit4::class)
-class DbArticleViewModelTest {
+class ArticleViewModelTest {
 
     @Rule @JvmField val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: ArticleViewModel
 
     @Mock lateinit var observerDataStateMock: Observer<ArticleModel>
-    @Mock lateinit var observerLinkState: Observer<String>
+    @Mock lateinit var observerLinkStateMock: Observer<String>
+    @Mock lateinit var observerCloseStateMock: Observer<Unit>
 
     // ----------------------------------------------------------------------------
 
@@ -33,9 +34,11 @@ class DbArticleViewModelTest {
     fun before() {
         MockitoAnnotations.initMocks(this)
 
-        viewModel = ArticleViewModel()
-        viewModel.dataState.observeForever(observerDataStateMock)
-        viewModel.linkState.observeForever(observerLinkState)
+        viewModel = ArticleViewModel().apply {
+            dataState.observeForever(observerDataStateMock)
+            linkState.observeForever(observerLinkStateMock)
+            closeState.observeForever(observerCloseStateMock)
+        }
     }
 
     @Test
@@ -56,11 +59,12 @@ class DbArticleViewModelTest {
         val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
-        verify(observerLinkState, never()).onChanged(any())
+        verify(observerLinkStateMock, never()).onChanged(any())
+        verify(observerCloseStateMock, never()).onChanged(Unit)
     }
 
     @Test
-    fun it_should_crash_in_viewModel_du_missing_initialization() {
+    fun it_should_crash_in_viewModel_due_missing_initialization() {
         // execute
         var exception: Exception? = null
         try {
@@ -75,7 +79,8 @@ class DbArticleViewModelTest {
         val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
 
         verify(observerDataStateMock, never()).onChanged(uiArticle)
-        verify(observerLinkState, never()).onChanged(any())
+        verify(observerLinkStateMock, never()).onChanged(any())
+        verify(observerCloseStateMock, never()).onChanged(Unit)
     }
 
     @Test
@@ -97,6 +102,18 @@ class DbArticleViewModelTest {
         val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
-        verify(observerLinkState, times(1)).onChanged("url to article")
+        verify(observerLinkStateMock, times(1)).onChanged("url to article")
+        verify(observerCloseStateMock, never()).onChanged(Unit)
+    }
+
+    @Test
+    fun it_should_go_back() {
+        // execute
+        viewModel.handleClickBack()
+
+        // verify
+        verify(observerDataStateMock, never()).onChanged(any())
+        verify(observerLinkStateMock, never()).onChanged(any())
+        verify(observerCloseStateMock, times(1)).onChanged(Unit)
     }
 }
