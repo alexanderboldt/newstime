@@ -57,7 +57,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
     }
 
     override fun onSetupViewModelBinding() {
-        viewModel.recyclerLoadingSate.observe {
+        viewModel.recyclerLoadingState.observe {
             binding.swipeRefreshLayout.isRefreshing = it
         }
 

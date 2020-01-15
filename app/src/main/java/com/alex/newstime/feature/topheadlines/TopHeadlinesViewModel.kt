@@ -1,16 +1,14 @@
 package com.alex.newstime.feature.topheadlines
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.alex.core.bus.RxBus
 import com.alex.core.feature.SingleLiveEvent
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.feature.topheadlines.di.DaggerTopHeadlinesViewModelComponent
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
-import kotlinx.coroutines.Dispatchers
+import com.alex.newstime.util.plusAssign
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,12 +20,12 @@ class TopHeadlinesViewModel : ViewModel() {
 
     private val articles by lazy { ArrayList<Article>() }
 
-    private val pageSize = 10
+    private val PAGE_SIZE = 10
 
     private var currentSelectedArticle: ArticleModel? = null
 
-    private val _recyclerLoadingSate = MutableLiveData<Boolean>()
-    val recyclerLoadingSate: LiveData<Boolean> = _recyclerLoadingSate
+    private val _recyclerLoadingState = MutableLiveData<Boolean>()
+    val recyclerLoadingState: LiveData<Boolean> = _recyclerLoadingState
 
     private val _recyclerMessageState = MutableLiveData<String>()
     val recyclerMessageState: LiveData<String> = _recyclerMessageState
@@ -50,6 +48,8 @@ class TopHeadlinesViewModel : ViewModel() {
     private val _bottomSheetDialogState = SingleLiveEvent<Boolean>()
     val bottomSheetDialogState: LiveData<Boolean> = _bottomSheetDialogState
 
+    private val disposables = CompositeDisposable()
+
     // ----------------------------------------------------------------------------
 
     init {
@@ -68,88 +68,37 @@ class TopHeadlinesViewModel : ViewModel() {
     // ----------------------------------------------------------------------------
 
     fun init() {
-        viewModelScope.launch(Dispatchers.Default) {
-            _recyclerLoadingSate.postValue(true)
-            articleRepository.getTopHeadlines(pageSize, 1)
-                .doOnSubscribe {
-                    articles.clear()
-                    _recyclerLoadingSate.postValue(true)
-                }
-                .doOnSuccess { articles.addAll(it) }
-                .doFinally { _recyclerLoadingSate.postValue(false) }
-                .subscribe({
-                    if (articles.isEmpty()) {
-                        _recyclerMessageState.postValue("Articles not available")
-                        return@subscribe
-                    }
-
-                    val uiModels = ArrayList<BaseModel>().apply {
-                        addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
-                        add(LoadMoreModel(true))
-                    }
-                    _recyclerArticlesState.postValue(uiModels)
-                }, {
-                    _recyclerMessageState.postValue("Could not load articles")
-
-                    Timber.w(it)
-                })
-        }
+        loadArticles()
     }
 
     fun onSwipeRefreshLayout() {
-        viewModelScope.launch(Dispatchers.Default) {
-            articleRepository.getTopHeadlines(if (articles.size != 0) articles.size else pageSize, 1)
-                .doOnSubscribe { _recyclerLoadingSate.postValue(true) }
-                .doOnSuccess { response ->
-                    articles.apply {
-                        clear()
-                        addAll(response)
-                    }
-                }
-                .doFinally {
-                    _recyclerLoadingSate.postValue(false)
-                }
-                .subscribe({
-                    if (articles.isEmpty()) {
-                        _recyclerMessageState.postValue("Articles not available")
-                    } else {
-                        val uiModels = ArrayList<BaseModel>().apply {
-                            addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
-                            add(LoadMoreModel(true))
-                        }
-                        _recyclerArticlesState.postValue(uiModels)
-                    }
-                }, {
-                    _recyclerMessageState.postValue("Could not load articles")
-
-                    Timber.w(it)
-                })
-        }
+        loadArticles()
     }
 
     fun loadMoreArticles() {
-        viewModelScope.launch(Dispatchers.Default) {
-            articleRepository.getTopHeadlines(pageSize, articles.size / pageSize + 1)
-                .doOnSubscribe {
-                    _recyclerLoadingSate.postValue(true)
-                    _recyclerLoadMoreState.postValue(false)
+        disposables += articleRepository.getTopHeadlines(PAGE_SIZE, articles.size / PAGE_SIZE + 1)
+            .doOnSubscribe {
+                _recyclerLoadingState.postValue(true)
+                _recyclerLoadMoreState.postValue(false)
+            }
+            .doFinally {
+                _recyclerLoadingState.postValue(false)
+                _recyclerLoadMoreState.postValue(true)
+                _recyclerScrollState.postValue(articles.size - 9)
+            }
+            .subscribe({ articles ->
+                this.articles.addAll(articles)
+
+                val uiModels = ArrayList<BaseModel>().also {
+                    it.addAll(this.articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
+                    it.add(LoadMoreModel(true))
                 }
-                .doOnSuccess { articles.addAll(it) }
-                .doFinally {
-                    _recyclerLoadingSate.postValue(false)
-                    _recyclerLoadMoreState.postValue(true)
-                    _recyclerScrollState.postValue(articles.size - 9)
-                }
-                .subscribe({
-                    val uiModels = ArrayList<BaseModel>().apply {
-                        addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
-                        add(LoadMoreModel(true))
-                    }
-                    _recyclerArticlesState.postValue(uiModels)
-                }, {
-                    Timber.w(it)
-                })
-        }
+                _recyclerArticlesState.postValue(uiModels)
+            }, {
+                _messageState.postValue("Could not load more articles")
+
+                Timber.w(it)
+            })
     }
 
     fun clickOnArticle(article: ArticleModel) {
@@ -167,17 +116,44 @@ class TopHeadlinesViewModel : ViewModel() {
     fun clickAddToFavorites() {
         _bottomSheetDialogState.postValue(false)
 
-        viewModelScope.launch(Dispatchers.Default) {
+        val foundArticle = articles.first { it.id == currentSelectedArticle?.id }
 
-            val foundArticle = articles.first { it.id == currentSelectedArticle?.id }
+        disposables += articleRepository.setFavorite(foundArticle).subscribe({
+            _messageState.postValue("Saved article")
+        }, {
+            _messageState.postValue("Could not save article")
 
-            articleRepository.setFavorite(foundArticle).subscribe({
-                _messageState.postValue("Saved article")
+            Timber.w(it)
+        })
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun loadArticles() {
+        disposables += articleRepository
+            .getTopHeadlines(if (articles.size == 0) PAGE_SIZE else articles.size, 1)
+            .doOnSubscribe { _recyclerLoadingState.postValue(true) }
+            .doFinally { _recyclerLoadingState.postValue(false) }
+            .subscribe({ articles ->
+                this.articles.apply {
+                    clear()
+                    addAll(articles)
+                }
+
+                if (this.articles.isEmpty()) {
+                    _recyclerMessageState.postValue("Articles not available")
+                    return@subscribe
+                }
+
+                val uiModels = ArrayList<BaseModel>().also {
+                    it.addAll(this.articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
+                    it.add(LoadMoreModel(true))
+                }
+                _recyclerArticlesState.postValue(uiModels)
             }, {
-                _messageState.postValue("Could not save article")
+                _recyclerMessageState.postValue("Could not load articles")
 
-                Timber.e(it)
+                Timber.w(it)
             })
-        }
     }
 }

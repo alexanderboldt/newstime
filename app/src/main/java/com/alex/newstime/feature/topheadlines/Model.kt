@@ -7,4 +7,4 @@ data class ArticleModel(
     var title: String,
     var urlToImage: String?) : BaseModel()
 
-class LoadMoreModel(var enabled: Boolean) : BaseModel()
+data class LoadMoreModel(var enabled: Boolean) : BaseModel()
