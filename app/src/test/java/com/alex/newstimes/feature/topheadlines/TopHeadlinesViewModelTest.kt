@@ -2,6 +2,8 @@ package com.alex.newstimes.feature.topheadlines
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.alex.newstime.R
+import com.alex.newstime.feature.base.ResourceProvider
 import com.alex.newstime.feature.topheadlines.ArticleModel
 import com.alex.newstime.feature.topheadlines.BaseModel
 import com.alex.newstime.feature.topheadlines.LoadMoreModel
@@ -9,7 +11,6 @@ import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -33,7 +34,8 @@ class TopHeadlinesViewModelTest {
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-    @Mock lateinit var articleRepository: ArticleRepository
+    @Mock lateinit var articleRepositoryMock: ArticleRepository
+    @Mock lateinit var resourceProviderMock: ResourceProvider
 
     @Mock lateinit var observerRecyclerLoadingStateMock: Observer<Boolean>
     @Mock lateinit var observerRecyclerMessageStateMock: Observer<String>
@@ -53,18 +55,22 @@ class TopHeadlinesViewModelTest {
 
         MockitoAnnotations.initMocks(this)
 
-        viewModel = TopHeadlinesViewModel()
-        // this is a fallback
-        // best way to use mocked repositories, is to do it with dagger
-        viewModel.articleRepository = articleRepository
-        viewModel.recyclerLoadingState.observeForever(observerRecyclerLoadingStateMock)
-        viewModel.recyclerMessageState.observeForever(observerRecyclerMessageStateMock)
-        viewModel.recyclerArticlesState.observeForever(observerRecyclerArticlesStateMock)
-        viewModel.recyclerLoadMoreState.observeForever(observerRecyclerLoadMoreStateMock)
-        viewModel.recyclerScrollState.observeForever(observerRecyclerScrollStateMock)
-        viewModel.messageState.observeForever(observerMessageStateMock)
-        viewModel.bottomSheetDialogState.observeForever(observerBottomSheetDialogStateMock)
-        viewModel.detailState.observeForever(observerDetailState)
+        viewModel = TopHeadlinesViewModel().apply {
+            // this is a fallback, best way to use mocked instances, is to do it with dagger
+            articleRepository = articleRepositoryMock
+            resourceProvider = resourceProviderMock
+
+            recyclerLoadingState.observeForever(observerRecyclerLoadingStateMock)
+            recyclerMessageState.observeForever(observerRecyclerMessageStateMock)
+            recyclerArticlesState.observeForever(observerRecyclerArticlesStateMock)
+            recyclerLoadMoreState.observeForever(observerRecyclerLoadMoreStateMock)
+            recyclerScrollState.observeForever(observerRecyclerScrollStateMock)
+            messageState.observeForever(observerMessageStateMock)
+            bottomSheetDialogState.observeForever(observerBottomSheetDialogStateMock)
+            detailState.observeForever(observerDetailState)
+        }
+
+        `when`(resourceProviderMock.getString(R.string.top_headlines_error_load_articles)).thenReturn("Could not load articles!")
     }
 
     @After
@@ -77,9 +83,7 @@ class TopHeadlinesViewModelTest {
     @Test
     fun init_with_no_internet() {
         // mock
-        `when`(articleRepository.getTopHeadlines()).thenReturn(Single.create {
-            it.onError(Throwable("No internet connection"))
-        })
+        `when`(articleRepositoryMock.getTopHeadlines()).thenReturn(Single.error(Throwable("No internet connection")))
 
         // execute
         viewModel.init()
@@ -88,7 +92,7 @@ class TopHeadlinesViewModelTest {
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(true)
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(false)
 
-        verify(observerRecyclerMessageStateMock, times(1)).onChanged("Could not load articles")
+        verify(observerRecyclerMessageStateMock, times(1)).onChanged("Could not load articles!")
         verify(observerRecyclerArticlesStateMock, never()).onChanged(any())
         verify(observerRecyclerLoadMoreStateMock, never()).onChanged(any())
         verify(observerRecyclerScrollStateMock, never()).onChanged(any())
@@ -100,9 +104,7 @@ class TopHeadlinesViewModelTest {
     @Test
     fun init_with_empty_articles() {
         // mock
-        `when`(articleRepository.getTopHeadlines()).thenReturn(Single.create {
-            it.onSuccess(listOf())
-        })
+        `when`(articleRepositoryMock.getTopHeadlines()).thenReturn(Single.just(listOf()))
 
         // execute
         viewModel.init()
@@ -111,7 +113,7 @@ class TopHeadlinesViewModelTest {
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(true)
         verify(observerRecyclerLoadingStateMock, times(1)).onChanged(false)
 
-        verify(observerRecyclerMessageStateMock, times(1)).onChanged("Articles not available")
+        verify(observerRecyclerMessageStateMock, times(1)).onChanged("No articles available!")
         verify(observerRecyclerArticlesStateMock, never()).onChanged(any())
         verify(observerRecyclerLoadMoreStateMock, never()).onChanged(any())
         verify(observerRecyclerScrollStateMock, never()).onChanged(any())
@@ -141,7 +143,7 @@ class TopHeadlinesViewModelTest {
             })
 
         // mock
-        `when`(articleRepository.getTopHeadlines()).thenReturn(Single.create { it.onSuccess(articles) })
+        `when`(articleRepositoryMock.getTopHeadlines()).thenReturn(Single.just(articles))
 
         // execute
         viewModel.init()

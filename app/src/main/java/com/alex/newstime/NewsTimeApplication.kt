@@ -8,6 +8,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.alex.core.bus.RxBus
 import com.alex.newstime.bus.AppEvent
+import com.alex.newstime.feature.base.ResourceProvider
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.database.NewstimeDatabase
@@ -39,6 +40,7 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     private fun setup() {
         setupDatabase()
         setupApi()
+        setupResourceManager()
         setupConnectivityReceiver()
         setupTimber()
         setupPandora()
@@ -52,6 +54,10 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     private fun setupApi() {
         ApiClient.initialize()
+    }
+
+    private fun setupResourceManager() {
+        ResourceProvider.init(this)
     }
 
     private fun setupConnectivityReceiver() {

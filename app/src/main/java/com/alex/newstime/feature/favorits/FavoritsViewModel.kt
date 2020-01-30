@@ -14,8 +14,7 @@ import javax.inject.Inject
 
 class FavoritsViewModel : ViewModel() {
 
-    @Inject
-    lateinit var articleRepository: ArticleRepository
+    @Inject lateinit var articleRepository: ArticleRepository
 
     private val currentArticles by lazy { ArrayList<Article>() }
 

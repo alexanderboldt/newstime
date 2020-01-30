@@ -22,11 +22,9 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
         private const val KEY_ARTICLE = "KEY_ARTICLE"
 
         fun create(article: Article): ArticleController {
-            val bundle = Bundle().apply {
-                putParcelable(KEY_ARTICLE, Parcels.wrap(article))
-            }
-
-            return ArticleController(bundle)
+            return Bundle()
+                .apply { putParcelable(KEY_ARTICLE, Parcels.wrap(article)) }
+                .run { ArticleController(this) }
         }
     }
 
