@@ -29,11 +29,11 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.co
     }
 
     override fun onSetupViewModelBinding() {
-        viewModel.recyclerArticlesState.observe {
+        viewModel.recyclerArticlesState.observeNotNull {
             adapter.setItems(it as ArrayList)
         }
 
-        viewModel.detailState.observe {
+        viewModel.detailState.observeNotNull {
             router.pushDetailController(ArticleController.create(it))
         }
 

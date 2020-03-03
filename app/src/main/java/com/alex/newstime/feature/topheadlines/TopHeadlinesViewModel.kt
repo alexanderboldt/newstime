@@ -7,10 +7,16 @@ import com.alex.newstime.R
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.feature.base.ResourceProvider
 import com.alex.newstime.feature.topheadlines.di.DaggerTopHeadlinesViewModelComponent
+import com.alex.newstime.feature.topheadlines.model.ArticleModel
+import com.alex.newstime.feature.topheadlines.model.BaseModel
+import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
+import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TopHeadlinesViewModel : ViewModel() {
@@ -54,7 +60,7 @@ class TopHeadlinesViewModel : ViewModel() {
     init {
         DaggerTopHeadlinesViewModelComponent.create().inject(this)
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             RxBus
                 .listen(ConnectivityEvent::class.java)
                 .skip(1)
@@ -76,7 +82,7 @@ class TopHeadlinesViewModel : ViewModel() {
     }
 
     fun loadMoreArticles() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             articleRepository.getTopHeadlines(PAGE_SIZE, articles.size / PAGE_SIZE + 1)
                 .doOnSubscribe {
                     _recyclerLoadingState.postValue(true)
@@ -91,7 +97,7 @@ class TopHeadlinesViewModel : ViewModel() {
                     articles.addAll(newArticles)
 
                     val uiModels = ArrayList<BaseModel>().also {
-                        it.addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage) })
+                        it.addAll(articles.map { ArticleModel(it.id!!, it.title!!, it.urlToImage ) })
                         it.add(LoadMoreModel(true))
                     }
                     _recyclerArticlesState.postValue(uiModels)
@@ -102,19 +108,23 @@ class TopHeadlinesViewModel : ViewModel() {
     }
 
     fun clickOnArticle(article: ArticleModel) {
-        articles
-            .firstOrNull { it.id == article.id }
-            ?.also { _detailState.postValue(it) }
+        viewModelScope.launch(Dispatchers.IO) {
+            articles
+                .firstOrNull { it.id == article.id }
+                ?.also { _detailState.postValue(it) }
+        }
     }
 
     fun longClickArticle(article: ArticleModel) {
-        _bottomSheetDialogState.postValue(true)
+        viewModelScope.launch(Dispatchers.IO) {
+            _bottomSheetDialogState.postValue(true)
 
-        currentSelectedArticle = article
+            currentSelectedArticle = article
+        }
     }
 
     fun clickAddToFavorites() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _bottomSheetDialogState.postValue(false)
 
             articles
@@ -134,7 +144,7 @@ class TopHeadlinesViewModel : ViewModel() {
     // ----------------------------------------------------------------------------
 
     private fun loadArticles() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             articleRepository
                 .getTopHeadlines(if (articles.size == 0) PAGE_SIZE else articles.size, 1)
                 .doOnSubscribe { _recyclerLoadingState.postValue(true) }

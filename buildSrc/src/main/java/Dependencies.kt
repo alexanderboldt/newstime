@@ -6,16 +6,18 @@ object Deps {
     }
 
     object AndroidX {
+        val core = "androidx.core:core-ktx:1.2.0"
         val appCompat = "androidx.appcompat:appcompat:1.0.2"
         val material = "com.google.android.material:material:1.1.0-alpha06"
         val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
         val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
 
-        val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:2.0.0"
-        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.0.0"
-        val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:2.0.0"
-        val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:2.0.0"
-        val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01"
+        val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:2.2.0"
+        val lifecycleRuntimeExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+        val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+        val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:2.2.0"
+        val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
         val room = "androidx.room:room-runtime:2.1.0"
         val roomCompiler = "androidx.room:room-compiler:2.1.0"

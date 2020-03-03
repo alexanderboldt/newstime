@@ -112,6 +112,8 @@ repositories {
 
 dependencies {
 
+    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
+
     // testing
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.testRunner)
@@ -130,6 +132,7 @@ dependencies {
     androidTestImplementation(Deps.Test.espressoCore)
 
     // androidx
+    implementation(Deps.AndroidX.core)
     implementation(Deps.AndroidX.appCompat)
     implementation(Deps.AndroidX.material)
     implementation(Deps.AndroidX.recyclerView)

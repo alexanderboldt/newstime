@@ -4,7 +4,7 @@
     <data>
         <variable
             name="article"
-            type="com.alex.newstime.feature.article.ArticleModel"/>
+            type="com.alex.newstime.feature.article.model.ArticleState"/>
     </data>
 
     <ScrollView

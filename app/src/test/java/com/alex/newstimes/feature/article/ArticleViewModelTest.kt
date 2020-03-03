@@ -2,7 +2,7 @@ package com.alex.newstimes.feature.article
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.alex.newstime.feature.article.ArticleModel
+import com.alex.newstime.feature.article.model.ArticleModel
 import com.alex.newstime.feature.article.ArticleViewModel
 import com.alex.newstime.repository.article.Article
 import org.junit.Assert.assertEquals
@@ -56,7 +56,12 @@ class ArticleViewModelTest {
         viewModel.init(article)
 
         // verify
-        val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
+        val uiArticle = ArticleModel(
+            387428,
+            "Test DbArticle",
+            "url to image",
+            "Content"
+        )
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
         verify(observerLinkStateMock, never()).onChanged(any())
@@ -76,7 +81,12 @@ class ArticleViewModelTest {
         }
 
         // verify
-        val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
+        val uiArticle = ArticleModel(
+            387428,
+            "Test DbArticle",
+            "url to image",
+            "Content"
+        )
 
         verify(observerDataStateMock, never()).onChanged(uiArticle)
         verify(observerLinkStateMock, never()).onChanged(any())
@@ -99,7 +109,12 @@ class ArticleViewModelTest {
         viewModel.handleClickOnLink()
 
         // verify
-        val uiArticle = ArticleModel(387428, "Test DbArticle", "url to image", "Content")
+        val uiArticle = ArticleModel(
+            387428,
+            "Test DbArticle",
+            "url to image",
+            "Content"
+        )
 
         verify(observerDataStateMock, times(1)).onChanged(uiArticle)
         verify(observerLinkStateMock, times(1)).onChanged("url to article")

@@ -3,6 +3,7 @@ package com.alex.newstime.feature.article
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerArticleBinding
@@ -21,11 +22,7 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
     companion object {
         private const val KEY_ARTICLE = "KEY_ARTICLE"
 
-        fun create(article: Article): ArticleController {
-            return Bundle()
-                .apply { putParcelable(KEY_ARTICLE, Parcels.wrap(article)) }
-                .run { ArticleController(this) }
-        }
+        fun create(article: Article) = ArticleController(bundleOf(KEY_ARTICLE to Parcels.wrap(article)))
     }
 
     // ----------------------------------------------------------------------------
@@ -45,11 +42,11 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
     }
 
     override fun onSetupViewModelBinding() {
-        viewModel.dataState.observe { article ->
+        viewModel.dataState.observeNotNull { article ->
             binding.article = article
         }
 
-        viewModel.linkState.observe {
+        viewModel.linkState.observeNotNull {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
         }
 

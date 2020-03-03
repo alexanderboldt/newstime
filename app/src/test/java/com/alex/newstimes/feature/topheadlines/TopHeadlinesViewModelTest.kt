@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alex.newstime.R
 import com.alex.newstime.feature.base.ResourceProvider
-import com.alex.newstime.feature.topheadlines.ArticleModel
-import com.alex.newstime.feature.topheadlines.BaseModel
-import com.alex.newstime.feature.topheadlines.LoadMoreModel
+import com.alex.newstime.feature.topheadlines.model.ArticleModel
+import com.alex.newstime.feature.topheadlines.model.BaseModel
+import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
@@ -158,7 +158,8 @@ class TopHeadlinesViewModelTest {
             ArticleModel(1, "title", "www.image.com"),
             ArticleModel(2, "title", "www.image.com"),
             ArticleModel(3, "title", "www.image.com"),
-            LoadMoreModel(true))
+            LoadMoreModel(true)
+        )
 
         verify(observerRecyclerArticlesStateMock, times(1)).onChanged(uiArticles)
         verify(observerRecyclerLoadMoreStateMock, never()).onChanged(any())

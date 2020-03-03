@@ -25,7 +25,7 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
     /**
      * * This extensions-function has a check for nullability and passes the appropriate LifecycleOwner
      */
-    internal fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
+    internal fun <T> LiveData<T>.observeNotNull(observer: (t: T) -> Unit) {
         this.observe(activity as AppCompatActivity, Observer { data ->
             if (data == null) return@Observer
             observer(data)

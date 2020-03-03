@@ -1,4 +1,4 @@
-package com.alex.newstime.feature.topheadlines
+package com.alex.newstime.feature.topheadlines.model
 
 sealed class BaseModel
 

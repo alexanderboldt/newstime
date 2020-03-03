@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alex.newstime.databinding.ItemViewArticleBinding
 import com.alex.newstime.databinding.ItemViewLoadMoreBinding
 import com.alex.newstime.feature.base.BaseAdapter
+import com.alex.newstime.feature.topheadlines.model.ArticleModel
+import com.alex.newstime.feature.topheadlines.model.BaseModel
+import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.jakewharton.rxbinding3.view.longClicks
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit

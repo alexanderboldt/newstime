@@ -1,6 +1,6 @@
-package com.alex.newstime.feature.article
+package com.alex.newstime.feature.article.model
 
-data class ArticleModel(
+data class ArticleState(
     var id: Long,
     var title: String,
     var urlToImage: String? = null,

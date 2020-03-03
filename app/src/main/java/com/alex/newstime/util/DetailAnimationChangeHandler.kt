@@ -1,4 +1,4 @@
-package com.alex.newstime.feature.topheadlines
+package com.alex.newstime.util
 
 import android.transition.*
 import android.view.View
