@@ -1,8 +1,8 @@
 package com.alex.newstime.feature.topheadlines
 
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alex.core.util.isVisible
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.alex.newstime.feature.base.BaseController
 import com.google.android.material.bottomsheet.BottomSheetDialog
