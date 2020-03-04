@@ -112,8 +112,6 @@ repositories {
 
 dependencies {
 
-    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
-
     // testing
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.testRunner)
