@@ -19,9 +19,9 @@ object Deps {
         val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:2.2.0"
         val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
-        val room = "androidx.room:room-runtime:2.1.0"
-        val roomCompiler = "androidx.room:room-compiler:2.1.0"
-        val roomRxJava = "androidx.room:room-rxjava2:2.1.0"
+        val room = "androidx.room:room-runtime:2.2.4"
+        val roomCompiler = "androidx.room:room-compiler:2.2.4"
+        val roomRxJava = "androidx.room:room-rxjava2:2.2.4"
     }
 
     object Test {
@@ -43,16 +43,10 @@ object Deps {
 
         val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
 
-        val exoplayer = "com.google.android.exoplayer:exoplayer:2.10.1"
-
         val dagger = "com.google.dagger:dagger:2.23.2"
         val daggerCompiler = "com.google.dagger:dagger-compiler:2.23.2"
 
-        val ahbottomnavigation = "com.aurelhubert:ahbottomnavigation:2.3.4"
-
         val timber = "com.jakewharton.timber:timber:4.7.1"
-
-        val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.2.1"
 
         val retrofit = "com.squareup.retrofit2:retrofit:2.6.0"
         val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.6.0"
