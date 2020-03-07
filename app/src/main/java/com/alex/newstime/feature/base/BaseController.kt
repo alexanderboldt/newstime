@@ -22,6 +22,8 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
     protected val context: Context
         get() = activity as Context
 
+    private val viewModelStore = ViewModelStore()
+
     /**
      * * This extensions-function has a check for nullability and passes the appropriate LifecycleOwner
      */
@@ -47,6 +49,10 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
         lifecycle.addObserver(this)
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        viewModelStore.clear()
     }
 
     // ----------------------------------------------------------------------------
@@ -79,6 +85,16 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
     abstract fun onSetupViewModelBinding()
 
     fun <VM : ViewModel> getViewModel(@NonNull modelClass: Class<VM>): VM {
-        return ViewModelProviders.of(activity as AppCompatActivity, null).get(modelClass)
+        return viewModelProvider().get(modelClass)
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun viewModelProvider(): ViewModelProvider {
+        return viewModelProvider(ViewModelProvider.AndroidViewModelFactory(activity!!.application))
+    }
+
+    private fun viewModelProvider(factory: ViewModelProvider.NewInstanceFactory): ViewModelProvider {
+        return ViewModelProvider(viewModelStore, factory)
     }
 }
