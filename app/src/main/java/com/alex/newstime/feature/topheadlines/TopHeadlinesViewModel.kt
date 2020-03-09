@@ -5,6 +5,7 @@ import com.alex.core.bus.RxBus
 import com.alex.core.feature.SingleLiveEvent
 import com.alex.newstime.R
 import com.alex.newstime.bus.ConnectivityEvent
+import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.feature.base.ResourceProvider
 import com.alex.newstime.feature.topheadlines.di.DaggerTopHeadlinesViewModelComponent
 import com.alex.newstime.feature.topheadlines.model.ArticleModel
@@ -12,14 +13,11 @@ import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
-import io.reactivex.Observable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.alex.newstime.util.plusAssign
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class TopHeadlinesViewModel : ViewModel() {
+class TopHeadlinesViewModel : BaseViewModel() {
 
     @Inject lateinit var articleRepository: ArticleRepository
 
@@ -60,15 +58,13 @@ class TopHeadlinesViewModel : ViewModel() {
     init {
         DaggerTopHeadlinesViewModelComponent.create().inject(this)
 
-        viewModelScope.launch(Dispatchers.IO) {
-            RxBus
+        disposables += RxBus
                 .listen(ConnectivityEvent::class.java)
                 .skip(1)
                 .filter { it.connected }
                 .subscribe {
                     init()
                 }
-        }
     }
 
     // ----------------------------------------------------------------------------
@@ -82,8 +78,8 @@ class TopHeadlinesViewModel : ViewModel() {
     }
 
     fun loadMoreArticles() {
-        viewModelScope.launch(Dispatchers.IO) {
-            articleRepository.getTopHeadlines(PAGE_SIZE, articles.size / PAGE_SIZE + 1)
+        disposables += articleRepository
+                .getTopHeadlines(PAGE_SIZE, articles.size / PAGE_SIZE + 1)
                 .doOnSubscribe {
                     _recyclerLoadingState.postValue(true)
                     _recyclerLoadMoreState.postValue(false)
@@ -104,48 +100,42 @@ class TopHeadlinesViewModel : ViewModel() {
                 }, {
                     Timber.w(it)
                 })
-        }
     }
 
     fun clickOnArticle(article: ArticleModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            articles
-                .firstOrNull { it.id == article.id }
-                ?.also { _detailState.postValue(it) }
-        }
+        articles
+            .firstOrNull { it.id == article.id }
+            ?.also { _detailState.postValue(it) }
     }
 
     fun longClickArticle(article: ArticleModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _bottomSheetDialogState.postValue(true)
+        _bottomSheetDialogState.postValue(true)
 
-            currentSelectedArticle = article
-        }
+        currentSelectedArticle = article
     }
 
     fun clickAddToFavorites() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _bottomSheetDialogState.postValue(false)
+        _bottomSheetDialogState.postValue(false)
 
-            articles
-                .find { it.id == currentSelectedArticle?.id }
-                ?.also { article ->
-                    articleRepository.setFavorite(article).subscribe({
+        articles
+            .find { it.id == currentSelectedArticle?.id }
+            ?.also { article ->
+                disposables += articleRepository
+                    .setFavorite(article)
+                    .subscribe({
                         _messageState.postValue(resourceProvider.getString(R.string.top_headlines_article_saved))
                     }, {
                         _messageState.postValue(resourceProvider.getString(R.string.top_headlines_article_could_not_save))
 
                         Timber.w(it)
                     })
-                }
-        }
+            }
     }
 
     // ----------------------------------------------------------------------------
 
     private fun loadArticles() {
-        viewModelScope.launch(Dispatchers.IO) {
-            articleRepository
+        disposables += articleRepository
                 .getTopHeadlines(if (articles.size == 0) PAGE_SIZE else articles.size, 1)
                 .doOnSubscribe { _recyclerLoadingState.postValue(true) }
                 .doFinally { _recyclerLoadingState.postValue(false) }
@@ -179,6 +169,5 @@ class TopHeadlinesViewModel : ViewModel() {
 
                     Timber.w(it)
                 })
-        }
     }
 }

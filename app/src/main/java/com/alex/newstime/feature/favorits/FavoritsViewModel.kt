@@ -2,21 +2,21 @@ package com.alex.newstime.feature.favorits
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.alex.core.feature.SingleLiveEvent
+import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.feature.favorits.di.DaggerFavoritsViewModelComponent
 import com.alex.newstime.feature.favorits.model.ArticleState
 import com.alex.newstime.feature.favorits.model.ArticlesState
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
-import kotlinx.coroutines.launch
+import com.alex.newstime.util.plusAssign
 import timber.log.Timber
 import javax.inject.Inject
 
-class FavoritsViewModel : ViewModel() {
+class FavoritsViewModel : BaseViewModel() {
 
     @Inject lateinit var articleRepository: ArticleRepository
+
     private val currentArticles by lazy { ArrayList<Article>() }
 
     private val _recyclerArticlesState = MutableLiveData<ArticlesState>()
@@ -31,9 +31,10 @@ class FavoritsViewModel : ViewModel() {
         DaggerFavoritsViewModelComponent.create().inject(this)
     }
 
+    // ----------------------------------------------------------------------------
+
     fun loadArticles() {
-        viewModelScope.launch {
-            articleRepository
+        disposables += articleRepository
                 .getFavorites()
                 .doOnSubscribe {
                     currentArticles.clear()
@@ -47,7 +48,6 @@ class FavoritsViewModel : ViewModel() {
                 }, {
                     Timber.w(it)
                 })
-        }
     }
 
     fun clickOnArticle(article: ArticleState) {
