@@ -36,23 +36,21 @@ class FavoritsViewModel : BaseViewModel() {
     fun loadArticles() {
         disposables += articleRepository
                 .getFavorites()
-                .doOnSubscribe {
-                    currentArticles.clear()
-                }
+                .doOnSubscribe { currentArticles.clear() }
                 .subscribe({ articles ->
                     currentArticles.addAll(articles)
 
-                    _recyclerArticlesState.postValue(articles.map { article ->
-                        ArticleState(article.id!!, article.title!!, article.urlToImage!!)
-                    } as ArrayList)
+                    articles
+                        .map { article -> ArticleState(article.id!!, article.title!!, article.urlToImage!!) }
+                        .also { _recyclerArticlesState.postValue(it) }
                 }, {
                     Timber.w(it)
                 })
     }
 
     fun clickOnArticle(article: ArticleState) {
-        _detailState.postValue(currentArticles.first {
-            it.id == article.id
-        })
+        currentArticles
+            .find { it.id == article.id }
+            .also { _detailState.postValue(it) }
     }
 }

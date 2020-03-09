@@ -25,9 +25,9 @@ class ArticleViewModel : ViewModel() {
     fun init(article: Article) {
         this.article = article
 
-        _dataState.postValue(
-            article.run { ArticleState(id!!, title!!, urlToImage, content) }
-        )
+        article
+            .run { ArticleState(id!!, title!!, urlToImage, content) }
+            .also { _dataState.postValue(it) }
     }
 
     fun handleClickOnLink() {

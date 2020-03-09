@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigation.also {
             it.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
-            it.setOnNavigationItemSelectedListener {
-                val controller = when (it.itemId) {
+            it.setOnNavigationItemSelectedListener { menuItem ->
+                val controller = when (menuItem.itemId) {
                     R.id.item_one -> TopHeadlinesController()
                     else -> FavoritsController()
                 }
