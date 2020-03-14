@@ -110,6 +110,9 @@ android {
 }
 
 repositories {
+    google()
+    jcenter()
+    mavenLocal()
     maven { setUrl("https://www.jitpack.io") }
     mavenCentral()
 }

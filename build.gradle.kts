@@ -14,16 +14,6 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        mavenLocal()
-        google()
-        jcenter()
-        maven("url 'https://maven.fabric.io/public")
-        maven("https://plugins.gradle.org/m2/")
-    }
-}
-
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
