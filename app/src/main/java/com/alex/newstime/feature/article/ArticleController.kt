@@ -31,7 +31,7 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
         viewModel.init(Parcels.unwrap(bundle.getParcelable(KEY_ARTICLE)))
     }
 
-    override fun onSetupViewBinding() {
+    override fun onViewBinding() {
         disposables += binding.textViewTitle.clicks().subscribe {
             viewModel.handleClickOnLink()
         }
@@ -41,7 +41,7 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
         }
     }
 
-    override fun onSetupViewModelBinding() {
+    override fun onViewModelBinding() {
         viewModel.dataState.observeNotNull { article ->
             binding.article = article
         }

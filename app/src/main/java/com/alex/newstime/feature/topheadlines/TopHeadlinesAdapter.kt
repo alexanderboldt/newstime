@@ -10,16 +10,18 @@ import com.alex.newstime.feature.base.BaseAdapter
 import com.alex.newstime.feature.topheadlines.model.ArticleModel
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
+import com.alex.newstime.util.plusAssign
 import com.jakewharton.rxbinding3.view.longClicks
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner) : BaseAdapter<BaseModel, RecyclerView.ViewHolder>(lifecycleOwner) {
+class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner, private val viewModel: TopHeadlinesViewModel)
+    : BaseAdapter<BaseModel, RecyclerView.ViewHolder>(lifecycleOwner) {
 
     class ArticleViewHolder(var binding: ItemViewArticleBinding) : RecyclerView.ViewHolder(binding.root)
     class LoadMoreViewHolder(var binding: ItemViewLoadMoreBinding) : RecyclerView.ViewHolder(binding.root)
 
-    var longClickSubject = PublishSubject.create<ArticleModel>()
+    private var longClickSubject = PublishSubject.create<ArticleModel>()
 
     enum class Types {
         ARTICLE,
@@ -66,8 +68,27 @@ class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner) : BaseAdapter<BaseMode
 
     // ----------------------------------------------------------------------------
 
-    fun enableLoadMore(enable: Boolean) {
-        (items.last() as LoadMoreModel).enabled = enable
-        notifyDataSetChanged()
+    override fun onViewBinding() {
+        disposables += clickSubject.subscribe {
+            when (it) {
+                is ArticleModel -> viewModel.clickOnArticle(it)
+                is LoadMoreModel -> viewModel.loadMoreArticles()
+            }
+        }
+
+        disposables += longClickSubject.subscribe {
+            viewModel.longClickArticle(it)
+        }
+    }
+
+    override fun onViewModelBinding() {
+        viewModel.recyclerArticlesState.observeNotNull { data ->
+            setItems(data as ArrayList)
+        }
+
+        viewModel.recyclerLoadMoreState.observeNotNull { enabled ->
+            (items.last() as LoadMoreModel).enabled = enabled
+            notifyDataSetChanged()
+        }
     }
 }

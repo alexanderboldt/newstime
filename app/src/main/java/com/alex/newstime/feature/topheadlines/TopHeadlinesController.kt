@@ -8,8 +8,6 @@ import com.alex.newstime.feature.base.BaseController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.R
-import com.alex.newstime.feature.topheadlines.model.ArticleModel
-import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
@@ -17,7 +15,7 @@ import com.jakewharton.rxbinding3.view.clicks
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 
-    private val adapter by lazy { TopHeadlinesAdapter(this) }
+    private val adapter by lazy { TopHeadlinesAdapter(this, viewModel) }
     private val viewModel by lazy { getViewModel(TopHeadlinesViewModel::class.java) }
 
     private val bottomSheetDialog by lazy {
@@ -37,20 +35,9 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         }
     }
 
-    override fun onSetupViewBinding() {
+    override fun onViewBinding() {
         disposables += binding.swipeRefreshLayout.refreshes().subscribe {
             viewModel.onSwipeRefreshLayout()
-        }
-
-        disposables += adapter.clickSubject.subscribe {
-            when (it) {
-                is ArticleModel -> viewModel.clickOnArticle(it)
-                is LoadMoreModel -> viewModel.loadMoreArticles()
-            }
-        }
-
-        disposables += adapter.longClickSubject.subscribe {
-            viewModel.longClickArticle(it)
         }
 
         disposables += bottomSheetDialogFavorites.clicks().subscribe {
@@ -58,7 +45,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         }
     }
 
-    override fun onSetupViewModelBinding() {
+    override fun onViewModelBinding() {
         viewModel.recyclerLoadingState.observeNotNull {
             binding.swipeRefreshLayout.isRefreshing = it
         }
@@ -75,16 +62,10 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         viewModel.recyclerArticlesState.observeNotNull { data ->
             binding.textViewMessage.isVisible = false
             binding.recyclerView.isVisible = true
-
-            adapter.setItems(data as ArrayList)
         }
 
         viewModel.detailState.observeNotNull {
             router.pushDetailController(ArticleController.create(it))
-        }
-
-        viewModel.recyclerLoadMoreState.observeNotNull {
-            adapter.enableLoadMore(it)
         }
 
         viewModel.recyclerScrollState.observeNotNull {
@@ -96,9 +77,14 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.l
         }
 
         viewModel.bottomSheetDialogState.observeNotNull { state ->
-            if (state) bottomSheetDialog.show() else bottomSheetDialog.hide()
+            bottomSheetDialog.apply { if (state) show() else hide() }
         }
+    }
 
+    // ----------------------------------------------------------------------------
+
+    override fun onLifecycleResume() {
+        super.onLifecycleResume()
         viewModel.init()
     }
 }

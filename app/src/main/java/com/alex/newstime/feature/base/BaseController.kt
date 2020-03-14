@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.*
@@ -29,7 +28,7 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
      * * This extensions-function has a check for nullability and passes the appropriate LifecycleOwner
      */
     internal fun <T> LiveData<T>.observeNotNull(observer: (t: T) -> Unit) {
-        this.observe(activity as AppCompatActivity, Observer { data ->
+        this.observe(this@BaseController, Observer { data ->
             if (data == null) return@Observer
             observer(data)
         })
@@ -55,40 +54,51 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
     // ----------------------------------------------------------------------------
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    @CallSuper open fun onLifecycleCreate() {
+    @CallSuper
+    open fun onLifecycleCreate() {
         onSetupView()
-        onSetupViewModelBinding()
+        onViewModelBinding()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    @CallSuper open fun onLifecycleStart() {
-        onSetupViewBinding()
+    @CallSuper
+    open fun onLifecycleStart() {
+        onViewBinding()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    @CallSuper open fun onLifecycleResume() {
+    @CallSuper
+    open fun onLifecycleResume() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    @CallSuper open fun onLifecyclePause() {
+    @CallSuper
+    open fun onLifecyclePause() {
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    @CallSuper open fun onLifecycleStop() {
+    @CallSuper
+    open fun onLifecycleStop() {
         disposables.clear()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    @CallSuper open fun onLifecycleDestroy() {
+    @CallSuper
+    open fun onLifecycleDestroy() {
         viewModelStore.clear()
         lifecycle.removeObserver(this)
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+    @CallSuper
+    open fun onLifecycleAny() {
     }
 
     // ----------------------------------------------------------------------------
 
     open fun onSetupView() {}
-    open fun onSetupViewBinding() {}
-    open fun onSetupViewModelBinding() {}
+    open fun onViewBinding() {}
+    open fun onViewModelBinding() {}
 
     fun <VM : ViewModel> getViewModel(@NonNull modelClass: Class<VM>): VM {
         return viewModelProvider().get(modelClass)

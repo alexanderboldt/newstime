@@ -21,7 +21,7 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.co
         }
     }
 
-    override fun onSetupViewModelBinding() {
+    override fun onViewModelBinding() {
         viewModel.detailState.observeNotNull {
             router.pushDetailController(ArticleController.create(it))
         }
