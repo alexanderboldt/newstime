@@ -17,7 +17,7 @@ import com.jakewharton.rxbinding3.view.clicks
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 
-    private val adapter by lazy { TopHeadlinesAdapter() }
+    private val adapter by lazy { TopHeadlinesAdapter(this) }
     private val viewModel by lazy { getViewModel(TopHeadlinesViewModel::class.java) }
 
     private val bottomSheetDialog by lazy {

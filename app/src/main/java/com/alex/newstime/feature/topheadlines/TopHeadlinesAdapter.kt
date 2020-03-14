@@ -2,6 +2,7 @@ package com.alex.newstime.feature.topheadlines
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.alex.newstime.databinding.ItemViewArticleBinding
 import com.alex.newstime.databinding.ItemViewLoadMoreBinding
@@ -13,7 +14,7 @@ import com.jakewharton.rxbinding3.view.longClicks
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class TopHeadlinesAdapter : BaseAdapter<BaseModel, RecyclerView.ViewHolder>() {
+class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner) : BaseAdapter<BaseModel, RecyclerView.ViewHolder>(lifecycleOwner) {
 
     class ArticleViewHolder(var binding: ItemViewArticleBinding) : RecyclerView.ViewHolder(binding.root)
     class LoadMoreViewHolder(var binding: ItemViewLoadMoreBinding) : RecyclerView.ViewHolder(binding.root)

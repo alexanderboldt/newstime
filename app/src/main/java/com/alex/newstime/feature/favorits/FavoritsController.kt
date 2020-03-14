@@ -5,12 +5,11 @@ import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerFavoritsBinding
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.feature.base.BaseController
-import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 
 class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.controller_favorits) {
 
-    private val adapter by lazy { FavoritsAdapter() }
+    private val adapter by lazy { FavoritsAdapter(this, viewModel) }
     private val viewModel by lazy { getViewModel(FavoritsViewModel::class.java) }
 
     // ----------------------------------------------------------------------------
@@ -22,21 +21,16 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.co
         }
     }
 
-    override fun onSetupViewBinding() {
-        disposables += adapter.clickSubject.subscribe {
-            viewModel.clickOnArticle(it)
-        }
-    }
-
     override fun onSetupViewModelBinding() {
-        viewModel.recyclerArticlesState.observeNotNull {
-            adapter.setItems(it as ArrayList)
-        }
-
         viewModel.detailState.observeNotNull {
             router.pushDetailController(ArticleController.create(it))
         }
+    }
 
+    // ----------------------------------------------------------------------------
+
+    override fun onLifecycleResume() {
+        super.onLifecycleResume()
         viewModel.loadArticles()
     }
 }

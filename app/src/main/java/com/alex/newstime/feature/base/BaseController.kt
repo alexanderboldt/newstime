@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -51,38 +52,43 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
         return binding.root
     }
 
-    override fun onDestroy() {
-        viewModelStore.clear()
-    }
-
     // ----------------------------------------------------------------------------
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onLifecycleCreate() {
+    @CallSuper open fun onLifecycleCreate() {
         onSetupView()
         onSetupViewModelBinding()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onLifecycleStart() {
+    @CallSuper open fun onLifecycleStart() {
         onSetupViewBinding()
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    @CallSuper open fun onLifecycleResume() {
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    @CallSuper open fun onLifecyclePause() {
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onLifecycleStop() {
+    @CallSuper open fun onLifecycleStop() {
         disposables.clear()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onLifecycleDestroy() {
+    @CallSuper open fun onLifecycleDestroy() {
+        viewModelStore.clear()
         lifecycle.removeObserver(this)
     }
 
     // ----------------------------------------------------------------------------
 
-    abstract fun onSetupView()
-    abstract fun onSetupViewBinding()
-    abstract fun onSetupViewModelBinding()
+    open fun onSetupView() {}
+    open fun onSetupViewBinding() {}
+    open fun onSetupViewModelBinding() {}
 
     fun <VM : ViewModel> getViewModel(@NonNull modelClass: Class<VM>): VM {
         return viewModelProvider().get(modelClass)
