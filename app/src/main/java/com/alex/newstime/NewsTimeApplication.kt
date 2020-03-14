@@ -19,7 +19,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     override fun onCreate() {
         super.onCreate()
-
         setup()
     }
 

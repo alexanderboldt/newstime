@@ -154,10 +154,6 @@ dependencies {
 
     // 3rd-party libraries
 
-    // dependency injection
-    implementation(Deps.Libs.dagger)
-    kapt(Deps.Libs.daggerCompiler)
-
     // logging
     implementation(Deps.Libs.timber)
 

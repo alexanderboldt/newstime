@@ -43,9 +43,6 @@ object Deps {
 
         val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
 
-        val dagger = "com.google.dagger:dagger:2.23.2"
-        val daggerCompiler = "com.google.dagger:dagger-compiler:2.23.2"
-
         val timber = "com.jakewharton.timber:timber:4.7.1"
 
         val retrofit = "com.squareup.retrofit2:retrofit:2.6.0"

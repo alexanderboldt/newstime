@@ -7,7 +7,6 @@ import com.alex.newstime.R
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.feature.base.ResourceProvider
-import com.alex.newstime.feature.topheadlines.di.DaggerTopHeadlinesViewModelComponent
 import com.alex.newstime.feature.topheadlines.model.ArticleModel
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
@@ -15,13 +14,12 @@ import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.plusAssign
 import timber.log.Timber
-import javax.inject.Inject
 
 class TopHeadlinesViewModel : BaseViewModel() {
 
-    @Inject lateinit var articleRepository: ArticleRepository
+    private val articleRepository by lazy { ArticleRepository() }
 
-    @Inject lateinit var resourceProvider: ResourceProvider
+    private val resourceProvider by lazy { ResourceProvider }
 
     private val articles by lazy { ArrayList<Article>() }
 
@@ -56,8 +54,6 @@ class TopHeadlinesViewModel : BaseViewModel() {
     // ----------------------------------------------------------------------------
 
     init {
-        DaggerTopHeadlinesViewModelComponent.create().inject(this)
-
         disposables += RxBus
                 .listen(ConnectivityEvent::class.java)
                 .skip(1)

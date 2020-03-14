@@ -1,19 +1,19 @@
 package com.alex.newstime.feature.base
 
-import android.app.Application
+import android.content.Context
 import androidx.annotation.StringRes
 
 object ResourceProvider {
 
-    private lateinit var application: Application
+    private lateinit var context: Context
 
     // ----------------------------------------------------------------------------
 
-    fun init(application: Application) {
-        this.application = application
+    fun init(context: Context) {
+        this.context = context
     }
 
     // ----------------------------------------------------------------------------
 
-    fun getString(@StringRes resource: Int) = application.getString(resource)
+    fun getString(@StringRes resource: Int) = context.getString(resource)
 }

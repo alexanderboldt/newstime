@@ -4,18 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.alex.core.feature.SingleLiveEvent
 import com.alex.newstime.feature.base.BaseViewModel
-import com.alex.newstime.feature.favorits.di.DaggerFavoritsViewModelComponent
 import com.alex.newstime.feature.favorits.model.ArticleState
 import com.alex.newstime.feature.favorits.model.ArticlesState
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.plusAssign
 import timber.log.Timber
-import javax.inject.Inject
 
 class FavoritsViewModel : BaseViewModel() {
 
-    @Inject lateinit var articleRepository: ArticleRepository
+    private val articleRepository by lazy { ArticleRepository() }
 
     private val currentArticles by lazy { ArrayList<Article>() }
 
@@ -24,12 +22,6 @@ class FavoritsViewModel : BaseViewModel() {
 
     private val _detailState = SingleLiveEvent<Article>()
     val detailState: LiveData<Article> = _detailState
-
-    // ----------------------------------------------------------------------------
-
-    init {
-        DaggerFavoritsViewModelComponent.create().inject(this)
-    }
 
     // ----------------------------------------------------------------------------
 
