@@ -1,7 +1,7 @@
 package com.alex.newstime.feature.base
 
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding3.view.clicks
@@ -9,7 +9,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val lifecycleOwner: LifecycleOwner? = null)
+abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder, VT : Enum<VT>>(
+    private val lifecycleOwner: LifecycleOwner? = null,
+    private val viewTypes: Array<VT>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LifecycleObserver {
 
     protected val items = ArrayList<T>()
@@ -41,7 +43,11 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val lifecycl
 
     final override fun getItemCount() = items.size
 
-    final override fun getItemViewType(position: Int) = getItemViewType(items[position])
+    final override fun getItemViewType(position: Int) = getItemViewType(items[position]).ordinal
+
+    final override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return onCreateViewHolder(parent, viewTypes[viewType])
+    }
 
     final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = items[holder.adapterPosition]
@@ -138,6 +144,7 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder>(private val lifecycl
     open fun onViewBinding() {}
     open fun onViewModelBinding() {}
 
-    open fun getItemViewType(item: T) = 0
-    open fun onBindViewHolder(holder: VH, item: T) {}
+    abstract fun getItemViewType(item: T): VT
+    abstract fun onCreateViewHolder(parent: ViewGroup, viewType: VT): VH
+    abstract fun onBindViewHolder(holder: VH, item: T)
 }

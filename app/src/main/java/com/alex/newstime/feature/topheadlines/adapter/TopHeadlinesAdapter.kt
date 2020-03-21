@@ -1,4 +1,4 @@
-package com.alex.newstime.feature.topheadlines
+package com.alex.newstime.feature.topheadlines.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alex.newstime.databinding.ItemViewArticleBinding
 import com.alex.newstime.databinding.ItemViewLoadMoreBinding
 import com.alex.newstime.feature.base.BaseAdapter
+import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
 import com.alex.newstime.feature.topheadlines.model.ArticleModel
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
@@ -16,53 +17,36 @@ import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner, private val viewModel: TopHeadlinesViewModel)
-    : BaseAdapter<BaseModel, RecyclerView.ViewHolder>(lifecycleOwner) {
+    : BaseAdapter<BaseModel, RecyclerView.ViewHolder, ViewType>(lifecycleOwner, ViewType.values()) {
 
     class ArticleViewHolder(var binding: ItemViewArticleBinding) : RecyclerView.ViewHolder(binding.root)
     class LoadMoreViewHolder(var binding: ItemViewLoadMoreBinding) : RecyclerView.ViewHolder(binding.root)
 
     private var longClickSubject = PublishSubject.create<ArticleModel>()
 
-    enum class Types {
-        ARTICLE,
-        LOAD_MORE
-    }
-
     // ----------------------------------------------------------------------------
 
-    override fun getItemViewType(item: BaseModel): Int {
-        return when (item) {
-            is ArticleModel -> Types.ARTICLE.ordinal
-            is LoadMoreModel -> Types.LOAD_MORE.ordinal
+    override fun getItemViewType(item: BaseModel) =
+        when (item) {
+            is ArticleModel -> ViewType.ARTICLE
+            is LoadMoreModel -> ViewType.LOAD_MORE
         }
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: ViewType): RecyclerView.ViewHolder {
         return when (viewType) {
-            Types.ARTICLE.ordinal -> ArticleViewHolder(ItemViewArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            else -> LoadMoreViewHolder(ItemViewLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            ViewType.ARTICLE -> ArticleViewHolder(
+                ItemViewArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
+            else -> LoadMoreViewHolder(
+                ItemViewLoadMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: BaseModel) {
         when (holder) {
-            is ArticleViewHolder -> {
-                item as ArticleModel
-                holder.binding.textViewName.text = item.title
-                //holder.binding.textViewName.transitionName = item.title
-
-                holder.binding.imageViewThumbnail.setImage(item.urlToImage)
-                //holder.binding.imageViewThumbnail.transitionName = item.urlToImage
-
-                holder.itemView.longClicks()
-                    .throttleFirst(1, TimeUnit.SECONDS)
-                    .map { item as ArticleModel }
-                    .subscribe(longClickSubject)
-            }
-            is LoadMoreViewHolder -> {
-                item as LoadMoreModel
-                holder.binding.root.alpha = if (item.enabled) 1f else 0.5f
-            }
+            is ArticleViewHolder -> bindArticle(holder, item as ArticleModel)
+            is LoadMoreViewHolder -> bindLoadMore(holder, item as LoadMoreModel)
         }
     }
 
@@ -90,5 +74,24 @@ class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner, private val viewModel:
             (items.last() as LoadMoreModel).enabled = enabled
             notifyDataSetChanged()
         }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun bindArticle(holder: ArticleViewHolder, item: ArticleModel) {
+        holder.binding.textViewName.text = item.title
+        //holder.binding.textViewName.transitionName = item.title
+
+        holder.binding.imageViewThumbnail.setImage(item.urlToImage)
+        //holder.binding.imageViewThumbnail.transitionName = item.urlToImage
+
+        holder.itemView.longClicks()
+            .throttleFirst(1, TimeUnit.SECONDS)
+            .map { item as ArticleModel }
+            .subscribe(longClickSubject)
+    }
+
+    private fun bindLoadMore(holder: LoadMoreViewHolder, item: LoadMoreModel) {
+        holder.binding.root.alpha = if (item.enabled) 1f else 0.5f
     }
 }

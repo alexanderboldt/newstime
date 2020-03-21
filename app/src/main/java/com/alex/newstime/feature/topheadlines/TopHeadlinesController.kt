@@ -8,6 +8,7 @@ import com.alex.newstime.feature.base.BaseController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.R
+import com.alex.newstime.feature.topheadlines.adapter.TopHeadlinesAdapter
 import com.alex.newstime.util.plusAssign
 import com.alex.newstime.util.pushDetailController
 import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
@@ -15,7 +16,12 @@ import com.jakewharton.rxbinding3.view.clicks
 
 class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>(R.layout.controller_top_headlines) {
 
-    private val adapter by lazy { TopHeadlinesAdapter(this, viewModel) }
+    private val adapter by lazy {
+        TopHeadlinesAdapter(
+            this,
+            viewModel
+        )
+    }
     private val viewModel by lazy { getViewModel(TopHeadlinesViewModel::class.java) }
 
     private val bottomSheetDialog by lazy {
