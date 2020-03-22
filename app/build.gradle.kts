@@ -178,6 +178,8 @@ dependencies {
     implementation(Deps.Libs.conductorSupport)
     implementation(Deps.Libs.conductorLifecycle)
 
+    implementation(Deps.Libs.liveEvent)
+
     // model-parcel
     implementation(Deps.Libs.parcel)
     kapt(Deps.Libs.parcelCompiler)

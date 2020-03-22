@@ -2,7 +2,6 @@ package com.alex.newstime.feature.topheadlines
 
 import androidx.lifecycle.*
 import com.alex.core.bus.RxBus
-import com.alex.core.feature.SingleLiveEvent
 import com.alex.newstime.R
 import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.feature.base.BaseViewModel
@@ -13,6 +12,7 @@ import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.plusAssign
+import com.hadilq.liveevent.LiveEvent
 import timber.log.Timber
 
 class TopHeadlinesViewModel : BaseViewModel() {
@@ -39,17 +39,20 @@ class TopHeadlinesViewModel : BaseViewModel() {
     private val _recyclerLoadMoreState = MutableLiveData<Boolean>()
     val recyclerLoadMoreState: LiveData<Boolean> = _recyclerLoadMoreState
 
-    private val _recyclerScrollState = SingleLiveEvent<Int>()
+    private val _recyclerScrollState = LiveEvent<Int>()
     val recyclerScrollState: LiveData<Int> = _recyclerScrollState
 
-    private val _messageState = SingleLiveEvent<String>()
+    private val _messageState = LiveEvent<String>()
     val messageState: LiveData<String> = _messageState
 
-    private val _detailState = SingleLiveEvent<Article>()
+    private val _detailState = LiveEvent<Article>()
     val detailState: LiveData<Article> = _detailState
 
-    private val _bottomSheetDialogState = SingleLiveEvent<Boolean>()
+    private val _bottomSheetDialogState = LiveEvent<Boolean>()
     val bottomSheetDialogState: LiveData<Boolean> = _bottomSheetDialogState
+
+    private val _testState = LiveEvent<String>()
+    val testState: LiveData<String> = _testState
 
     // ----------------------------------------------------------------------------
 
@@ -99,6 +102,8 @@ class TopHeadlinesViewModel : BaseViewModel() {
     }
 
     fun clickOnArticle(article: ArticleModel) {
+        _testState.postValue("hey")
+
         articles
             .firstOrNull { it.id == article.id }
             ?.also { _detailState.postValue(it) }

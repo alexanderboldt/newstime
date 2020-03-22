@@ -2,13 +2,13 @@ package com.alex.newstime.feature.favorits
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.alex.core.feature.SingleLiveEvent
 import com.alex.newstime.feature.base.BaseViewModel
 import com.alex.newstime.feature.favorits.model.ArticleState
 import com.alex.newstime.feature.favorits.model.ArticlesState
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.plusAssign
+import com.hadilq.liveevent.LiveEvent
 import timber.log.Timber
 
 class FavoritsViewModel : BaseViewModel() {
@@ -20,7 +20,7 @@ class FavoritsViewModel : BaseViewModel() {
     private val _recyclerArticlesState = MutableLiveData<ArticlesState>()
     val recyclerArticlesState: LiveData<ArticlesState> = _recyclerArticlesState
 
-    private val _detailState = SingleLiveEvent<Article>()
+    private val _detailState = LiveEvent<Article>()
     val detailState: LiveData<Article> = _detailState
 
     // ----------------------------------------------------------------------------

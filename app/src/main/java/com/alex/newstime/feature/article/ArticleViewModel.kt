@@ -3,9 +3,9 @@ package com.alex.newstime.feature.article
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.alex.core.feature.SingleLiveEvent
 import com.alex.newstime.feature.article.model.ArticleState
 import com.alex.newstime.repository.article.Article
+import com.hadilq.liveevent.LiveEvent
 
 class ArticleViewModel : ViewModel() {
 
@@ -17,7 +17,7 @@ class ArticleViewModel : ViewModel() {
     private val _linkState = MutableLiveData<String>()
     val linkState: LiveData<String> = _linkState
 
-    private val _closeState = SingleLiveEvent<Unit>()
+    private val _closeState = LiveEvent<Unit>()
     val closeState: LiveData<Unit> = _closeState
 
     // ----------------------------------------------------------------------------

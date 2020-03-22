@@ -62,6 +62,8 @@ object Deps {
         val conductorSupport = "com.bluelinelabs:conductor-support:2.1.5"
         val conductorLifecycle = "com.bluelinelabs:conductor-archlifecycle:2.1.5"
 
+        val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
+
         val parcel = "org.parceler:parceler-api:1.1.12"
         val parcelCompiler = "org.parceler:parceler:1.1.12"
 
