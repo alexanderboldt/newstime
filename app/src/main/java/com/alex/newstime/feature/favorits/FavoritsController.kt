@@ -1,24 +1,24 @@
 package com.alex.newstime.feature.favorits
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alex.newstime.R
 import com.alex.newstime.databinding.ControllerFavoritsBinding
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.feature.base.BaseController
 import com.alex.newstime.feature.favorits.adapter.FavoritsAdapter
 import com.alex.newstime.util.pushDetailController
 
-class FavoritsController : BaseController<ControllerFavoritsBinding>(R.layout.controller_favorits) {
+class FavoritsController : BaseController<ControllerFavoritsBinding>() {
 
-    private val adapter by lazy {
-        FavoritsAdapter(
-            this,
-            viewModel
-        )
-    }
+    private val adapter by lazy { FavoritsAdapter(this, viewModel) }
     private val viewModel by lazy { getViewModel(FavoritsViewModel::class.java) }
 
     // ----------------------------------------------------------------------------
+
+    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup): ControllerFavoritsBinding {
+        return ControllerFavoritsBinding.inflate(inflater, container, false)
+    }
 
     override fun onSetupView() {
         binding.recyclerView.also {

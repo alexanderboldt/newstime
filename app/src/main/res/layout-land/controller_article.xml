@@ -1,91 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<ScrollView
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:scrollbars="none">
 
-    <data>
-        <variable
-            name="article"
-            type="com.alex.newstime.feature.article.model.ArticleState"/>
-    </data>
-
-    <ScrollView
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        android:scrollbars="none">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <com.alex.newstime.ui.GlideImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:background="#cdcdcd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView_blur"/>
 
-            <com.alex.newstime.ui.GlideImageView
-                android:id="@+id/imageView"
-                android:layout_width="300dp"
-                android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:background="#cdcdcd"
-                app:url="@{article.urlToImage}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView_blur"/>
+        <ImageView
+            android:id="@+id/imageView_back"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="#333"
+            android:padding="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="#aaffffff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <ImageView
-                android:id="@+id/imageView_back"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_arrow_back"
-                android:tint="#333"
-                android:padding="4dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="#aaffffff"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+        <com.alex.newstime.ui.GlideImageView
+            android:id="@+id/imageView_blur"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:background="#cdcdcd"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <com.alex.newstime.ui.GlideImageView
-                android:id="@+id/imageView_blur"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:background="#cdcdcd"
-                app:url="@{article.urlToImage}"
-                app:blur="@{true}"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="24sp"
+            android:padding="12dp"
+            android:fontFamily="@font/montaga_regular"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/imageView_blur"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_blur"
+            app:layout_constraintVertical_bias="1"
+            tools:text="This is a title"/>
 
-            <TextView
-                android:id="@+id/textView_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondaryTextColor"
-                android:textSize="24sp"
-                android:padding="12dp"
-                android:fontFamily="@font/montaga_regular"
-                android:textStyle="bold"
-                android:text="@{article.title}"
-                app:layout_constraintStart_toStartOf="@+id/imageView_blur"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView_blur"
-                app:layout_constraintVertical_bias="1"
-                tools:text="This is a title"/>
+        <TextView
+            android:id="@+id/textView_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:fontFamily="@font/montaga_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="This is content"/>
 
-            <TextView
-                android:id="@+id/textView_content"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primaryTextColor"
-                android:textSize="18sp"
-                android:padding="12dp"
-                android:fontFamily="@font/montaga_regular"
-                android:text="@{article.content}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="This is content"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</layout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

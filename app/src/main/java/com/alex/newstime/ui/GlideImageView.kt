@@ -5,16 +5,10 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.widget.ImageView
-import androidx.databinding.BindingAdapter
 import com.alex.newstime.R
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import jp.wasabeef.glide.transformations.BlurTransformation
-
-@BindingAdapter(value = ["url", "blur"], requireAll = false)
-fun setImage(glideImageView: GlideImageView, url: String?, blur: Boolean = false) {
-    glideImageView.setImage(url, blur)
-}
 
 @SuppressLint("all")
 class GlideImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ImageView(context, attrs) {

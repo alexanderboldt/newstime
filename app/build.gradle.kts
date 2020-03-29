@@ -95,7 +95,7 @@ android {
         isAbortOnError = false
     }
 
-    dataBinding {
+    viewBinding {
         isEnabled = true
     }
 

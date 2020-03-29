@@ -5,17 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.annotation.LayoutRes
 import androidx.annotation.NonNull
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.*
+import androidx.viewbinding.ViewBinding
 import com.bluelinelabs.conductor.archlifecycle.LifecycleController
 import io.reactivex.disposables.CompositeDisposable
 
-abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout: Int) : LifecycleController(), LifecycleObserver {
+abstract class BaseController<VB : ViewBinding> : LifecycleController(), LifecycleObserver {
 
-    protected lateinit var binding: T
+    protected lateinit var binding: VB
 
     protected val disposables by lazy { CompositeDisposable() }
 
@@ -42,9 +40,8 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
 
     // ----------------------------------------------------------------------------
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
-        binding = DataBindingUtil.inflate(inflater, layout, container, false)
-        binding.lifecycleOwner = this
+    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
+        binding = onCreateBinding(inflater, container)
 
         lifecycle.addObserver(this)
 
@@ -96,6 +93,7 @@ abstract class BaseController<T : ViewDataBinding>(@LayoutRes private val layout
 
     // ----------------------------------------------------------------------------
 
+    abstract fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup): VB
     open fun onSetupView() {}
     open fun onViewBinding() {}
     open fun onViewModelBinding() {}

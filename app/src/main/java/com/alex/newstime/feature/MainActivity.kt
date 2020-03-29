@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.alex.newstime.BuildConfig
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
 import com.alex.newstime.feature.favorits.FavoritsController
 import com.alex.newstime.feature.topheadlines.TopHeadlinesController
 import com.bluelinelabs.conductor.Conductor
+import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import tech.linjiang.pandora.Pandora
@@ -18,7 +18,7 @@ import tech.linjiang.pandora.Pandora
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
 
-    private val binding by lazy { DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main) }
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private lateinit var router: Router
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 router.apply {
                     popToRoot()
-                    setRoot(RouterTransaction.with(controller))
+                    setRoot(RouterTransaction.with(controller as Controller))
                 }
                 true
             }
@@ -55,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(TopHeadlinesController()))
         }
+
+        setContentView(binding.root)
     }
 
     override fun onBackPressed() {
