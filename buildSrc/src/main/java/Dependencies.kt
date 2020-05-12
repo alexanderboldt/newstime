@@ -74,7 +74,7 @@ object Deps {
         val rxbindingAppcompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0"
         val rxbindingSwiperefreshlayout = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:3.1.0"
 
-        val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.0-alpha-3"
+        val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
         val pandora = "com.github.whataa:pandora:androidx_v2.0.3"
         val pandoraNoOp = "com.github.whataa:pandora-no-op:v2.0.3"

@@ -51,9 +51,6 @@ class TopHeadlinesViewModel : BaseViewModel() {
     private val _bottomSheetDialogState = LiveEvent<Boolean>()
     val bottomSheetDialogState: LiveData<Boolean> = _bottomSheetDialogState
 
-    private val _testState = LiveEvent<String>()
-    val testState: LiveData<String> = _testState
-
     // ----------------------------------------------------------------------------
 
     init {
@@ -102,8 +99,6 @@ class TopHeadlinesViewModel : BaseViewModel() {
     }
 
     fun clickOnArticle(article: ArticleModel) {
-        _testState.postValue("hey")
-
         articles
             .firstOrNull { it.id == article.id }
             ?.also { _detailState.postValue(it) }

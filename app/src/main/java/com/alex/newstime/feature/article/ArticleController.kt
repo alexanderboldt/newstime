@@ -5,7 +5,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
 import com.alex.newstime.databinding.ControllerArticleBinding
 import com.alex.newstime.feature.base.BaseController
@@ -34,6 +36,10 @@ class ArticleController(private var bundle: Bundle) : BaseController<ControllerA
 
     override fun onSetupView() {
         viewModel.init(Parcels.unwrap(bundle.getParcelable(KEY_ARTICLE)))
+
+        binding.imageViewBack.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            topMargin += getStatusBarHeight()
+        }
     }
 
     override fun onViewBinding() {

@@ -2,8 +2,12 @@ package com.alex.newstime.feature
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginTop
+import androidx.core.view.updateLayoutParams
 import com.alex.newstime.BuildConfig
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.textViewVersion.apply {
             text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            updateLayoutParams<ConstraintLayout.LayoutParams> { topMargin = getStatusBarHeight() }
             setOnLongClickListener {
                 Pandora.get().open()
                 false
@@ -62,6 +67,16 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (!router.handleBack()) {
             super.onBackPressed()
+        }
+    }
+
+    // ----------------------------------------------------------------------------
+
+    fun getStatusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        return when (resourceId > 0) {
+            true -> resources.getDimensionPixelSize(resourceId)
+            false -> 0
         }
     }
 }

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -39,6 +40,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>() {
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
+            it.updatePadding(top = getStatusBarHeight())
         }
     }
 

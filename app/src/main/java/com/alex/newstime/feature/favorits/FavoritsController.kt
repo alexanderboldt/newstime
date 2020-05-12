@@ -2,6 +2,7 @@ package com.alex.newstime.feature.favorits
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.newstime.databinding.ControllerFavoritsBinding
 import com.alex.newstime.feature.article.ArticleController
@@ -24,6 +25,7 @@ class FavoritsController : BaseController<ControllerFavoritsBinding>() {
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
+            it.updatePadding(top = getStatusBarHeight())
         }
     }
 
