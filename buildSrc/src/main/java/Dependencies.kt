@@ -45,9 +45,9 @@ object Deps {
 
         val timber = "com.jakewharton.timber:timber:4.7.1"
 
-        val retrofit = "com.squareup.retrofit2:retrofit:2.6.0"
-        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.6.0"
-        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:2.6.0"
+        val retrofit = "com.squareup.retrofit2:retrofit:2.8.1"
+        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.8.1"
+        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:2.8.1"
         val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
 
         val moshi = "com.squareup.moshi:moshi:1.8.0"
