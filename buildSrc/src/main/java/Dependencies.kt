@@ -39,7 +39,7 @@ object Deps {
     }
 
     object Libs {
-        val androidCore = "com.alex:android-core:1.3.0"
+        val androidCore = "com.github.alexanderboldt:androidcore:1.3.0"
 
         val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
 
