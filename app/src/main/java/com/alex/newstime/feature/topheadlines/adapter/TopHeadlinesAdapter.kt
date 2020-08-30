@@ -12,8 +12,8 @@ import com.alex.newstime.feature.topheadlines.model.ArticleModel
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.util.plusAssign
-import com.jakewharton.rxbinding3.view.longClicks
-import io.reactivex.subjects.PublishSubject
+import com.jakewharton.rxbinding4.view.longClicks
+import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 class TopHeadlinesAdapter(lifecycleOwner: LifecycleOwner, private val viewModel: TopHeadlinesViewModel)

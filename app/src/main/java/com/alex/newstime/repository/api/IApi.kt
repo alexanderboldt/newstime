@@ -1,7 +1,7 @@
 package com.alex.newstime.repository.api
 
 import com.alex.newstime.repository.api.article.ArticleResponse
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 interface IApi {

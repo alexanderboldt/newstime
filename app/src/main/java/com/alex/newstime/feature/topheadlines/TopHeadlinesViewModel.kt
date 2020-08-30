@@ -15,11 +15,9 @@ import com.alex.newstime.util.plusAssign
 import com.hadilq.liveevent.LiveEvent
 import timber.log.Timber
 
-class TopHeadlinesViewModel : BaseViewModel() {
-
-    private val articleRepository by lazy { ArticleRepository() }
-
-    private val resourceProvider by lazy { ResourceProvider }
+class TopHeadlinesViewModel(
+    private val articleRepository: ArticleRepository,
+    private val resourceProvider: ResourceProvider) : BaseViewModel() {
 
     private val articles by lazy { ArrayList<Article>() }
 

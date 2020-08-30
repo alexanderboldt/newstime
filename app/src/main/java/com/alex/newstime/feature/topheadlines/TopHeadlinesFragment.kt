@@ -6,37 +6,37 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alex.newstime.databinding.ControllerTopHeadlinesBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.R
-import com.alex.newstime.feature.base.BaseController
+import com.alex.newstime.databinding.FragmentTopHeadlinesBinding
+import com.alex.newstime.feature.base.BaseFragment
 import com.alex.newstime.feature.topheadlines.adapter.TopHeadlinesAdapter
 import com.alex.newstime.util.plusAssign
-import com.alex.newstime.util.pushDetailController
-import com.jakewharton.rxbinding3.swiperefreshlayout.refreshes
-import com.jakewharton.rxbinding3.view.clicks
+import com.jakewharton.rxbinding4.swiperefreshlayout.refreshes
+import com.jakewharton.rxbinding4.view.clicks
+import org.koin.android.ext.android.inject
 
-class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>() {
+class TopHeadlinesFragment : BaseFragment<FragmentTopHeadlinesBinding>() {
+
+    private val viewModel: TopHeadlinesViewModel by inject()
 
     private val adapter by lazy { TopHeadlinesAdapter(this, viewModel) }
-    private val viewModel by lazy { getViewModel(TopHeadlinesViewModel::class.java) }
 
     private val bottomSheetDialog by lazy {
-        BottomSheetDialog(context).apply { setContentView(bottomSheetDialogFavorites) }
+        BottomSheetDialog(requireContext()).apply { setContentView(bottomSheetDialogFavorites) }
     }
 
     private val bottomSheetDialogFavorites by lazy {
-        activity!!.layoutInflater.inflate(R.layout.view_add_to_favorites, null)
+        layoutInflater.inflate(R.layout.view_add_to_favorites, null)
     }
 
     // ----------------------------------------------------------------------------
 
-    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup): ControllerTopHeadlinesBinding {
-        return ControllerTopHeadlinesBinding.inflate(inflater, container, false)
+    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?): FragmentTopHeadlinesBinding {
+        return FragmentTopHeadlinesBinding.inflate(inflater, container, false)
     }
 
-    override fun onSetupView() {
+    override fun setupView() {
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
@@ -44,7 +44,7 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>() {
         }
     }
 
-    override fun onViewBinding() {
+    override fun bindView() {
         disposables += binding.swipeRefreshLayout.refreshes().subscribe {
             viewModel.onSwipeRefreshLayout()
         }
@@ -54,12 +54,12 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>() {
         }
     }
 
-    override fun onViewModelBinding() {
-        viewModel.recyclerLoadingState.observeNotNull {
+    override fun bindViewModel() {
+        viewModel.recyclerLoadingState.observe {
             binding.swipeRefreshLayout.isRefreshing = it
         }
 
-        viewModel.recyclerMessageState.observeNotNull {
+        viewModel.recyclerMessageState.observe {
             binding.textViewMessage.apply {
                 text = it
                 isVisible = true
@@ -68,32 +68,26 @@ class TopHeadlinesController : BaseController<ControllerTopHeadlinesBinding>() {
             binding.recyclerView.isVisible = false
         }
 
-        viewModel.recyclerArticlesState.observeNotNull { data ->
+        viewModel.recyclerArticlesState.observe { data ->
             binding.textViewMessage.isVisible = false
             binding.recyclerView.isVisible = true
         }
 
-        viewModel.detailState.observeNotNull {
-            router.pushDetailController(ArticleController.create(it))
+        viewModel.detailState.observe {
         }
 
-        viewModel.recyclerScrollState.observeNotNull {
+        viewModel.recyclerScrollState.observe {
             binding.recyclerView.smoothScrollToPosition(it)
         }
 
-        viewModel.messageState.observeNotNull {
+        viewModel.messageState.observe {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.bottomSheetDialogState.observeNotNull { state ->
+        viewModel.bottomSheetDialogState.observe { state ->
             bottomSheetDialog.apply { if (state) show() else hide() }
         }
-    }
 
-    // ----------------------------------------------------------------------------
-
-    override fun onLifecycleResume() {
-        super.onLifecycleResume()
         viewModel.init()
     }
 }

@@ -2,7 +2,7 @@ package com.alex.newstime.repository.database.article
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface ArticleDao {

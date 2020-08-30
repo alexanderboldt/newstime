@@ -8,11 +8,14 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.alex.core.bus.RxBus
 import com.alex.newstime.bus.AppEvent
-import com.alex.newstime.feature.base.ResourceProvider
+import com.alex.newstime.feature.base.di.resourceProviderModule
+import com.alex.newstime.feature.topheadlines.di.topHeadlinesModule
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
+import com.alex.newstime.repository.article.di.articleRepositoryModule
 import com.alex.newstime.repository.database.NewstimeDatabase
-import tech.linjiang.pandora.Pandora
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class NewsTimeApplication : Application(), LifecycleObserver {
@@ -39,10 +42,9 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     private fun setup() {
         setupDatabase()
         setupApi()
-        setupResourceManager()
         setupConnectivityReceiver()
         setupTimber()
-        setupPandora()
+        setupKoin()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
@@ -55,10 +57,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         ApiClient.initialize()
     }
 
-    private fun setupResourceManager() {
-        ResourceProvider.init(this)
-    }
-
     private fun setupConnectivityReceiver() {
         registerReceiver(ConnectivityReceiver(), IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
     }
@@ -69,7 +67,10 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         Timber.plant(Timber.DebugTree())
     }
 
-    private fun setupPandora() {
-        Pandora.get().disableShakeSwitch()
+    private fun setupKoin() {
+        startKoin {
+            androidContext(this@NewsTimeApplication)
+            modules(listOf(topHeadlinesModule, articleRepositoryModule, resourceProviderModule))
+        }
     }
 }

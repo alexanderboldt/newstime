@@ -2,26 +2,30 @@ object Deps {
     object Config {
         val applicationId = "com.alex.newstime"
         val minSdk = 21
-        val sdk = 29
+        val sdk = 30
     }
 
     object AndroidX {
-        val core = "androidx.core:core-ktx:1.2.0"
-        val appCompat = "androidx.appcompat:appcompat:1.0.2"
-        val material = "com.google.android.material:material:1.1.0-alpha06"
+        val core = "androidx.core:core-ktx:1.3.0"
+        val appCompat = "androidx.appcompat:appcompat:1.1.0"
+        val material = "com.google.android.material:material:1.1.0"
         val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
-        val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
+        val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"
 
-        val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:2.2.0"
-        val lifecycleRuntimeExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
-        val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:2.2.0"
-        val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:2.2.0"
-        val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+        val lifecycleVersion = "2.2.0"
+        val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
+        val lifecycleRuntimeExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+        val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+        val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+        val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-        val room = "androidx.room:room-runtime:2.2.4"
-        val roomCompiler = "androidx.room:room-compiler:2.2.4"
-        val roomRxJava = "androidx.room:room-rxjava2:2.2.4"
+        val fragmentsExt = "androidx.fragment:fragment-ktx:1.2.5"
+
+        val roomVersion = "2.3.0-alpha02"
+        val room = "androidx.room:room-runtime:$roomVersion"
+        val roomCompiler = "androidx.room:room-compiler:$roomVersion"
+        val roomRxJava = "androidx.room:room-rxjava3:$roomVersion"
     }
 
     object Test {
@@ -39,44 +43,46 @@ object Deps {
     }
 
     object Libs {
-        val androidCore = "com.github.alexanderboldt:androidcore:1.3.0"
+        val androidCore = "com.github.alexanderboldt:androidcore:2.0.0"
 
         val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
 
         val timber = "com.jakewharton.timber:timber:4.7.1"
 
-        val retrofit = "com.squareup.retrofit2:retrofit:2.8.1"
-        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:2.8.1"
-        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava2:2.8.1"
+        val retrofitVersion = "2.9.0"
+        val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
         val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
 
-        val moshi = "com.squareup.moshi:moshi:1.8.0"
-        val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
+        val moshiVersion = "1.10.0"
+        val moshi = "com.squareup.moshi:moshi:$moshiVersion"
+        val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
 
-        val glide = "com.github.bumptech.glide:glide:4.9.0"
-        val glideCompiler = "com.github.bumptech.glide:compiler:4.9.0"
-        val glideOkHttpIntegration = "com.github.bumptech.glide:okhttp3-integration:4.9.0"
+        val glideVersion = "4.11.0"
+        val glide = "com.github.bumptech.glide:glide:$glideVersion"
+        val glideCompiler = "com.github.bumptech.glide:compiler:$glideVersion"
+        val glideOkHttpIntegration = "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
         val glideTransformations = "jp.wasabeef:glide-transformations:4.0.0"
-
-        val conductor = "com.bluelinelabs:conductor:2.1.5"
-        val conductorSupport = "com.bluelinelabs:conductor-support:2.1.5"
-        val conductorLifecycle = "com.bluelinelabs:conductor-archlifecycle:2.1.5"
 
         val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
 
-        val parcel = "org.parceler:parceler-api:1.1.12"
-        val parcelCompiler = "org.parceler:parceler:1.1.12"
+        val parcelVersion = "1.1.12"
+        val parcel = "org.parceler:parceler-api:$parcelVersion"
+        val parcelCompiler = "org.parceler:parceler:$parcelVersion"
 
-        val rxjava = "io.reactivex.rxjava2:rxjava:2.2.10"
-        val rxandroid = "io.reactivex.rxjava2:rxandroid:2.1.1"
+        val rxjava = "io.reactivex.rxjava3:rxjava:3.0.6"
+        val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
 
-        val rxbinding = "com.jakewharton.rxbinding3:rxbinding:3.1.0"
-        val rxbindingAppcompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:3.1.0"
-        val rxbindingSwiperefreshlayout = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:3.1.0"
+        val rxbindingVersion = "4.0.0"
+        val rxbinding = "com.jakewharton.rxbinding4:rxbinding:$rxbindingVersion"
+        val rxbindingAppcompat = "com.jakewharton.rxbinding4:rxbinding-appcompat:$rxbindingVersion"
+        val rxbindingSwiperefreshlayout = "com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:$rxbindingVersion"
 
         val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
-        val pandora = "com.github.whataa:pandora:androidx_v2.0.3"
-        val pandoraNoOp = "com.github.whataa:pandora-no-op:v2.0.3"
+        val koinVersion = "2.1.6"
+        val koin = "org.koin:koin-android:$koinVersion"
+        val koinViewModel = "org.koin:koin-androidx-viewmodel:$koinVersion"
     }
 }

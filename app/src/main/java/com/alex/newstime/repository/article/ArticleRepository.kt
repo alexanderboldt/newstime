@@ -3,9 +3,9 @@ package com.alex.newstime.repository.article
 import com.alex.newstime.repository.api.article.ArticleRoutes
 import com.alex.newstime.repository.database.article.ArticleTable
 import com.alex.newstime.repository.database.article.DbArticle
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 open class ArticleRepository {
 

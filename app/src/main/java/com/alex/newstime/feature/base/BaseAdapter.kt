@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
-import com.jakewharton.rxbinding3.view.clicks
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
+import com.jakewharton.rxbinding4.view.clicks
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder, VT : Enum<VT>>(
@@ -66,13 +66,13 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder, VT : Enum<VT>>(
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     @CallSuper
     open fun onLifecycleCreate() {
-        onViewModelBinding()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     @CallSuper
     open fun onLifecycleStart() {
         onViewBinding()
+        onViewModelBinding()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

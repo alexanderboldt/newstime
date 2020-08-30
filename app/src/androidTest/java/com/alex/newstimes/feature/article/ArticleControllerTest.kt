@@ -6,7 +6,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alex.newstime.R
-import com.alex.newstime.feature.TestActivity
 import com.alex.newstime.feature.article.ArticleController
 import com.alex.newstime.repository.article.Article
 import com.bluelinelabs.conductor.RouterTransaction

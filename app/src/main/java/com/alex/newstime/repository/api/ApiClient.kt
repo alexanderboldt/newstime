@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.internal.platform.Platform
 import com.ihsanbal.logging.LoggingInterceptor
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
@@ -50,7 +50,7 @@ object ApiClient {
                 Retrofit.Builder()
                     .baseUrl(BuildConfig.BASE_URL)
                     .addConverterFactory(MoshiConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                     .client(this)
                     .build()
                     .create(IApi::class.java)

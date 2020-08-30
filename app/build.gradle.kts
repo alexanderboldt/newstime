@@ -95,8 +95,8 @@ android {
         isAbortOnError = false
     }
 
-    viewBinding {
-        isEnabled = true
+    buildFeatures {
+        viewBinding = true
     }
 
     compileOptions {
@@ -146,6 +146,8 @@ dependencies {
     implementation(Deps.AndroidX.lifecycleCommonJava)
     kapt(Deps.AndroidX.lifecycleCompiler)
 
+    implementation(Deps.AndroidX.fragmentsExt)
+
     implementation(Deps.AndroidX.room)
     kapt(Deps.AndroidX.roomCompiler)
     implementation(Deps.AndroidX.roomRxJava)
@@ -164,17 +166,13 @@ dependencies {
     implementation(Deps.Libs.retrofitRxAdapter)
     implementation(Deps.Libs.okHttpLogging)
     implementation(Deps.Libs.moshi)
+    kapt(Deps.Libs.moshiCodeGen)
 
     // image
     implementation(Deps.Libs.glide)
     implementation(Deps.Libs.glideTransformations)
     kapt(Deps.Libs.glideCompiler)
     implementation(Deps.Libs.glideOkHttpIntegration)
-
-    // fragments-alternative
-    implementation(Deps.Libs.conductor)
-    implementation(Deps.Libs.conductorSupport)
-    implementation(Deps.Libs.conductorLifecycle)
 
     implementation(Deps.Libs.liveEvent)
 
@@ -194,7 +192,7 @@ dependencies {
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
-    // debugging-tool
-    debugImplementation(Deps.Libs.pandora)
-    releaseImplementation(Deps.Libs.pandoraNoOp)
+    // dependency injection
+    implementation(Deps.Libs.koin)
+    implementation(Deps.Libs.koinViewModel)
 }
