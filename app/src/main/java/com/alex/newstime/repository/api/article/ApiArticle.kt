@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 data class ApiArticle(
     val title: String,
     val urlToImage: String,
-    val content: String,
+    val content: String?,
     val url: String)

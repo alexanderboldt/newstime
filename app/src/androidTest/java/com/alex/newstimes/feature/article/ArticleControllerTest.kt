@@ -6,7 +6,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alex.newstime.R
-import com.alex.newstime.feature.article.ArticleController
+import com.alex.newstime.feature.article.ArticleFragment
 import com.alex.newstime.repository.article.Article
 import com.bluelinelabs.conductor.RouterTransaction
 import org.junit.Before
@@ -34,7 +34,7 @@ class ArticleControllerTest {
                 urlToImage = "www.url.image"
                 content = "This is a test-content"
             }
-            rule.activity.router.setRoot(RouterTransaction.with(ArticleController.create(article)))
+            rule.activity.router.setRoot(RouterTransaction.with(ArticleFragment.create(article)))
         }
     }
 

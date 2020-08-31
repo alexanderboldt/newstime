@@ -3,12 +3,15 @@ package com.alex.newstime.feature.topheadlines
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.alex.newstime.R
 import com.alex.newstime.databinding.FragmentTopHeadlinesBinding
+import com.alex.newstime.feature.article.ArticleFragment
 import com.alex.newstime.feature.base.BaseFragment
 import com.alex.newstime.feature.topheadlines.adapter.TopHeadlinesAdapter
 import com.alex.newstime.util.plusAssign
@@ -73,7 +76,11 @@ class TopHeadlinesFragment : BaseFragment<FragmentTopHeadlinesBinding>() {
             binding.recyclerView.isVisible = true
         }
 
-        viewModel.detailState.observe {
+        viewModel.detailState.observe { article ->
+            activity?.supportFragmentManager?.commit {
+                add(R.id.frameLayout_fragments, ArticleFragment.create(article))
+                addToBackStack(null)
+            }
         }
 
         viewModel.recyclerScrollState.observe {
