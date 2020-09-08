@@ -10,6 +10,7 @@ import androidx.fragment.app.commit
 import com.alex.newstime.BuildConfig
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
+import com.alex.newstime.feature.favorits.FavoritsFragment
 import com.alex.newstime.feature.topheadlines.TopHeadlinesFragment
 
 @SuppressLint("SetTextI18n")
@@ -34,7 +35,10 @@ class MainActivity : AppCompatActivity() {
             it.setOnNavigationItemSelectedListener { menuItem ->
                 val fragment = when (menuItem.itemId) {
                     R.id.item_one -> TopHeadlinesFragment()
-                    else -> TopHeadlinesFragment()
+                    else -> FavoritsFragment()
+                }
+                supportFragmentManager.commit {
+                    replace(R.id.frameLayout_fragments, fragment)
                 }
                 true
             }

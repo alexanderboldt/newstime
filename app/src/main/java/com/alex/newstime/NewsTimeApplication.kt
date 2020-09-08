@@ -10,6 +10,7 @@ import com.alex.core.bus.RxBus
 import com.alex.newstime.bus.AppEvent
 import com.alex.newstime.feature.article.di.articleModule
 import com.alex.newstime.feature.base.di.resourceProviderModule
+import com.alex.newstime.feature.favorits.di.favoritsModule
 import com.alex.newstime.feature.topheadlines.di.topHeadlinesModule
 import com.alex.newstime.receiver.ConnectivityReceiver
 import com.alex.newstime.repository.api.ApiClient
@@ -71,7 +72,7 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     private fun setupKoin() {
         startKoin {
             androidContext(this@NewsTimeApplication)
-            modules(listOf(topHeadlinesModule, articleModule, articleRepositoryModule, resourceProviderModule))
+            modules(listOf(topHeadlinesModule, favoritsModule, articleModule, articleRepositoryModule, resourceProviderModule))
         }
     }
 }
