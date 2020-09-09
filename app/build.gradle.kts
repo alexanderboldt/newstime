@@ -148,6 +148,9 @@ dependencies {
 
     implementation(Deps.AndroidX.fragmentsExt)
 
+    implementation(Deps.AndroidX.navigationFragment)
+    implementation(Deps.AndroidX.navigationUi)
+
     implementation(Deps.AndroidX.room)
     kapt(Deps.AndroidX.roomCompiler)
     implementation(Deps.AndroidX.roomRxJava)

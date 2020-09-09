@@ -6,12 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.commit
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.alex.newstime.BuildConfig
 import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
-import com.alex.newstime.feature.favorits.FavoritsFragment
-import com.alex.newstime.feature.topheadlines.TopHeadlinesFragment
 
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
@@ -31,21 +30,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigation.also {
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+            it.setupWithNavController(navHostFragment.navController)
             it.setBackgroundColor(ContextCompat.getColor(this, R.color.primaryColor))
-            it.setOnNavigationItemSelectedListener { menuItem ->
-                val fragment = when (menuItem.itemId) {
-                    R.id.item_one -> TopHeadlinesFragment()
-                    else -> FavoritsFragment()
-                }
-                supportFragmentManager.commit {
-                    replace(R.id.frameLayout_fragments, fragment)
-                }
-                true
-            }
-        }
-
-        supportFragmentManager.commit {
-            add(R.id.frameLayout_fragments, TopHeadlinesFragment())
         }
     }
 

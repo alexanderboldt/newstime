@@ -3,7 +3,7 @@ package com.alex.newstime.feature.favorits
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.updatePadding
-import androidx.fragment.app.commit
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alex.newstime.R
 import com.alex.newstime.databinding.FragmentFavoritsBinding
@@ -34,10 +34,7 @@ class FavoritsFragment : BaseFragment<FragmentFavoritsBinding>() {
 
     override fun bindViewModel() {
         viewModel.detailState.observe { article ->
-            activity?.supportFragmentManager?.commit {
-                add(R.id.frameLayout_fragments, ArticleFragment.create(article))
-                addToBackStack(null)
-            }
+            findNavController().navigate(R.id.articleFragment, ArticleFragment.bundle(article))
         }
     }
 

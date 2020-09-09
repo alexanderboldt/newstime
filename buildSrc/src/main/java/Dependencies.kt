@@ -22,6 +22,10 @@ object Deps {
 
         val fragmentsExt = "androidx.fragment:fragment-ktx:1.2.5"
 
+        val navVersion = "2.3.0"
+        val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
+        val navigationUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
+
         val roomVersion = "2.3.0-alpha02"
         val room = "androidx.room:room-runtime:$roomVersion"
         val roomCompiler = "androidx.room:room-compiler:$roomVersion"

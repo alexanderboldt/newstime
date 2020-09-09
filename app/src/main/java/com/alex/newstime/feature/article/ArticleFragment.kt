@@ -2,12 +2,12 @@ package com.alex.newstime.feature.article
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.fragment.findNavController
 import com.alex.newstime.databinding.FragmentArticleBinding
 import com.alex.newstime.feature.base.BaseFragment
 import com.alex.newstime.repository.article.Article
@@ -16,7 +16,7 @@ import com.jakewharton.rxbinding4.view.clicks
 import org.koin.android.ext.android.inject
 import org.parceler.Parcels
 
-class ArticleFragment(private var bundle: Bundle) : BaseFragment<FragmentArticleBinding>() {
+class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
 
     private val viewModel: ArticleViewModel by inject()
 
@@ -25,7 +25,7 @@ class ArticleFragment(private var bundle: Bundle) : BaseFragment<FragmentArticle
     companion object {
         private const val KEY_ARTICLE = "KEY_ARTICLE"
 
-        fun create(article: Article) = ArticleFragment(bundleOf(KEY_ARTICLE to Parcels.wrap(article)))
+        fun bundle(article: Article) = bundleOf(KEY_ARTICLE to Parcels.wrap(article))
     }
 
     // ----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class ArticleFragment(private var bundle: Bundle) : BaseFragment<FragmentArticle
     }
 
     override fun setupView() {
-        viewModel.init(Parcels.unwrap(bundle.getParcelable(KEY_ARTICLE)))
+        viewModel.init(Parcels.unwrap(requireArguments().getParcelable(KEY_ARTICLE)))
 
         binding.imageViewBack.updateLayoutParams<ConstraintLayout.LayoutParams> {
             topMargin += getStatusBarHeight()
@@ -48,7 +48,7 @@ class ArticleFragment(private var bundle: Bundle) : BaseFragment<FragmentArticle
         }
 
         disposables += binding.imageViewBack.clicks().subscribe {
-            viewModel.handleClickBack()
+            findNavController().navigateUp()
         }
     }
 
@@ -67,7 +67,7 @@ class ArticleFragment(private var bundle: Bundle) : BaseFragment<FragmentArticle
         }
 
         viewModel.closeState.observe {
-            activity?.supportFragmentManager?.popBackStack()
+            findNavController().navigateUp()
         }
     }
 }
