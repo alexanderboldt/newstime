@@ -142,7 +142,6 @@ dependencies {
     implementation(Deps.AndroidX.constraintLayout)
 
     implementation(Deps.AndroidX.lifecycleRuntime)
-    implementation(Deps.AndroidX.lifecycleExtensions)
     implementation(Deps.AndroidX.lifecycleCommonJava)
     kapt(Deps.AndroidX.lifecycleCompiler)
 

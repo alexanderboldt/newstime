@@ -14,11 +14,8 @@ object Deps {
 
         val lifecycleVersion = "2.2.0"
         val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
-        val lifecycleRuntimeExtensions = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-        val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
         val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
         val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
-        val lifecycleViewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
         val fragmentsExt = "androidx.fragment:fragment-ktx:1.2.5"
 
