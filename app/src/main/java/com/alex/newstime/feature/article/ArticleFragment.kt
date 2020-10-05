@@ -14,7 +14,6 @@ import com.alex.newstime.repository.article.Article
 import com.alex.newstime.util.plusAssign
 import com.jakewharton.rxbinding4.view.clicks
 import org.koin.android.ext.android.inject
-import org.parceler.Parcels
 
 class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
 
@@ -25,7 +24,7 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
     companion object {
         private const val KEY_ARTICLE = "KEY_ARTICLE"
 
-        fun bundle(article: Article) = bundleOf(KEY_ARTICLE to Parcels.wrap(article))
+        fun bundle(article: Article) = bundleOf(KEY_ARTICLE to article)
     }
 
     // ----------------------------------------------------------------------------
@@ -35,7 +34,7 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
     }
 
     override fun setupView() {
-        viewModel.init(Parcels.unwrap(requireArguments().getParcelable(KEY_ARTICLE)))
+        viewModel.init(requireArguments().getParcelable(KEY_ARTICLE)!!)
 
         binding.imageViewBack.updateLayoutParams<ConstraintLayout.LayoutParams> {
             topMargin += getStatusBarHeight()

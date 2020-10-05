@@ -46,7 +46,7 @@ object Deps {
     object Libs {
         val androidCore = "com.github.alexanderboldt:androidcore:2.0.0"
 
-        val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-RC2"
+        val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
 
         val timber = "com.jakewharton.timber:timber:4.7.1"
 
@@ -67,10 +67,6 @@ object Deps {
         val glideTransformations = "jp.wasabeef:glide-transformations:4.0.0"
 
         val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
-
-        val parcelVersion = "1.1.12"
-        val parcel = "org.parceler:parceler-api:$parcelVersion"
-        val parcelCompiler = "org.parceler:parceler:$parcelVersion"
 
         val rxjava = "io.reactivex.rxjava3:rxjava:3.0.6"
         val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"

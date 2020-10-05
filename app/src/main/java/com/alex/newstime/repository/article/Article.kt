@@ -1,9 +1,10 @@
 package com.alex.newstime.repository.article
 
-import org.parceler.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-@Parcel
-class Article {
+@Parcelize
+class Article : Parcelable {
     var id: Long? = null
     var title: String? = null
     var urlToImage: String? = null

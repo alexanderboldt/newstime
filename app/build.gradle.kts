@@ -178,10 +178,6 @@ dependencies {
 
     implementation(Deps.Libs.liveEvent)
 
-    // model-parcel
-    implementation(Deps.Libs.parcel)
-    kapt(Deps.Libs.parcelCompiler)
-
     // reactive
     implementation(Deps.Libs.rxjava)
     implementation(Deps.Libs.rxandroid)
