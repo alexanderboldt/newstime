@@ -16,11 +16,11 @@ import com.alex.newstime.feature.topheadlines.adapter.TopHeadlinesAdapter
 import com.alex.newstime.util.plusAssign
 import com.jakewharton.rxbinding4.swiperefreshlayout.refreshes
 import com.jakewharton.rxbinding4.view.clicks
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TopHeadlinesFragment : BaseFragment<FragmentTopHeadlinesBinding>() {
 
-    private val viewModel: TopHeadlinesViewModel by inject()
+    private val viewModel: TopHeadlinesViewModel by viewModel()
 
     private val adapter by lazy { TopHeadlinesAdapter(this, viewModel) }
 

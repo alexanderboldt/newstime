@@ -13,11 +13,11 @@ import com.alex.newstime.feature.base.BaseFragment
 import com.alex.newstime.repository.article.Article
 import com.alex.newstime.util.plusAssign
 import com.jakewharton.rxbinding4.view.clicks
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
 
-    private val viewModel: ArticleViewModel by inject()
+    private val viewModel: ArticleViewModel by viewModel()
 
     // ----------------------------------------------------------------------------
 

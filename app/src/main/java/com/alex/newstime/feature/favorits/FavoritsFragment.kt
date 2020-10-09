@@ -10,11 +10,11 @@ import com.alex.newstime.databinding.FragmentFavoritsBinding
 import com.alex.newstime.feature.article.ArticleFragment
 import com.alex.newstime.feature.base.BaseFragment
 import com.alex.newstime.feature.favorits.adapter.FavoritsAdapter
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritsFragment : BaseFragment<FragmentFavoritsBinding>() {
 
-    private val viewModel: FavoritsViewModel by inject()
+    private val viewModel: FavoritsViewModel by viewModel()
 
     private val adapter by lazy { FavoritsAdapter(this, viewModel) }
 
