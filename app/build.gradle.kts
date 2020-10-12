@@ -8,6 +8,7 @@ plugins {
 }
 apply {
     plugin("kotlin-android")
+    plugin("androidx.navigation.safeargs.kotlin")
 }
 
 fun getCommitCount(): Int {
@@ -133,6 +134,9 @@ dependencies {
     androidTestImplementation(Deps.Test.testRunner)
     androidTestImplementation(Deps.Test.activityTestRule)
     androidTestImplementation(Deps.Test.espressoCore)
+
+    // kotlin-std-lib
+    implementation(Deps.Libs.kotlinStdLib)
 
     // androidx
     implementation(Deps.AndroidX.core)

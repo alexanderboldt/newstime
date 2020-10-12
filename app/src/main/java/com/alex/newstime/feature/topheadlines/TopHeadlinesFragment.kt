@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.alex.newstime.R
 import com.alex.newstime.databinding.FragmentTopHeadlinesBinding
-import com.alex.newstime.feature.article.ArticleFragment
 import com.alex.newstime.feature.base.BaseFragment
 import com.alex.newstime.feature.topheadlines.adapter.TopHeadlinesAdapter
 import com.alex.newstime.util.plusAssign
@@ -76,7 +75,9 @@ class TopHeadlinesFragment : BaseFragment<FragmentTopHeadlinesBinding>() {
         }
 
         viewModel.detailState.observe { article ->
-            findNavController().navigate(R.id.articleFragment, ArticleFragment.bundle(article))
+            TopHeadlinesFragmentDirections
+                .actionToArticleFragment(article)
+                .also { directions -> findNavController().navigate(directions) }
         }
 
         viewModel.recyclerScrollState.observe {

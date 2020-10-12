@@ -7,22 +7,33 @@
         android:id="@+id/topHeadlinesFragment"
         android:name="com.alex.newstime.feature.topheadlines.TopHeadlinesFragment"
         android:label="TopHeadlinesFragment" >
+
         <action
-            android:id="@+id/action_topHeadlinesFragment_to_articleFragment"
+            android:id="@+id/action_to_articleFragment"
             app:destination="@id/articleFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoritsFragment"
+        android:name="com.alex.newstime.feature.favorits.FavoritsFragment"
+        android:label="FavoritsFragment" >
+
+        <action
+            android:id="@+id/action_to_articleFragment"
+            app:destination="@id/articleFragment" />
+
     </fragment>
 
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.alex.newstime.feature.article.ArticleFragment"
-        android:label="ArticleFragment" />
-    <fragment
-        android:id="@+id/favoritsFragment"
-        android:name="com.alex.newstime.feature.favorits.FavoritsFragment"
-        android:label="FavoritsFragment" >
-        <action
-            android:id="@+id/action_favoritsFragment_to_articleFragment"
-            app:destination="@id/articleFragment" />
+        android:label="ArticleFragment" >
+
+        <argument
+            android:name="article"
+            app:argType="com.alex.newstime.repository.article.RpModelArticle"/>
+
     </fragment>
 
 </navigation>

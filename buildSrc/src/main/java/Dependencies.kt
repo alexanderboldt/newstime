@@ -22,6 +22,7 @@ object Deps {
         val navVersion = "2.3.0"
         val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
         val navigationUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
+        val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
 
         val roomVersion = "2.3.0-alpha02"
         val room = "androidx.room:room-runtime:$roomVersion"
@@ -44,6 +45,9 @@ object Deps {
     }
 
     object Libs {
+        val kotlinVersion = "1.4.0"
+        val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+
         val androidCore = "com.github.alexanderboldt:androidcore:2.0.0"
 
         val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
