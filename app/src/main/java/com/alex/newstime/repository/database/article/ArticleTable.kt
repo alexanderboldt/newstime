@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ArticleTable {
 
-    fun getAll(): Single<List<DbArticle>> {
+    fun getAll(): Single<List<DbModelArticle>> {
         return NewstimeDatabase
             .database
             .articleDao()
@@ -16,7 +16,7 @@ class ArticleTable {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun insert(dbArticle: DbArticle): Single<Long> {
+    fun insert(dbArticle: DbModelArticle): Single<Long> {
         return NewstimeDatabase
             .database
             .articleDao()
@@ -25,7 +25,7 @@ class ArticleTable {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun insert(dbArticles: List<DbArticle>): Single<List<Long>> {
+    fun insert(dbArticles: List<DbModelArticle>): Single<List<Long>> {
         return NewstimeDatabase
             .database
             .articleDao()
@@ -34,7 +34,7 @@ class ArticleTable {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun update(dbArticle: DbArticle): Single<Int> {
+    fun update(dbArticle: DbModelArticle): Single<Int> {
         return NewstimeDatabase
             .database
             .articleDao()
@@ -43,7 +43,7 @@ class ArticleTable {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun delete(dbArticle: DbArticle): Single<Int> {
+    fun delete(dbArticle: DbModelArticle): Single<Int> {
         return NewstimeDatabase
             .database
             .articleDao()

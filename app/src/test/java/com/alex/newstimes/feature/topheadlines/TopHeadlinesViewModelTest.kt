@@ -8,7 +8,7 @@ import com.alex.newstime.feature.topheadlines.model.ArticleModel
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
-import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.RpModelArticle
 import com.alex.newstime.repository.article.ArticleRepository
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +44,7 @@ class TopHeadlinesViewModelTest {
     @Mock lateinit var observerRecyclerScrollStateMock: Observer<Int>
     @Mock lateinit var observerMessageStateMock: Observer<String>
     @Mock lateinit var observerBottomSheetDialogStateMock: Observer<Boolean>
-    @Mock lateinit var observerDetailState: Observer<Article>
+    @Mock lateinit var observerDetailState: Observer<RpModelArticle>
 
     // ----------------------------------------------------------------------------
 
@@ -126,17 +126,17 @@ class TopHeadlinesViewModelTest {
     fun init_with_valid_articles() {
         // prepare
         val articles = listOf(
-            Article().apply {
+            RpModelArticle().apply {
                 id = 1
                 title = "title"
                 urlToImage = "www.image.com"
             },
-            Article().apply {
+            RpModelArticle().apply {
                 id = 2
                 title = "title"
                 urlToImage = "www.image.com"
             },
-            Article().apply {
+            RpModelArticle().apply {
                 id = 3
                 title = "title"
                 urlToImage = "www.image.com"

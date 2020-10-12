@@ -7,21 +7,21 @@ import io.reactivex.rxjava3.core.Single
 @Dao
 interface ArticleDao {
 
-    @Query("select * from dbArticle")
-    fun getAll(): Single<List<DbArticle>>
+    @Query("select * from dbModelArticle")
+    fun getAll(): Single<List<DbModelArticle>>
 
     @Insert(onConflict = IGNORE)
-    fun insert(dbArticle: DbArticle): Single<Long>
+    fun insert(dbArticle: DbModelArticle): Single<Long>
 
     @Insert(onConflict = IGNORE)
-    fun insert(dbArticles: List<DbArticle>): Single<List<Long>>
+    fun insert(dbArticles: List<DbModelArticle>): Single<List<Long>>
 
     @Update
-    fun update(dbArticle: DbArticle): Single<Int>
+    fun update(dbArticle: DbModelArticle): Single<Int>
 
     @Delete
-    fun delete(dbArticle: DbArticle): Single<Int>
+    fun delete(dbArticle: DbModelArticle): Single<Int>
 
-    @Query("delete from dbArticle")
+    @Query("delete from dbModelArticle")
     fun deleteAll(): Single<Int>
 }

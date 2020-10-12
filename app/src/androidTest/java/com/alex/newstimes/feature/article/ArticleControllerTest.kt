@@ -7,7 +7,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alex.newstime.R
 import com.alex.newstime.feature.article.ArticleFragment
-import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.RpModelArticle
 import com.bluelinelabs.conductor.RouterTransaction
 import org.junit.Before
 import org.junit.Rule
@@ -21,14 +21,14 @@ class ArticleControllerTest {
     @JvmField
     val rule = ActivityTestRule(TestActivity::class.java)
 
-    private lateinit var article: Article
+    private lateinit var article: RpModelArticle
 
     // ----------------------------------------------------------------------------
 
     @Before
     fun before() {
         rule.runOnUiThread {
-            article = Article().apply {
+            article = RpModelArticle().apply {
                 id = 2342
                 title = "Test-DbArticle"
                 urlToImage = "www.url.image"

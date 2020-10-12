@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alex.newstime.feature.article.model.ArticleModel
 import com.alex.newstime.feature.article.ArticleViewModel
-import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.RpModelArticle
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -44,7 +44,7 @@ class ArticleViewModelTest {
     @Test
     fun it_should_display_the_article() {
         // prepare
-        val article = Article().apply {
+        val article = RpModelArticle().apply {
             id = 387428
             title = "Test DbArticle"
             content = "Content"
@@ -96,7 +96,7 @@ class ArticleViewModelTest {
     @Test
     fun it_should_open_the_article_in_browser() {
         // prepare
-        val article = Article().apply {
+        val article = RpModelArticle().apply {
             id = 387428
             title = "Test DbArticle"
             content = "Content"

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Article : Parcelable {
+class RpModelArticle : Parcelable {
     var id: Long? = null
     var title: String? = null
     var urlToImage: String? = null

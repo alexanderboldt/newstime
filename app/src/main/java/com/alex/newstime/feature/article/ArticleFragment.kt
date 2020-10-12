@@ -10,7 +10,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.navigation.fragment.findNavController
 import com.alex.newstime.databinding.FragmentArticleBinding
 import com.alex.newstime.feature.base.BaseFragment
-import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.RpModelArticle
 import com.alex.newstime.util.plusAssign
 import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +24,7 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
     companion object {
         private const val KEY_ARTICLE = "KEY_ARTICLE"
 
-        fun bundle(article: Article) = bundleOf(KEY_ARTICLE to article)
+        fun bundle(article: RpModelArticle) = bundleOf(KEY_ARTICLE to article)
     }
 
     // ----------------------------------------------------------------------------

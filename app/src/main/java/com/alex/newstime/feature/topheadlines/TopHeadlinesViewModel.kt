@@ -9,7 +9,7 @@ import com.alex.newstime.feature.base.ResourceProvider
 import com.alex.newstime.feature.topheadlines.model.ArticleModel
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
-import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.RpModelArticle
 import com.alex.newstime.repository.article.ArticleRepository
 import com.alex.newstime.util.plusAssign
 import com.hadilq.liveevent.LiveEvent
@@ -19,7 +19,7 @@ class TopHeadlinesViewModel(
     private val articleRepository: ArticleRepository,
     private val resourceProvider: ResourceProvider) : BaseViewModel() {
 
-    private val articles by lazy { ArrayList<Article>() }
+    private val articles by lazy { ArrayList<RpModelArticle>() }
 
     private val PAGE_SIZE = 10
 
@@ -43,8 +43,8 @@ class TopHeadlinesViewModel(
     private val _messageState = LiveEvent<String>()
     val messageState: LiveData<String> = _messageState
 
-    private val _detailState = LiveEvent<Article>()
-    val detailState: LiveData<Article> = _detailState
+    private val _detailState = LiveEvent<RpModelArticle>()
+    val detailState: LiveData<RpModelArticle> = _detailState
 
     private val _bottomSheetDialogState = LiveEvent<Boolean>()
     val bottomSheetDialogState: LiveData<Boolean> = _bottomSheetDialogState

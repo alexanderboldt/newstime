@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.alex.newstime.feature.article.model.ArticleState
-import com.alex.newstime.repository.article.Article
+import com.alex.newstime.repository.article.RpModelArticle
 import com.hadilq.liveevent.LiveEvent
 
 class ArticleViewModel : ViewModel() {
 
-    private lateinit var article: Article
+    private lateinit var article: RpModelArticle
 
     private val _dataState = MutableLiveData<ArticleState>()
     val dataState: LiveData<ArticleState> = _dataState
@@ -22,7 +22,7 @@ class ArticleViewModel : ViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    fun init(article: Article) {
+    fun init(article: RpModelArticle) {
         this.article = article
 
         article

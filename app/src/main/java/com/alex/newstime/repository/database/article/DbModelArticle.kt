@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class DbArticle(
+data class DbModelArticle(
     @PrimaryKey
     val id: Long,
     val title: String,

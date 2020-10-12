@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ArticleRoutes {
 
-    fun getTopHeadlines(pageSize: Int = 10, page: Int = 1): Single<List<ApiArticle>> {
+    fun getTopHeadlines(pageSize: Int = 10, page: Int = 1): Single<List<ApiModelArticle>> {
         return ApiClient
             .getInterface()
             .getTopHeadlines(pageSize, page)
@@ -16,7 +16,7 @@ class ArticleRoutes {
             .map { it.articles }
     }
 
-    fun getEverything(pageSize: Int = 10, page: Int = 1): Single<List<ApiArticle>> {
+    fun getEverything(pageSize: Int = 10, page: Int = 1): Single<List<ApiModelArticle>> {
         return ApiClient
             .getInterface()
             .getEverything(pageSize, page)
