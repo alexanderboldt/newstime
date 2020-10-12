@@ -1,7 +1,9 @@
 package com.alex.newstime
 
 import android.app.Application
-import android.content.IntentFilter
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkRequest
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -12,7 +14,7 @@ import com.alex.newstime.feature.article.di.articleModule
 import com.alex.newstime.feature.base.di.resourceProviderModule
 import com.alex.newstime.feature.favorits.di.favoritsModule
 import com.alex.newstime.feature.topheadlines.di.topHeadlinesModule
-import com.alex.newstime.receiver.ConnectivityReceiver
+import com.alex.newstime.receiver.NetworkCallback
 import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.article.di.articleRepositoryModule
 import com.alex.newstime.repository.database.NewstimeDatabase
@@ -60,7 +62,8 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     }
 
     private fun setupConnectivityReceiver() {
-        registerReceiver(ConnectivityReceiver(), IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"))
+        val manager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        manager.registerNetworkCallback(NetworkRequest.Builder().build(), NetworkCallback())
     }
 
     private fun setupTimber() {
