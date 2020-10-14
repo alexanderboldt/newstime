@@ -10,7 +10,7 @@ import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
 import com.alex.newstime.repository.article.RpModelArticle
 import com.alex.newstime.repository.article.ArticleRepository
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -55,11 +55,7 @@ class TopHeadlinesViewModelTest {
 
         MockitoAnnotations.initMocks(this)
 
-        viewModel = TopHeadlinesViewModel().apply {
-            // this is a fallback, best way to use mocked instances, is to do it with dagger
-            articleRepository = articleRepositoryMock
-            resourceProvider = resourceProviderMock
-
+        viewModel = TopHeadlinesViewModel(articleRepositoryMock, resourceProviderMock).apply {
             recyclerLoadingState.observeForever(observerRecyclerLoadingStateMock)
             recyclerMessageState.observeForever(observerRecyclerMessageStateMock)
             recyclerArticlesState.observeForever(observerRecyclerArticlesStateMock)
