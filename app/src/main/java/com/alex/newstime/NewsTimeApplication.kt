@@ -15,7 +15,6 @@ import com.alex.newstime.feature.base.di.resourceProviderModule
 import com.alex.newstime.feature.favorits.di.favoritsModule
 import com.alex.newstime.feature.topheadlines.di.topHeadlinesModule
 import com.alex.newstime.receiver.NetworkCallback
-import com.alex.newstime.repository.api.ApiClient
 import com.alex.newstime.repository.article.di.articleRepositoryModule
 import com.alex.newstime.repository.database.NewstimeDatabase
 import org.koin.android.ext.koin.androidContext
@@ -45,7 +44,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     private fun setup() {
         setupDatabase()
-        setupApi()
         setupConnectivityReceiver()
         setupTimber()
         setupKoin()
@@ -55,10 +53,6 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     private fun setupDatabase() {
         NewstimeDatabase.init(this)
-    }
-
-    private fun setupApi() {
-        ApiClient.initialize()
     }
 
     private fun setupConnectivityReceiver() {
