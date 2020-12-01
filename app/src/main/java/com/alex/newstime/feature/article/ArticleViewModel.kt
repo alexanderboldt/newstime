@@ -3,16 +3,16 @@ package com.alex.newstime.feature.article
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.alex.newstime.feature.article.model.ArticleState
-import com.alex.newstime.repository.article.RpModelArticle
+import com.alex.newstime.feature.article.model.UiModelArticle
+import com.alex.newstime.repository.models.RpModelArticle
 import com.hadilq.liveevent.LiveEvent
 
 class ArticleViewModel : ViewModel() {
 
     private lateinit var article: RpModelArticle
 
-    private val _dataState = MutableLiveData<ArticleState>()
-    val dataState: LiveData<ArticleState> = _dataState
+    private val _dataState = MutableLiveData<UiModelArticle>()
+    val dataState: LiveData<UiModelArticle> = _dataState
 
     private val _linkState = MutableLiveData<String>()
     val linkState: LiveData<String> = _linkState
@@ -26,7 +26,7 @@ class ArticleViewModel : ViewModel() {
         this.article = article
 
         article
-            .run { ArticleState(id!!, title!!, urlToImage, content) }
+            .run { UiModelArticle(id!!, title!!, urlToImage, content) }
             .also { _dataState.postValue(it) }
     }
 

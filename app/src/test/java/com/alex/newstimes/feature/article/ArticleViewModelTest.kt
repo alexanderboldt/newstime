@@ -2,9 +2,9 @@ package com.alex.newstimes.feature.article
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.alex.newstime.feature.article.model.ArticleState
+import com.alex.newstime.feature.article.model.UiModelArticle
 import com.alex.newstime.feature.article.ArticleViewModel
-import com.alex.newstime.repository.article.RpModelArticle
+import com.alex.newstime.repository.models.RpModelArticle
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -24,7 +24,7 @@ class ArticleViewModelTest {
 
     private lateinit var viewModel: ArticleViewModel
 
-    @Mock lateinit var observerDataStateMock: Observer<ArticleState>
+    @Mock lateinit var observerDataStateMock: Observer<UiModelArticle>
     @Mock lateinit var observerLinkStateMock: Observer<String>
     @Mock lateinit var observerCloseStateMock: Observer<Unit>
 
@@ -56,7 +56,7 @@ class ArticleViewModelTest {
         viewModel.init(article)
 
         // verify
-        val uiArticle = ArticleState(
+        val uiArticle = UiModelArticle(
             387428,
             "Test DbArticle",
             "url to image",
@@ -81,7 +81,7 @@ class ArticleViewModelTest {
         }
 
         // verify
-        val uiArticle = ArticleState(
+        val uiArticle = UiModelArticle(
             387428,
             "Test DbArticle",
             "url to image",
@@ -109,7 +109,7 @@ class ArticleViewModelTest {
         viewModel.handleClickOnLink()
 
         // verify
-        val uiArticle = ArticleState(
+        val uiArticle = UiModelArticle(
             387428,
             "Test DbArticle",
             "url to image",

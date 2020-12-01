@@ -1,4 +1,4 @@
-package com.alex.newstime.repository.api.article
+package com.alex.newstime.repository.api.models
 
 import com.squareup.moshi.JsonClass
 

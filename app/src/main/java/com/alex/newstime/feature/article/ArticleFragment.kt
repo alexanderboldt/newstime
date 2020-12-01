@@ -2,31 +2,47 @@ package com.alex.newstime.feature.article
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
+import coil.transform.BlurTransformation
 import com.alex.newstime.databinding.FragmentArticleBinding
 import com.alex.newstime.feature.base.BaseFragment
-import com.alex.newstime.util.plusAssign
-import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.ldralighieri.corbind.view.clicks
+import timber.log.Timber
 
-class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
+class ArticleFragment : BaseFragment() {
 
     private val viewModel: ArticleViewModel by viewModel()
+
+    private lateinit var binding: FragmentArticleBinding
 
     private val arguments: ArticleFragmentArgs by navArgs()
 
     // ----------------------------------------------------------------------------
 
-    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?): FragmentArticleBinding {
-        return FragmentArticleBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentArticleBinding.inflate(inflater, container, false)
+
+        setupView()
+        setupViewBinding()
+        setupViewModel()
+
+        return binding.root
     }
 
-    override fun setupView() {
+    // ----------------------------------------------------------------------------
+
+    private fun setupView() {
         viewModel.init(arguments.article)
 
         binding.imageViewBack.updateLayoutParams<ConstraintLayout.LayoutParams> {
@@ -34,21 +50,29 @@ class ArticleFragment : BaseFragment<FragmentArticleBinding>() {
         }
     }
 
-    override fun bindView() {
-        disposables += binding.textViewTitle.clicks().subscribe {
-            viewModel.handleClickOnLink()
+    private fun setupViewBinding() {
+        Timber.d("setupViewBinding")
+        lifecycleScope.launch {
+            binding.textViewTitle.clicks {
+                viewModel.handleClickOnLink()
+            }
         }
 
-        disposables += binding.imageViewBack.clicks().subscribe {
-            findNavController().navigateUp()
+        lifecycleScope.launch {
+            binding.imageViewBack.clicks {
+                viewModel.handleClickBack()
+            }
         }
     }
 
-    override fun bindViewModel() {
+    private fun setupViewModel() {
         viewModel.dataState.observe { article ->
             binding.apply {
-                imageView.setImage(article.urlToImage)
-                imageViewBlur?.setImage(article.urlToImage, true)
+                imageView.load(article.urlToImage)
+
+                imageViewBlur?.load(article.urlToImage) {
+                    transformations(BlurTransformation(requireContext(), 25f, 20f))
+                }
                 textViewTitle.text = article.title
                 textViewContent.text = article.content
             }

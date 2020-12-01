@@ -1,4 +1,4 @@
-package com.alex.newstime.repository.article
+package com.alex.newstime.repository.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

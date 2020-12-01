@@ -1,6 +1,6 @@
 package com.alex.newstime.feature.article.model
 
-data class ArticleState(
+data class UiModelArticle(
     var id: Long,
     var title: String,
     var urlToImage: String? = null,

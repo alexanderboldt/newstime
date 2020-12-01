@@ -15,11 +15,12 @@
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground">
 
-        <com.alex.newstime.ui.GlideImageView
+        <ImageView
             android:id="@+id/imageView_thumbnail"
             android:layout_width="0dp"
             android:layout_height="250dp"
             android:background="#cdcdcd"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

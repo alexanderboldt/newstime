@@ -1,89 +1,101 @@
+object Config {
+    const val applicationId = "com.alex.newstime"
+    const val minSdk = 21
+    const val sdk = 30
+}
+
 object Deps {
-    object Config {
-        val applicationId = "com.alex.newstime"
-        val minSdk = 21
-        val sdk = 30
+    object Kotlin {
+        const val version = "1.4.10"
+        const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
     }
 
     object AndroidX {
-        val core = "androidx.core:core-ktx:1.3.0"
-        val appCompat = "androidx.appcompat:appcompat:1.1.0"
-        val material = "com.google.android.material:material:1.1.0"
-        val recyclerView = "androidx.recyclerview:recyclerview:1.0.0"
-        val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"
+        const val core = "androidx.core:core-ktx:1.3.1"
+        const val appCompat = "androidx.appcompat:appcompat:1.2.0"
+        const val material = "com.google.android.material:material:1.2.1"
+        const val recyclerView = "androidx.recyclerview:recyclerview:1.1.0"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.1"
+        const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.2.5"
 
-        val lifecycleVersion = "2.2.0"
-        val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
-        val lifecycleCommonJava = "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
-        val lifecycleCompiler = "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+        object LifeCycle {
+            private const val version = "2.2.0"
 
-        val fragmentsExt = "androidx.fragment:fragment-ktx:1.2.5"
+            // lifecycleScope for coroutines
+            const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
 
-        val navVersion = "2.3.0"
-        val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$navVersion"
-        val navigationUi = "androidx.navigation:navigation-ui-ktx:$navVersion"
-        val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
+            // viewModelScope for coroutines
+            const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+        }
 
-        val roomVersion = "2.3.0-alpha02"
-        val room = "androidx.room:room-runtime:$roomVersion"
-        val roomCompiler = "androidx.room:room-compiler:$roomVersion"
-        val roomRxJava = "androidx.room:room-rxjava3:$roomVersion"
+        object Navigation {
+            private const val version = "2.3.0"
+            const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$version"
+            const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
+            const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
+        }
     }
 
     object Test {
-        val junit = "androidx.test.ext:junit:1.0.0"
-        val testRunner = "androidx.test:runner:1.1.0"
-        val mockitoCore = "org.mockito:mockito-core:3.0.0"
-        val mockitoAndroid = "org.mockito:mockito-android:3.0.0"
+        const val junit = "androidx.test.ext:junit:1.1.2"
+        const val testRunner = "androidx.test:runner:1.1.0"
 
-        val coreTesting = "androidx.arch.core:core-testing:2.0.0-rc01"
+        // testing with mocked instances
+        const val mockitoCore = "org.mockito:mockito-core:3.5.13"
+        const val mockitoAndroid = "org.mockito:mockito-android:3.0.0"
 
-        val activityTestRule = "androidx.test:rules:1.1.0"
-        val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
+        // testing LiveData
+        const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
 
-        val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0-RC2"
+        // testing with coroutines
+        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.9"
+
+        const val activityTestRule = "androidx.test:rules:1.3.0"
+
+        const val espressoCore = "androidx.test.espresso:espresso-core:3.1.0"
     }
 
     object Libs {
-        val kotlinVersion = "1.4.0"
-        val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        object Coroutines {
+            private const val version = "1.3.9"
+            const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
+            const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
+        }
 
-        val androidCore = "com.github.alexanderboldt:androidcore:2.0.0"
+        const val timber = "com.jakewharton.timber:timber:4.7.1"
 
-        val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9"
+        object Retrofit {
+            private const val version = "2.9.0"
+            const val retrofit = "com.squareup.retrofit2:retrofit:$version"
+            const val moshiConverter = "com.squareup.retrofit2:converter-moshi:$version"
+            const val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
+        }
 
-        val timber = "com.jakewharton.timber:timber:4.7.1"
+        object Moshi {
+            private const val version = "1.10.0"
+            const val moshi = "com.squareup.moshi:moshi:$version"
+            const val codeGen = "com.squareup.moshi:moshi-kotlin-codegen:$version"
+        }
 
-        val retrofitVersion = "2.9.0"
-        val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-        val retrofitMoshiConverter = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-        val retrofitRxAdapter = "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
-        val okHttpLogging = "com.github.ihsanbal:LoggingInterceptor:3.0.0"
+        const val coil = "io.coil-kt:coil:1.0.0"
 
-        val moshiVersion = "1.10.0"
-        val moshi = "com.squareup.moshi:moshi:$moshiVersion"
-        val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+        const val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
 
-        val glideVersion = "4.11.0"
-        val glide = "com.github.bumptech.glide:glide:$glideVersion"
-        val glideCompiler = "com.github.bumptech.glide:compiler:$glideVersion"
-        val glideOkHttpIntegration = "com.github.bumptech.glide:okhttp3-integration:$glideVersion"
-        val glideTransformations = "jp.wasabeef:glide-transformations:4.0.0"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
 
-        val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
+        object Koin {
+            private const val version = "2.1.6"
+            const val koin = "org.koin:koin-android:$version"
+            const val viewModel = "org.koin:koin-androidx-viewmodel:$version"
+        }
 
-        val rxjava = "io.reactivex.rxjava3:rxjava:3.0.6"
-        val rxandroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
+        object Corbind {
+            private const val version = "1.4.0"
+            const val corbind = "ru.ldralighieri.corbind:corbind-core:$version"
+            const val appCompat = "ru.ldralighieri.corbind:corbind-appcompat:$version"
+            const val swipeRefreshLayout = "ru.ldralighieri.corbind:corbind-swiperefreshlayout:$version"
+        }
 
-        val rxbindingVersion = "4.0.0"
-        val rxbinding = "com.jakewharton.rxbinding4:rxbinding:$rxbindingVersion"
-        val rxbindingAppcompat = "com.jakewharton.rxbinding4:rxbinding-appcompat:$rxbindingVersion"
-        val rxbindingSwiperefreshlayout = "com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:$rxbindingVersion"
-
-        val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
-
-        val koinVersion = "2.1.6"
-        val koin = "org.koin:koin-android:$koinVersion"
-        val koinViewModel = "org.koin:koin-androidx-viewmodel:$koinVersion"
+        const val eventBus = "org.greenrobot:eventbus:3.2.0"
     }
 }

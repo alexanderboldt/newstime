@@ -38,11 +38,11 @@ fun getTag(): String? {
 }
 
 android {
-    compileSdkVersion(Deps.Config.sdk)
+    compileSdkVersion(Config.sdk)
     defaultConfig {
-        applicationId = Deps.Config.applicationId
-        minSdkVersion(Deps.Config.minSdk)
-        targetSdkVersion(Deps.Config.sdk)
+        applicationId = Config.applicationId
+        minSdkVersion(Config.minSdk)
+        targetSdkVersion(Config.sdk)
         versionCode = getCommitCount()
         versionName = getTag()
 
@@ -122,21 +122,21 @@ dependencies {
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.testRunner)
     testImplementation(Deps.Test.mockitoCore)
-    testImplementation(Deps.Test.coreTesting)
-    testImplementation(Deps.Libs.coroutinesCore)
+    testImplementation(Deps.Test.archCoreTesting)
+    testImplementation(Deps.Libs.Coroutines.core)
     testImplementation(Deps.Test.coroutinesTest)
 
     // android-testing
     androidTestImplementation(Deps.Test.junit)
     androidTestImplementation(Deps.Test.mockitoCore)
     androidTestImplementation(Deps.Test.mockitoAndroid)
-    androidTestImplementation(Deps.Test.coreTesting)
+    androidTestImplementation(Deps.Test.archCoreTesting)
     androidTestImplementation(Deps.Test.testRunner)
     androidTestImplementation(Deps.Test.activityTestRule)
     androidTestImplementation(Deps.Test.espressoCore)
 
     // kotlin-std-lib
-    implementation(Deps.Libs.kotlinStdLib)
+    implementation(Deps.Kotlin.stdLib)
 
     // androidx
     implementation(Deps.AndroidX.core)
@@ -145,56 +145,48 @@ dependencies {
     implementation(Deps.AndroidX.recyclerView)
     implementation(Deps.AndroidX.constraintLayout)
 
-    implementation(Deps.AndroidX.lifecycleRuntime)
-    implementation(Deps.AndroidX.lifecycleCommonJava)
-    kapt(Deps.AndroidX.lifecycleCompiler)
+    implementation(Deps.AndroidX.LifeCycle.runtimeKtx)
+    implementation(Deps.AndroidX.LifeCycle.viewModelKtx)
 
-    implementation(Deps.AndroidX.fragmentsExt)
+    implementation(Deps.AndroidX.fragmentsKtx)
 
-    implementation(Deps.AndroidX.navigationFragment)
-    implementation(Deps.AndroidX.navigationUi)
-
-    implementation(Deps.AndroidX.room)
-    kapt(Deps.AndroidX.roomCompiler)
-    implementation(Deps.AndroidX.roomRxJava)
-
-    // core-library
-    implementation(Deps.Libs.androidCore)
+    implementation(Deps.AndroidX.Navigation.fragmentKtx)
+    implementation(Deps.AndroidX.Navigation.uiKtx)
 
     // 3rd-party libraries
+
+    // coroutines
+    implementation(Deps.Libs.Coroutines.core)
+    implementation(Deps.Libs.Coroutines.android)
 
     // logging
     implementation(Deps.Libs.timber)
 
     // network
-    implementation(Deps.Libs.retrofit)
-    implementation(Deps.Libs.retrofitMoshiConverter)
-    implementation(Deps.Libs.retrofitRxAdapter)
-    implementation(Deps.Libs.okHttpLogging)
-    implementation(Deps.Libs.moshi)
-    kapt(Deps.Libs.moshiCodeGen)
+    implementation(Deps.Libs.Retrofit.retrofit)
+    implementation(Deps.Libs.Retrofit.moshiConverter)
+    implementation(Deps.Libs.Retrofit.okHttpLogging)
+    implementation(Deps.Libs.Moshi.moshi)
+    kapt(Deps.Libs.Moshi.codeGen)
 
     // image
-    implementation(Deps.Libs.glide)
-    implementation(Deps.Libs.glideTransformations)
-    kapt(Deps.Libs.glideCompiler)
-    implementation(Deps.Libs.glideOkHttpIntegration)
+    implementation(Deps.Libs.coil)
 
+    // single-event for LiveData
     implementation(Deps.Libs.liveEvent)
-
-    // reactive
-    implementation(Deps.Libs.rxjava)
-    implementation(Deps.Libs.rxandroid)
-
-    // view-binding
-    implementation(Deps.Libs.rxbinding)
-    implementation(Deps.Libs.rxbindingAppcompat)
-    implementation(Deps.Libs.rxbindingSwiperefreshlayout)
 
     // leak-detection
     debugImplementation(Deps.Libs.leakCanary)
 
     // dependency injection
-    implementation(Deps.Libs.koin)
-    implementation(Deps.Libs.koinViewModel)
+    implementation(Deps.Libs.Koin.koin)
+    implementation(Deps.Libs.Koin.viewModel)
+
+    // view-binding with flow/coroutines
+    implementation(Deps.Libs.Corbind.corbind)
+    implementation(Deps.Libs.Corbind.appCompat)
+    implementation(Deps.Libs.Corbind.swipeRefreshLayout)
+
+    // EventBus
+    implementation(Deps.Libs.eventBus)
 }

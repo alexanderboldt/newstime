@@ -4,19 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkRequest
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.alex.core.bus.RxBus
-import com.alex.newstime.bus.AppEvent
 import com.alex.newstime.feature.article.di.articleModule
 import com.alex.newstime.feature.base.di.resourceProviderModule
-import com.alex.newstime.feature.favorits.di.favoritsModule
 import com.alex.newstime.feature.topheadlines.di.topHeadlinesModule
 import com.alex.newstime.receiver.NetworkCallback
 import com.alex.newstime.repository.article.di.articleRepositoryModule
-import com.alex.newstime.repository.database.NewstimeDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -30,29 +24,12 @@ class NewsTimeApplication : Application(), LifecycleObserver {
 
     // ----------------------------------------------------------------------------
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onAppStart() {
-        RxBus.publish(AppEvent(Lifecycle.Event.ON_START))
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onAppStop() {
-        RxBus.publish(AppEvent(Lifecycle.Event.ON_STOP))
-    }
-
-    // ----------------------------------------------------------------------------
-
     private fun setup() {
-        setupDatabase()
         setupConnectivityReceiver()
         setupTimber()
         setupKoin()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-    }
-
-    private fun setupDatabase() {
-        NewstimeDatabase.init(this)
     }
 
     private fun setupConnectivityReceiver() {
@@ -69,7 +46,14 @@ class NewsTimeApplication : Application(), LifecycleObserver {
     private fun setupKoin() {
         startKoin {
             androidContext(this@NewsTimeApplication)
-            modules(listOf(topHeadlinesModule, favoritsModule, articleModule, articleRepositoryModule, resourceProviderModule))
+            modules(listOf(
+                // features
+                topHeadlinesModule,
+                articleModule,
+                // repositories
+                articleRepositoryModule,
+                // resources
+                resourceProviderModule))
         }
     }
 }

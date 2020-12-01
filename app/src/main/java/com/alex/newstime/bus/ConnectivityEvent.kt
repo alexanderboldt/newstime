@@ -1,3 +1,3 @@
 package com.alex.newstime.bus
 
-class ConnectivityEvent(var connected: Boolean)
+data class ConnectivityEvent(var isConnected: Boolean)

@@ -7,7 +7,7 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alex.newstime.R
 import com.alex.newstime.feature.article.ArticleFragment
-import com.alex.newstime.repository.article.RpModelArticle
+import com.alex.newstime.repository.models.RpModelArticle
 import com.bluelinelabs.conductor.RouterTransaction
 import org.junit.Before
 import org.junit.Rule

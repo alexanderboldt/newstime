@@ -1,43 +1,74 @@
 package com.alex.newstime.feature.topheadlines
 
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.alex.newstime.R
+import com.alex.newstime.bus.ConnectivityEvent
 import com.alex.newstime.databinding.FragmentTopHeadlinesBinding
 import com.alex.newstime.feature.base.BaseFragment
-import com.alex.newstime.feature.topheadlines.adapter.TopHeadlinesAdapter
-import com.alex.newstime.util.plusAssign
-import com.jakewharton.rxbinding4.swiperefreshlayout.refreshes
-import com.jakewharton.rxbinding4.view.clicks
+import com.alex.newstime.feature.topheadlines.model.RecyclerViewState
+import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.ldralighieri.corbind.swiperefreshlayout.refreshes
 
-class TopHeadlinesFragment : BaseFragment<FragmentTopHeadlinesBinding>() {
+class TopHeadlinesFragment : BaseFragment() {
 
     private val viewModel: TopHeadlinesViewModel by viewModel()
 
-    private val adapter by lazy { TopHeadlinesAdapter(this, viewModel) }
+    private lateinit var binding: FragmentTopHeadlinesBinding
 
-    private val bottomSheetDialog by lazy {
-        BottomSheetDialog(requireContext()).apply { setContentView(bottomSheetDialogFavorites) }
+    private lateinit var adapter: TopHeadlinesAdapter
+
+    // ----------------------------------------------------------------------------
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentTopHeadlinesBinding.inflate(inflater, container, false)
+
+        setupView()
+        setupViewBinding()
+        setupViewModel()
+
+        return binding.root
     }
 
-    private val bottomSheetDialogFavorites by lazy {
-        layoutInflater.inflate(R.layout.view_add_to_favorites, null)
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 
     // ----------------------------------------------------------------------------
 
-    override fun inflateView(inflater: LayoutInflater, container: ViewGroup?): FragmentTopHeadlinesBinding {
-        return FragmentTopHeadlinesBinding.inflate(inflater, container, false)
+    @Subscribe
+    fun onEventConnectivity(event: ConnectivityEvent) {
+        if (event.isConnected) {
+            viewModel.init()
+        }
     }
 
-    override fun setupView() {
+    // ----------------------------------------------------------------------------
+
+    private fun setupView() {
+        adapter = TopHeadlinesAdapter(
+            viewModel::clickOnArticle,
+            viewModel::loadMoreArticles
+        )
+
         binding.recyclerView.also {
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
@@ -45,51 +76,46 @@ class TopHeadlinesFragment : BaseFragment<FragmentTopHeadlinesBinding>() {
         }
     }
 
-    override fun bindView() {
-        disposables += binding.swipeRefreshLayout.refreshes().subscribe {
-            viewModel.onSwipeRefreshLayout()
-        }
-
-        disposables += bottomSheetDialogFavorites.clicks().subscribe {
-            viewModel.clickAddToFavorites()
+    private fun setupViewBinding() {
+        lifecycleScope.launch {
+            binding.swipeRefreshLayout.refreshes {
+                viewModel.onSwipeRefreshLayout()
+            }
         }
     }
 
-    override fun bindViewModel() {
-        viewModel.recyclerLoadingState.observe {
+    private fun setupViewModel() {
+        viewModel.loadingState.observe {
             binding.swipeRefreshLayout.isRefreshing = it
         }
 
-        viewModel.recyclerMessageState.observe {
-            binding.textViewMessage.apply {
-                text = it
-                isVisible = true
+        viewModel.recyclerViewState.observe { state ->
+            when (state) {
+                is RecyclerViewState.ArticlesState -> {
+                    binding.apply {
+                        recyclerView.isVisible = true
+                        textViewMessage.isGone = true
+                    }
+                    adapter.setItems(state.items)
+                }
+                is RecyclerViewState.MessageState -> {
+                    binding.apply {
+                        recyclerView.isInvisible = true
+                        textViewMessage.isVisible = true
+                        textViewMessage.text = state.message
+                    }
+                }
             }
-
-            binding.recyclerView.isVisible = false
-        }
-
-        viewModel.recyclerArticlesState.observe { data ->
-            binding.textViewMessage.isVisible = false
-            binding.recyclerView.isVisible = true
-        }
-
-        viewModel.detailState.observe { article ->
-            TopHeadlinesFragmentDirections
-                .actionToArticleFragment(article)
-                .also { directions -> findNavController().navigate(directions) }
-        }
-
-        viewModel.recyclerScrollState.observe {
-            binding.recyclerView.smoothScrollToPosition(it)
         }
 
         viewModel.messageState.observe {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.bottomSheetDialogState.observe { state ->
-            bottomSheetDialog.apply { if (state) show() else hide() }
+        viewModel.detailState.observe { article ->
+            TopHeadlinesFragmentDirections
+                .actionToArticleFragment(article)
+                .also { directions -> findNavController().navigate(directions) }
         }
 
         viewModel.init()

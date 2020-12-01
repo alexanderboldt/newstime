@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.alex.newstime.ui.GlideImageView
+        <ImageView
             android:id="@+id/imageView"
             android:layout_width="300dp"
             android:layout_height="250dp"
@@ -35,11 +35,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.alex.newstime.ui.GlideImageView
+        <ImageView
             android:id="@+id/imageView_blur"
             android:layout_width="0dp"
             android:layout_height="250dp"
             android:background="#cdcdcd"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/topHeadlinesFragment">
 
     <fragment
@@ -15,25 +16,13 @@
     </fragment>
 
     <fragment
-        android:id="@+id/favoritsFragment"
-        android:name="com.alex.newstime.feature.favorits.FavoritsFragment"
-        android:label="FavoritsFragment" >
-
-        <action
-            android:id="@+id/action_to_articleFragment"
-            app:destination="@id/articleFragment" />
-
-    </fragment>
-
-    <fragment
         android:id="@+id/articleFragment"
         android:name="com.alex.newstime.feature.article.ArticleFragment"
         android:label="ArticleFragment" >
 
         <argument
             android:name="article"
-            app:argType="com.alex.newstime.repository.article.RpModelArticle"/>
+            app:argType="com.alex.newstime.repository.models.RpModelArticle"/>
 
     </fragment>
-
 </navigation>

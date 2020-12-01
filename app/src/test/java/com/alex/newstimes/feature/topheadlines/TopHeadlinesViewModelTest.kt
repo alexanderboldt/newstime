@@ -4,11 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alex.newstime.R
 import com.alex.newstime.feature.base.ResourceProvider
-import com.alex.newstime.feature.topheadlines.model.ArticleModel
+import com.alex.newstime.feature.topheadlines.model.UiModelArticle
 import com.alex.newstime.feature.topheadlines.model.BaseModel
 import com.alex.newstime.feature.topheadlines.model.LoadMoreModel
 import com.alex.newstime.feature.topheadlines.TopHeadlinesViewModel
-import com.alex.newstime.repository.article.RpModelArticle
+import com.alex.newstime.repository.models.RpModelArticle
 import com.alex.newstime.repository.article.ArticleRepository
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.Dispatchers
@@ -151,9 +151,9 @@ class TopHeadlinesViewModelTest {
         verify(observerRecyclerMessageStateMock, never()).onChanged(any())
 
         val uiArticles = listOf(
-            ArticleModel(1, "title", "www.image.com"),
-            ArticleModel(2, "title", "www.image.com"),
-            ArticleModel(3, "title", "www.image.com"),
+            UiModelArticle(1, "title", "www.image.com"),
+            UiModelArticle(2, "title", "www.image.com"),
+            UiModelArticle(3, "title", "www.image.com"),
             LoadMoreModel(true)
         )
 
