@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import com.alex.newstime.BuildConfig
+import com.alex.newstime.R
 import com.alex.newstime.databinding.ActivityMainBinding
 
 @SuppressLint("SetTextI18n")
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     // ----------------------------------------------------------------------------
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+
         super.onCreate(savedInstanceState)
 
         setContentView(binding.root)
