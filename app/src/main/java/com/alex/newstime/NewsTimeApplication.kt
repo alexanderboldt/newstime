@@ -11,6 +11,7 @@ import com.alex.newstime.feature.base.di.resourceProviderModule
 import com.alex.newstime.feature.topheadlines.di.topHeadlinesModule
 import com.alex.newstime.receiver.NetworkCallback
 import com.alex.newstime.repository.article.di.articleRepositoryModule
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -28,6 +29,7 @@ class NewsTimeApplication : Application(), LifecycleObserver {
         setupConnectivityReceiver()
         setupTimber()
         setupKoin()
+        setupDateAndTime()
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
@@ -55,5 +57,9 @@ class NewsTimeApplication : Application(), LifecycleObserver {
                 // resources
                 resourceProviderModule))
         }
+    }
+
+    private fun setupDateAndTime() {
+        AndroidThreeTen.init(this)
     }
 }

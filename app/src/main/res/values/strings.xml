@@ -3,4 +3,6 @@
     <string name="top_headlines_no_articles">No articles available!</string>
     <string name="top_headlines_article_saved">Saved article!</string>
     <string name="top_headlines_article_could_not_save">Could not save article!</string>
+
+    <string name="top_headlines_load_more">Load more</string>
 </resources>

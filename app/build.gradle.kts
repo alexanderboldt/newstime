@@ -189,4 +189,7 @@ dependencies {
 
     // EventBus
     implementation(Deps.Libs.eventBus)
+
+    // date and time
+    implementation(Deps.Libs.threetenAbp)
 }

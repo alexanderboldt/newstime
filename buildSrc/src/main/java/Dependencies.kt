@@ -97,5 +97,7 @@ object Deps {
         }
 
         const val eventBus = "org.greenrobot:eventbus:3.2.0"
+
+        const val threetenAbp = "com.jakewharton.threetenabp:threetenabp:1.3.0"
     }
 }

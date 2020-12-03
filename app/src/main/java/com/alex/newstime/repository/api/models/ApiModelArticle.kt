@@ -7,4 +7,6 @@ data class ApiModelArticle(
     val title: String,
     val urlToImage: String?,
     val content: String?,
-    val url: String)
+    val url: String,
+    val publishedAt: String,
+    val source: ApiModelSource)

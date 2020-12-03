@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="UnusedResources">
 
-    <!-- https://material.io/tools/color/#!/?view.left=0&amp;view.right=0&view.right=0&primary.color=607D8B&secondary.color=795548 -->
+    <!-- https://material.io/resources/color/#!/?view.left=0&amp;view.right=0&view.right=0&primary.color=0097A7&secondary.color=90A4AE -->
+    <color name="primaryColor">#0097a7</color>
+    <color name="primaryLightColor">#56c8d8</color>
+    <color name="primaryDarkColor">#006978</color>
+    <color name="secondaryColor">#90a4ae</color>
+    <color name="secondaryLightColor">#c1d5e0</color>
+    <color name="secondaryDarkColor">#62757f</color>
+    <color name="colorOnPrimary">#000000</color>
+    <color name="colorOnSecondary">#000000</color>
     <color name="background">#F3F3F5</color>
-
-    <color name="primaryColor">#607d8b</color>
-    <color name="primaryLightColor">#8eacbb</color>
-    <color name="primaryDarkColor">#34515e</color>
-    <color name="secondaryColor">#795548</color>
-    <color name="secondaryLightColor">#a98274</color>
-    <color name="secondaryDarkColor">#4b2c20</color>
-    <color name="primaryTextColor">#000000</color>
-    <color name="secondaryTextColor">#ffffff</color>
 </resources>

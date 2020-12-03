@@ -12,12 +12,6 @@ object ArticleMapper {
     }
 
     fun fromApiToRepository(input: ApiModelArticle): RpModelArticle {
-        return RpModelArticle().apply {
-            id = input.title.hashCode().toLong()
-            title = input.title
-            urlToImage = input.urlToImage
-            content = input.content
-            url = input.url
-        }
+        return RpModelArticle(input.title, input.urlToImage, input.content, input.url, input.publishedAt, input.source.name)
     }
 }

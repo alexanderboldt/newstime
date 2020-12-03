@@ -66,7 +66,7 @@ class TopHeadlinesFragment : BaseFragment() {
     private fun setupView() {
         adapter = TopHeadlinesAdapter(
             viewModel::clickOnArticle,
-            viewModel::loadMoreArticles
+            viewModel::clickOnLoadMore
         )
 
         binding.recyclerView.also {

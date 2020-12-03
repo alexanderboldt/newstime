@@ -26,7 +26,7 @@ class ArticleViewModel : ViewModel() {
         this.article = article
 
         article
-            .run { UiModelArticle(id!!, title!!, urlToImage, content) }
+            .run { UiModelArticle(title, urlToImage, content) }
             .also { _dataState.postValue(it) }
     }
 
