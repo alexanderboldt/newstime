@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.alex.newstime.feature.article.model.UiModelArticle
 import com.alex.newstime.repository.models.RpModelArticle
 import com.hadilq.liveevent.LiveEvent
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.format.DateTimeFormatter
 
 class ArticleViewModel : ViewModel() {
 
@@ -26,7 +29,7 @@ class ArticleViewModel : ViewModel() {
         this.article = article
 
         article
-            .run { UiModelArticle(title, urlToImage, content) }
+            .run { UiModelArticle(urlToImage, source, formatPublishDate(publishedAt), title, content) }
             .also { _dataState.postValue(it) }
     }
 
@@ -36,5 +39,14 @@ class ArticleViewModel : ViewModel() {
 
     fun handleClickBack() {
         _closeState.postValue(Unit)
+    }
+
+    // ----------------------------------------------------------------------------
+
+    private fun formatPublishDate(publishedAt: String): String {
+        return Instant
+            .parse(publishedAt)
+            .atOffset(ZoneOffset.UTC)
+            .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 }
