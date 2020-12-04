@@ -22,6 +22,7 @@ class TopHeadlinesViewModel(
     private val articleRepository: ArticleRepository,
     private val resourceProvider: ResourceProvider) : ViewModel() {
 
+    private var totalResults = 0
     private val articles = mutableListOf<RpModelArticle>()
 
     private val PAGE_SIZE = 10
@@ -34,6 +35,10 @@ class TopHeadlinesViewModel(
 
     private val _recyclerViewState = MutableLiveData<RecyclerViewState>()
     val recyclerViewState: LiveData<RecyclerViewState> = _recyclerViewState
+
+    // true -> enable, false -> disabled
+    private val _loadMoreButtonState = MutableLiveData<Boolean>()
+    val loadMoreButtonState: LiveData<Boolean> = _loadMoreButtonState
 
     private val _messageState = LiveEvent<String>()
     val messageState: LiveData<String> = _messageState
@@ -60,20 +65,18 @@ class TopHeadlinesViewModel(
     fun clickOnLoadMore() {
         viewModelScope.launch(Dispatchers.Main) {
             _loadingState.postValue(true)
-
-            _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(false)))
+            _loadMoreButtonState.postValue(false)
 
             articleRepository
                 .getTopHeadlines(PAGE_SIZE, articles.size / PAGE_SIZE + 1)
                 .catch {
-                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(true)))
-
                     Timber.w(it)
-                }.collect { newArticles ->
-                    articles.addAll(newArticles)
-
-                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(true)))
+                }.collect { response ->
+                    totalResults = response.totalResults
+                    articles.addAll(response.articles)
                 }
+
+            _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(totalResults, true)))
 
             _loadingState.postValue(false)
         }
@@ -84,19 +87,23 @@ class TopHeadlinesViewModel(
     private fun loadArticles() {
         viewModelScope.launch(Dispatchers.Main) {
             _loadingState.postValue(true)
-
-            _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(false)))
+            _loadMoreButtonState.postValue(false)
 
             articleRepository
                 .getTopHeadlines(max(articles.size, PAGE_SIZE), 1)
                 .catch {
-                    _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.top_headlines_error_load_articles)))
+                    if (articles.isEmpty()) {
+                        _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.top_headlines_error_load_articles)))
+                    } else {
+                        _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(totalResults, true)))
+                    }
 
                     Timber.w(it)
-                }.collect { newArticles ->
+                }.collect { response ->
+                    totalResults = response.totalResults
                     articles.apply {
                         clear()
-                        addAll(newArticles)
+                        addAll(response.articles)
                     }
 
                     if (articles.isEmpty()) {
@@ -104,7 +111,7 @@ class TopHeadlinesViewModel(
                         return@collect
                     }
 
-                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(true)))
+                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(totalResults, true)))
                 }
 
             _loadingState.postValue(false)
@@ -120,7 +127,7 @@ class TopHeadlinesViewModel(
             .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 
-    private fun getUiItems(isLoadMoreEnabled: Boolean): List<UiModelRecyclerItem> {
+    private fun getUiItems(totalResults: Int, isLoadMoreEnabled: Boolean): List<UiModelRecyclerItem> {
         return mutableListOf<UiModelRecyclerItem>().apply {
             addAll(articles.map {
                 UiModelRecyclerItem.UiModelArticle(
@@ -130,7 +137,10 @@ class TopHeadlinesViewModel(
                     formatPublishDate(it.publishedAt)
                 )
             })
-            add(UiModelRecyclerItem.UiModelLoadMore(isLoadMoreEnabled))
+
+            if (articles.size < totalResults) {
+                add(UiModelRecyclerItem.UiModelLoadMore(isLoadMoreEnabled))
+            }
         }
     }
 }

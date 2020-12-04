@@ -108,6 +108,10 @@ class TopHeadlinesFragment : BaseFragment() {
             }
         }
 
+        viewModel.loadMoreButtonState.observe { state ->
+            adapter.enabledLoadMoreButton(state)
+        }
+
         viewModel.messageState.observe {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }

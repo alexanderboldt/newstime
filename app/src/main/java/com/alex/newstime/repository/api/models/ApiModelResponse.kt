@@ -4,5 +4,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ApiModelResponse(
-    var totalResults: Int,
-    var articles: List<ApiModelArticle>)
+    val totalResults: Int,
+    val articles: List<ApiModelArticle>)

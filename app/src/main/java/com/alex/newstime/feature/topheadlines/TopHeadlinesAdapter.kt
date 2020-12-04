@@ -9,10 +9,10 @@ import com.alex.newstime.databinding.ItemViewLoadMoreBinding
 import com.alex.newstime.feature.topheadlines.model.UiModelRecyclerItem
 
 class TopHeadlinesAdapter(
-    val clickOnArticle: (UiModelRecyclerItem.UiModelArticle) -> Unit,
-    val clickOnLoadMore: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val clickOnArticle: (UiModelRecyclerItem.UiModelArticle) -> Unit,
+    private val clickOnLoadMore: () -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val items = ArrayList<UiModelRecyclerItem>()
+    private val items = mutableListOf<UiModelRecyclerItem>()
 
     private val TYPE_ARTICLE = 0
     private val TYPE_LOAD_MORE = 1
@@ -59,6 +59,15 @@ class TopHeadlinesAdapter(
         }
 
         notifyDataSetChanged()
+    }
+
+    fun enabledLoadMoreButton(isEnabled: Boolean) {
+        val index = items.indexOfLast { item -> item is UiModelRecyclerItem.UiModelLoadMore }
+        if (index == -1) return
+
+        (items[index] as UiModelRecyclerItem.UiModelLoadMore).isEnabled = isEnabled
+
+        notifyItemChanged(index)
     }
 
     // ----------------------------------------------------------------------------
