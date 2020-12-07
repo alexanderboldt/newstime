@@ -81,7 +81,7 @@ object Deps {
 
         const val liveEvent = "com.github.hadilq.liveevent:liveevent:1.2.0"
 
-        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.3"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.5"
 
         object Koin {
             private const val version = "2.1.6"
