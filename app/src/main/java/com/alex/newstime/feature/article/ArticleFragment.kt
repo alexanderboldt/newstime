@@ -43,15 +43,12 @@ class ArticleFragment : BaseFragment() {
     // ----------------------------------------------------------------------------
 
     private fun setupView() {
-        viewModel.init(arguments.article)
-
         binding.imageViewBack.updateLayoutParams<ConstraintLayout.LayoutParams> {
             topMargin += getStatusBarHeight()
         }
     }
 
     private fun setupViewBinding() {
-        Timber.d("setupViewBinding")
         lifecycleScope.launch {
             binding.textViewTitle.clicks {
                 viewModel.handleClickOnLink()
@@ -68,20 +65,15 @@ class ArticleFragment : BaseFragment() {
     private fun setupViewModel() {
         viewModel.dataState.observe { article ->
             binding.apply {
-                if (article.urlToImage.isNullOrEmpty()) {
-                    //imageViewPreview.isGone = true
-                } else {
-                    //imageViewPreview.isVisible = true
-                    imageViewPreview.load(article.urlToImage)
+                imageViewPreview.load(article.urlToImage) {
+                    crossfade(500)
                 }
-
-                imageViewPreview.load(article.urlToImage)
-                textViewSource.text = article.source
-                textViewDate.text = article.date
-
                 imageViewBlur?.load(article.urlToImage) {
                     transformations(BlurTransformation(requireContext(), 25f, 20f))
                 }
+
+                textViewSource.text = article.source
+                textViewDate.text = article.date
                 textViewTitle.text = article.title
                 textViewContent.text = article.content
             }
@@ -94,5 +86,7 @@ class ArticleFragment : BaseFragment() {
         viewModel.closeState.observe {
             findNavController().navigateUp()
         }
+
+        viewModel.init(arguments.article)
     }
 }
