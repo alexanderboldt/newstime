@@ -4,9 +4,9 @@
     android:opacity="opaque">
     <item android:drawable="@color/primaryColor" />
     <item
-        android:drawable="@drawable/ic_local"
-        android:height="100dp"
-        android:width="100dp"
+        android:drawable="@drawable/ic_launcher_foreground"
+        android:height="300dp"
+        android:width="300dp"
         android:gravity="center">
     </item>
 </layer-list>
