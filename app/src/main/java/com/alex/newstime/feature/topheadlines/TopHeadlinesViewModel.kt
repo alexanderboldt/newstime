@@ -25,6 +25,7 @@ class TopHeadlinesViewModel(
     private var totalResults = 0
     private val articles = mutableListOf<RpModelArticle>()
 
+    private val NUMBER_PLACEHOLDER_ITEMS = 4
     private val PAGE_SIZE = 10
 
     // ----------------------------------------------------------------------------
@@ -76,7 +77,7 @@ class TopHeadlinesViewModel(
                     articles.addAll(response.articles)
                 }
 
-            _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(totalResults, true)))
+            _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getArticleItems(totalResults, true)))
 
             _loadingState.postValue(false)
         }
@@ -89,13 +90,17 @@ class TopHeadlinesViewModel(
             _loadingState.postValue(true)
             _loadMoreButtonState.postValue(false)
 
+            if (articles.isEmpty()) {
+                _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getPlaceholderItems()))
+            }
+
             articleRepository
                 .getTopHeadlines(max(articles.size, PAGE_SIZE), 1)
                 .catch {
                     if (articles.isEmpty()) {
                         _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.top_headlines_error_load_articles)))
                     } else {
-                        _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(totalResults, true)))
+                        _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getArticleItems(totalResults, true)))
                     }
 
                     Timber.w(it)
@@ -111,7 +116,7 @@ class TopHeadlinesViewModel(
                         return@collect
                     }
 
-                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getUiItems(totalResults, true)))
+                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getArticleItems(totalResults, true)))
                 }
 
             _loadingState.postValue(false)
@@ -127,12 +132,19 @@ class TopHeadlinesViewModel(
             .format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 
-    private fun getUiItems(totalResults: Int, isLoadMoreEnabled: Boolean): List<UiModelRecyclerItem> {
+    private fun getPlaceholderItems(): List<UiModelRecyclerItem> {
+        return (1..NUMBER_PLACEHOLDER_ITEMS).map {
+            UiModelRecyclerItem.UiModelPlaceholder(resourceProvider.getColor(R.color.secondaryLightColor))
+        }
+    }
+
+    private fun getArticleItems(totalResults: Int, isLoadMoreEnabled: Boolean): List<UiModelRecyclerItem> {
         return mutableListOf<UiModelRecyclerItem>().apply {
             addAll(articles.map {
                 UiModelRecyclerItem.UiModelArticle(
                     it.source,
                     it.title,
+                    resourceProvider.getColor(R.color.secondaryLightColor),
                     it.urlToImage,
                     formatPublishDate(it.publishedAt)
                 )
