@@ -17,12 +17,14 @@ import com.alex.newstime.databinding.FragmentArticleBinding
 import com.alex.newstime.feature.base.BaseFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.ldralighieri.corbind.view.clicks
-import timber.log.Timber
 
 class ArticleFragment : BaseFragment() {
 
-    private val viewModel: ArticleViewModel by viewModel()
+    private val viewModel: ArticleViewModel by viewModel {
+        parametersOf(arguments.article)
+    }
 
     private lateinit var binding: FragmentArticleBinding
 
@@ -86,7 +88,5 @@ class ArticleFragment : BaseFragment() {
         viewModel.closeState.observe {
             findNavController().navigateUp()
         }
-
-        viewModel.init(arguments.article)
     }
 }

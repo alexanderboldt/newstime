@@ -11,6 +11,8 @@ import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneOffset
@@ -49,7 +51,13 @@ class TopHeadlinesViewModel(
 
     // ----------------------------------------------------------------------------
 
-    fun init() {
+    init {
+        loadArticles()
+    }
+
+    // ----------------------------------------------------------------------------
+    
+    fun onConnectivity() {
         loadArticles()
     }
 
@@ -65,21 +73,20 @@ class TopHeadlinesViewModel(
 
     fun clickOnLoadMore() {
         viewModelScope.launch(Dispatchers.Main) {
-            _loadingState.postValue(true)
-            _loadMoreButtonState.postValue(false)
-
             articleRepository
                 .getTopHeadlines(PAGE_SIZE, articles.size / PAGE_SIZE + 1)
-                .catch {
+                .onStart {
+                    _loadingState.postValue(true)
+                    _loadMoreButtonState.postValue(false)
+                }.onCompletion {
+                    _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getArticleItems(totalResults, true)))
+                    _loadingState.postValue(false)
+                }.catch {
                     Timber.w(it)
                 }.collect { response ->
                     totalResults = response.totalResults
                     articles.addAll(response.articles)
                 }
-
-            _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getArticleItems(totalResults, true)))
-
-            _loadingState.postValue(false)
         }
     }
 
@@ -87,16 +94,18 @@ class TopHeadlinesViewModel(
 
     private fun loadArticles() {
         viewModelScope.launch(Dispatchers.Main) {
-            _loadingState.postValue(true)
-            _loadMoreButtonState.postValue(false)
-
-            if (articles.isEmpty()) {
-                _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getPlaceholderItems()))
-            }
-
             articleRepository
                 .getTopHeadlines(max(articles.size, PAGE_SIZE), 1)
-                .catch {
+                .onStart {
+                    _loadingState.postValue(true)
+                    _loadMoreButtonState.postValue(false)
+
+                    if (articles.isEmpty()) {
+                        _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getPlaceholderItems()))
+                    }
+                }.onCompletion {
+                    _loadingState.postValue(false)
+                }.catch {
                     if (articles.isEmpty()) {
                         _recyclerViewState.postValue(RecyclerViewState.MessageState(resourceProvider.getString(R.string.top_headlines_error_load_articles)))
                     } else {
@@ -118,8 +127,6 @@ class TopHeadlinesViewModel(
 
                     _recyclerViewState.postValue(RecyclerViewState.ArticlesState(getArticleItems(totalResults, true)))
                 }
-
-            _loadingState.postValue(false)
         }
     }
 

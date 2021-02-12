@@ -10,9 +10,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
 
-class ArticleViewModel : ViewModel() {
-
-    private lateinit var article: RpModelArticle
+class ArticleViewModel(private val article: RpModelArticle) : ViewModel() {
 
     private val _dataState = MutableLiveData<UiModelArticle>()
     val dataState: LiveData<UiModelArticle> = _dataState
@@ -25,9 +23,7 @@ class ArticleViewModel : ViewModel() {
 
     // ----------------------------------------------------------------------------
 
-    fun init(article: RpModelArticle) {
-        this.article = article
-
+    init {
         article
             .run { UiModelArticle(urlToImage, source, formatPublishDate(publishedAt), title, content) }
             .also { _dataState.postValue(it) }

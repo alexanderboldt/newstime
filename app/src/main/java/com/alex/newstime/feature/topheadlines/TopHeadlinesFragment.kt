@@ -57,7 +57,7 @@ class TopHeadlinesFragment : BaseFragment() {
     @Subscribe
     fun onEventConnectivity(event: ConnectivityEvent) {
         if (event.isConnected) {
-            viewModel.init()
+            viewModel.onConnectivity()
         }
     }
 
@@ -121,7 +121,5 @@ class TopHeadlinesFragment : BaseFragment() {
                 .actionToArticleFragment(article)
                 .also { directions -> findNavController().navigate(directions) }
         }
-
-        viewModel.init()
     }
 }

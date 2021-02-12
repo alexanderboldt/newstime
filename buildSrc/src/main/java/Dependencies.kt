@@ -19,7 +19,7 @@ object Deps {
         const val fragmentsKtx = "androidx.fragment:fragment-ktx:1.2.5"
 
         object LifeCycle {
-            private const val version = "2.2.0"
+            private const val version = "2.3.0"
 
             // lifecycleScope for coroutines
             const val runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
